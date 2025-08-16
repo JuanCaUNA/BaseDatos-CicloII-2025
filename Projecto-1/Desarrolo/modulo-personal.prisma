@@ -1,0 +1,158 @@
+generator client {
+    provider = "prisma-client-js"
+}
+
+datasource db {
+    provider = "postgresql"
+    url      = env("DATABASE_URL")
+}
+
+// estados
+enum EstadoUsuario {
+    ACTIVO
+    INACTIVO
+}
+
+enum EstadoRegistro {
+    PENDIENTE
+    APROBADO
+    RECHAZADO
+}
+
+enum Nacionalidad {
+    NACIONAL
+    EXTRANJERO
+}
+
+enum TipoPersonal {
+    MEDICO
+    ADMINISTRATIVO
+}
+
+enum TipoCuenta {
+    AHORROS
+    CORRIENTE
+}
+
+model Permiso {
+    id Int @id @default(autoincrement())
+
+    pantalla    String  @unique
+    lectura     Boolean @default(false)
+    escritura   Boolean @default(false)
+    eliminacion Boolean @default(false)
+
+    // Relaciones
+    Accesos   Accesos? @relation(fields: [accesosId], references: [id])
+    accesosId Int?
+}
+
+model Accesos {
+    id Int @id @default(autoincrement())
+
+    tipoPersonal TipoPersonal
+
+    permisos Permiso[]
+    Usuario  Usuario[]
+}
+
+model DetalleDocumento {
+    id Int @id @default(autoincrement())
+
+    tipoPersonal         TipoPersonal
+    documentosRequeridos String
+}
+
+model Documento {
+    id Int @id @default(autoincrement())
+
+    url         String @unique
+    descripcion String
+
+    // Relaciones
+    Usuario   Usuario? @relation(fields: [usuarioId], references: [id])
+    usuarioId Int?
+}
+
+model CuentaBancaria {
+    id Int @id @default(autoincrement())
+
+    banco      String
+    numero     String     @unique
+    titular    String
+    tipoCuenta TipoCuenta
+
+    esPrincipal Boolean
+
+    // Relaciones
+    Persona   Persona? @relation(fields: [personaId], references: [id])
+    personaId Int?
+}
+
+model Preregistro {
+    // Identificación
+    id     Int    @id @default(autoincrement())
+    cedula String @unique
+
+    // Información personal
+    nombre          String
+    apellidos       String
+    fechaNacimiento DateTime
+    sexo            String
+    estadoCivil     String
+    nacionalidad    Nacionalidad
+    residencia      String
+
+    // Contacto
+    email            String @unique
+    telefono         String
+    direccionCasa    String
+    direccionTrabajo String
+
+    // Estados
+    estadoRegistro EstadoRegistro @default(PENDIENTE)
+}
+
+model Persona {
+    // Identificación
+    id     Int    @id @default(autoincrement())
+    cedula String @unique
+
+    // Información personal
+    nombre          String
+    apellidos       String
+    fechaNacimiento DateTime
+    sexo            String
+    estadoCivil     String
+    nacionalidad    Nacionalidad
+
+    // Informacion de cuentas bancarias
+    cuentaBancarias CuentaBancaria[]
+
+    // Contacto
+    email            String @unique
+    telefono         String
+    residencia       String
+    direccionCasa    String
+    direccionTrabajo String
+
+    // Relaciones
+    usuarios Usuario[]
+}
+
+model Usuario {
+    // Identificación
+    id Int @id @default(autoincrement())
+
+    documentosRequeridos Documento[]
+
+    // Estado y tipo
+    estado       EstadoUsuario @default(ACTIVO)
+    tipoPersonal TipoPersonal
+
+    // Relaciones
+    persona   Persona  @relation(fields: [personaId], references: [id])
+    personaId Int
+    accesos   Accesos? @relation(fields: [accesosId], references: [id])
+    accesosId Int?
+}
