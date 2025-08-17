@@ -1,0 +1,147 @@
+// ========================= ENUMS =========================
+
+enum EscalaMensualEstado {
+  CONSTRUCCION
+  VIGENTE
+  REVISION
+  LISTA_PAGO
+  PROCESADA
+}
+
+// ========================= CENTROS DE SALUD =========================
+model centro_salud {
+  id Int @id @default(autoincrement())
+
+  nombre    String  @db.VarChar(150)
+  ubicacion String  @db.VarChar(255)
+  contacto  String? @db.VarChar(150)
+  telefono  String? @db.VarChar(50)
+  email     String? @db.VarChar(150)
+
+  created_at DateTime @default(now())
+  updated_at DateTime @default(now())
+
+  puesto_medico  puesto_medico[]
+  procedimiento  procedimiento[]
+  escala_mensual escala_mensual[]
+}
+
+model puesto_medico {
+  id Int @id @default(autoincrement())
+
+  centro_salud    centro_salud @relation(fields: [centro_salud_id], references: [id])
+  centro_salud_id Int
+
+  especialidad String   @db.VarChar(150)
+  descripcion  String?  @db.VarChar(4000)
+  costo_turno  Decimal  @default(0.0)
+  pago_turno   Decimal  @default(0.0)
+  pago_hora    Decimal?
+
+  created_at DateTime @default(now())
+
+  turno          turno[]
+  escala_semanal escala_semanal[]
+}
+
+model turno {
+  id Int @id @default(autoincrement())
+
+  puesto_medico puesto_medico @relation(fields: [puesto_id], references: [id])
+  puesto_id     Int
+
+  nombre          String @db.VarChar(50)
+  hora_inicio_min Int
+  hora_fin_min    Int
+
+  created_at DateTime @default(now())
+
+  escala_semanal escala_semanal[]
+}
+
+model procedimiento {
+  id Int @id @default(autoincrement())
+
+  centro_salud    centro_salud @relation(fields: [centro_salud_id], references: [id])
+  centro_salud_id Int
+
+  nombre       String  @db.VarChar(150)
+  descripcion  String? @db.VarChar(4000)
+  costo_centro Decimal @default(0.0)
+  pago_medico  Decimal @default(0.0)
+
+  created_at DateTime @default(now())
+
+  procedimiento_detalle procedimiento_detalle[]
+}
+
+model procedimiento_detalle {
+  id Int @id @default(autoincrement())
+
+  procedimiento    procedimiento @relation(fields: [procedimiento_id], references: [id])
+  procedimiento_id Int
+  medico           medico        @relation(fields: [medico_id], references: [id])
+  medico_id        Int
+
+  fecha         DateTime
+  observaciones String?  @db.VarChar(4000)
+
+  created_at DateTime @default(now())
+}
+
+model escala_semanal {
+  id Int @id @default(autoincrement())
+
+  puesto_medico puesto_medico @relation(fields: [puesto_id], references: [id])
+  puesto_id     Int
+  turno         turno         @relation(fields: [turno_id], references: [id])
+  turno_id      Int
+
+  semana Int
+  anio   Int
+
+  created_at DateTime @default(now())
+
+  escala_mensual_detalle escala_mensual_detalle[]
+
+  @@unique([puesto_id, turno_id, semana, anio])
+}
+
+model escala_mensual {
+  id Int @id @default(autoincrement())
+
+  centro_salud centro_salud @relation(fields: [centro_id], references: [id])
+  centro_id    Int
+
+  mes    Int
+  anio   Int
+  estado EscalaMensualEstado @default(CONSTRUCCION) // antes era String
+
+  created_at DateTime @default(now())
+  updated_at DateTime @default(now())
+
+  escala_mensual_detalle escala_mensual_detalle[]
+
+  @@unique([centro_id, mes, anio])
+}
+
+model escala_mensual_detalle {
+  id Int @id @default(autoincrement())
+
+  escala_mensual    escala_mensual  @relation(fields: [escala_mensual_id], references: [id])
+  escala_mensual_id Int
+  escala_semanal    escala_semanal? @relation(fields: [escala_semanal_id], references: [id])
+  escala_semanal_id Int?
+  medico            medico?         @relation(fields: [medico_id], references: [id])
+  medico_id         Int?
+
+  fecha              DateTime
+  trabajada          String    @default("N") @db.Char(1)
+  hora_real_inicio   DateTime?
+  hora_real_fin      DateTime?
+  observacion_cambio String?   @db.VarChar(4000)
+
+  created_at DateTime @default(now())
+
+  @@unique([escala_mensual_id, fecha, escala_semanal_id, medico_id])
+}
