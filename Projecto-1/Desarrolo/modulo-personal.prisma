@@ -60,10 +60,12 @@ model Documento {
     descripcion String
 
     // Relaciones
-    Perfil   Perfil? @relation(fields: [perfilId], references: [id])
-    perfilId Int?
-    Medico   Medico? @relation(fields: [medicoId], references: [id])
-    medicoId Int?
+    Perfil           Perfil?         @relation(fields: [perfilId], references: [id])
+    perfilId         Int?
+    Medico           Medico?         @relation(fields: [medicoId], references: [id])
+    medicoId         Int?
+    Administrativo   Administrativo? @relation(fields: [administrativoId], references: [id])
+    administrativoId Int?
 }
 
 model CuentaBancaria {
@@ -130,7 +132,8 @@ model Usuario {
 
     // Relaciones
     // perfils Perfil[]
-    Medico Medico[]
+    Medico         Medico[]
+    Administrativo Administrativo[]
 }
 
 model Perfil {
@@ -149,6 +152,21 @@ model Perfil {
 }
 
 model Medico {
+    // Identificación
+    id Int @id @default(autoincrement())
+
+    documentosRequeridos Documento[]
+
+    // Estado y tipo
+    estado      EstadoPerfil @default(ACTIVO)
+    tipoUsuario TipoUsuario
+
+    // Relaciones
+    usuario   Usuario @relation(fields: [usuarioId], references: [id])
+    usuarioId Int
+}
+
+model Administrativo {
     // Identificación
     id Int @id @default(autoincrement())
 
