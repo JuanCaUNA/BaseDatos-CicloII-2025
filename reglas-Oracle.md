@@ -89,3 +89,7 @@ Así, se eliminan las dependencias transitivas y se cumple la 3FN.
 
 - [Documentación oficial de Oracle](https://docs.oracle.com/en/database/oracle/oracle-database/)
 - [Normalización de bases de datos](https://es.wikipedia.org/wiki/Normalizaci%C3%B3n_de_bases_de_datos)
+
+## notas
+
+las relaciones en prisma que se presentan como [] son en realidad tablas intermedias al memento de pasarlo a sql
