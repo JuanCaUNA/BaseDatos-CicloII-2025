@@ -80,13 +80,13 @@ model procedimiento_detalle {
 
   procedimiento    procedimiento @relation(fields: [procedimiento_id], references: [id])
   procedimiento_id Int
-  medico           medico        @relation(fields: [medico_id], references: [id])
-  medico_id        Int
+  medico           Medico        @relation(fields: [medicoId], references: [id])
 
   fecha         DateTime
   observaciones String?  @db.VarChar(4000)
 
   created_at DateTime @default(now())
+  medicoId   Int
 }
 
 model escala_semanal {
@@ -132,8 +132,7 @@ model escala_mensual_detalle {
   escala_mensual_id Int
   escala_semanal    escala_semanal? @relation(fields: [escala_semanal_id], references: [id])
   escala_semanal_id Int?
-  medico            medico?         @relation(fields: [medico_id], references: [id])
-  medico_id         Int?
+  medico            Medico?         @relation(fields: [medicoId], references: [id])
 
   fecha              DateTime
   trabajada          String    @default("N") @db.Char(1)
@@ -142,6 +141,7 @@ model escala_mensual_detalle {
   observacion_cambio String?   @db.VarChar(4000)
 
   created_at DateTime @default(now())
+  medicoId   Int?
 
-  @@unique([escala_mensual_id, fecha, escala_semanal_id, medico_id])
+  @@unique([escala_mensual_id, fecha, escala_semanal_id, medicoId])
 }

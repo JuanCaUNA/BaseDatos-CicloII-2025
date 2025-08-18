@@ -60,8 +60,6 @@ model Documento {
     descripcion String
 
     // Relaciones
-    Perfil           Perfil?         @relation(fields: [perfilId], references: [id])
-    perfilId         Int?
     Medico           Medico?         @relation(fields: [medicoId], references: [id])
     medicoId         Int?
     Administrativo   Administrativo? @relation(fields: [administrativoId], references: [id])
@@ -131,25 +129,24 @@ model Usuario {
     direccionTrabajo String
 
     // Relaciones
-    // perfils Perfil[]
     Medico         Medico[]
     Administrativo Administrativo[]
 }
 
-model Perfil {
-    // Identificación
-    id Int @id @default(autoincrement())
+// model Perfil {
+// Identificación
+//     id Int @id @default(autoincrement())
 
-    documentosRequeridos Documento[]
+//     documentosRequeridos Documento[]
 
-    // Estado y tipo
-    estado      EstadoPerfil @default(ACTIVO)
-    tipoUsuario TipoUsuario
+// Estado y tipo
+//     estado      EstadoPerfil @default(ACTIVO)
+//     tipoUsuario TipoUsuario
 
-    // Relaciones
-    // usuario   Usuario @relation(fields: [usuarioId], references: [id])
-    // usuarioId Int
-}
+// Relaciones
+// usuario   Usuario @relation(fields: [usuarioId], references: [id])
+// usuarioId Int
+// }
 
 model Medico {
     // Identificación
@@ -162,8 +159,10 @@ model Medico {
     tipoUsuario TipoUsuario
 
     // Relaciones
-    usuario   Usuario @relation(fields: [usuarioId], references: [id])
-    usuarioId Int
+    usuario                Usuario                  @relation(fields: [usuarioId], references: [id])
+    usuarioId              Int                      @unique
+    procedimiento_detalle  procedimiento_detalle[]
+    escala_mensual_detalle escala_mensual_detalle[]
 }
 
 model Administrativo {
@@ -178,5 +177,5 @@ model Administrativo {
 
     // Relaciones
     usuario   Usuario @relation(fields: [usuarioId], references: [id])
-    usuarioId Int
+    usuarioId Int     @unique
 }
