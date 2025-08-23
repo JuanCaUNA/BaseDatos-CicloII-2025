@@ -1,0 +1,194 @@
+enum estado_planilla {
+  CONSTRUCCION
+  APROBADA
+  PROCESADA
+  NOTIFICADA
+}
+
+enum naturaleza_movimiento {
+  INGRESO
+  DEDUCCION
+}
+
+enum modo_movimiento {
+  FIJO
+  PORCENTAJE
+}
+
+enum base_movimiento {
+  BRUTO
+  SALARIO_BASE
+  HORAS
+  PROCEDIMIENTOS
+  PERSONALIZADA
+}
+
+enum aplica_a_movimiento {
+  ADMINISTRATIVO
+  MEDICO
+  AMBOS
+}
+
+enum fuente_movimiento {
+  AUTOMATICO
+  MANUAL
+}
+
+enum accion_bitacora_planilla {
+  CREAR
+  GENERAR_DETALLES
+  APROBAR
+  APLICAR
+  ENVIAR_COMPROBANTES
+  REVERTIR
+}
+
+model tipo_planilla {
+  id          Int    @id @default(autoincrement())
+  nombre      String @db.VarChar(80)
+  aplica_a    aplica_a_movimiento
+  descripcion String? @db.VarChar(255)
+  activo      Boolean @default(true)
+
+  planillas planilla[]
+}
+
+model tipo_movimiento {
+  id            Int                 @id @default(autoincrement())
+  codigo        String              @unique @db.VarChar(40)
+  nombre        String              @db.VarChar(120)
+  naturaleza    naturaleza_movimiento
+  aplica_a      aplica_a_movimiento
+  modo          modo_movimiento
+  base          base_movimiento
+  porcentaje    Decimal?            @db.Decimal(8,4)
+  monto_fijo    Decimal?            @db.Decimal(18,2)
+  es_automatico Boolean             @default(true)
+  prioridad     Int                 @default(100)
+  activo        Boolean             @default(true)
+  regla_json    String?
+
+  creado_en DateTime @default(now())
+  actualizado_en DateTime @updatedAt
+
+  movimientos movimiento_planilla[]
+}
+
+model planilla {
+  id                Int            @id @default(autoincrement())
+  tipo_planilla_id  Int
+  periodo_anio      Int
+  periodo_mes       Int
+  estado            estado_planilla @default(CONSTRUCCION)
+
+  fecha_generacion  DateTime?
+  fecha_aprobacion  DateTime?
+  fecha_procesada   DateTime?
+  fecha_notificada  DateTime?
+
+  total_bruto       Decimal @db.Decimal(18,2) @default(0)
+  total_deducciones Decimal @db.Decimal(18,2) @default(0)
+  total_neto        Decimal @db.Decimal(18,2) @default(0)
+
+  creado_en DateTime @default(now())
+  actualizado_en DateTime @updatedAt
+
+  detalles  detalle_planilla[]
+  bitacoras bitacora_planilla[]
+
+  @@index([tipo_planilla_id])
+  @@unique([tipo_planilla_id, periodo_anio, periodo_mes])
+}
+
+model detalle_planilla {
+  id              Int     @id @default(autoincrement())
+  planilla_id     Int
+  personal_id     Int
+  tipo_personal   String  @db.VarChar(20)
+
+  salario_base    Decimal @db.Decimal(18,2) @default(0)
+  bruto           Decimal @db.Decimal(18,2) @default(0)
+  deducciones     Decimal @db.Decimal(18,2) @default(0)
+  neto            Decimal @db.Decimal(18,2) @default(0)
+
+  cuenta_bancaria_id Int?
+
+  notificado_en    DateTime?
+  email_enviado    Boolean  @default(false)
+  comprobante_html String?
+
+  creado_en DateTime @default(now())
+  actualizado_en DateTime @updatedAt
+
+  movimientos movimientos_planilla[]
+  envios      envio_comprobante[]
+
+  @@index([planilla_id])
+  @@index([personal_id])
+  @@index([cuenta_bancaria_id])
+}
+
+model movimiento_planilla {
+  id                 Int                 @id @default(autoincrement())
+  detalle_planilla_id Int
+  tipo_movimiento_id  Int
+  fuente             fuente_movimiento @default(AUTOMATICO)
+  monto              Decimal           @db.Decimal(18,2)
+  observacion        String?           @db.VarChar(255)
+  calculo_json       String?
+
+  creado_en DateTime @default(now())
+
+  @@index([detalle_planilla_id])
+  @@index([tipo_movimiento_id])
+}
+
+model envio_comprobante {
+  id                 Int      @id @default(autoincrement())
+  detalle_planilla_id Int
+  email              String   @db.VarChar(150)
+  enviado_en         DateTime @default(now())
+  error              String?  @db.VarChar(255)
+
+  @@index([detalle_planilla_id])
+}
+
+model bitacora_planilla {
+  id         Int                   @id @default(autoincrement())
+  planilla_id Int
+  accion     accion_bitacora_planilla
+  detalle    String?               @db.VarChar(255)
+  actor_id   Int?
+  creado_en  DateTime              @default(now())
+
+  @@index([planilla_id])
+  @@index([actor_id])
+}
+
+model turno_planilla {
+  id                       Int     @id @default(autoincrement())
+  detalle_planilla_id      Int
+  escala_mensual_detalle_id Int
+  horas                    Decimal @db.Decimal(10,2)
+  monto_cobrado_centro     Decimal @db.Decimal(18,2)
+  monto_pagado_medico      Decimal @db.Decimal(18,2)
+  procesado                Boolean @default(false)
+  procesado_en             DateTime?
+
+  @@index([detalle_planilla_id])
+  @@index([escala_mensual_detalle_id])
+}
+
+model procedimiento_planilla {
+  id                 Int     @id @default(autoincrement())
+  detalle_planilla_id Int
+  procedimiento_id   Int
+  cantidad           Int     @default(1)
+  monto_cobrado      Decimal @db.Decimal(18,2)
+  monto_pagado_medico Decimal @db.Decimal(18,2)
+  procesado          Boolean @default(false)
+  procesado_en       DateTime?
+
+  @@index([detalle_planilla_id])
+  @@index([procedimiento_id])
+}
