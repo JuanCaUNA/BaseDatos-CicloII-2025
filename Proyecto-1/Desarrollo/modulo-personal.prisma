@@ -111,7 +111,7 @@ model ASC_Usuario {
     // Información usuario
     nombre            String
     apellidos         String
-    fechaNacimiento   DateTime
+    fecha_nacimiento  DateTime
     sexo              String
     estado_civil      String
     tipo_nacionalidad Nacionalidad
