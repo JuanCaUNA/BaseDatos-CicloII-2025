@@ -11,20 +11,20 @@ enum fuente_asiento {
   AJUSTE
 }
 
-model asiento_financiero {
-  id              Int            @id @default(autoincrement())
-  tipo            tipo_asiento
-  fuente          fuente_asiento
-  fecha           DateTime
-  periodo_anio    Int
-  periodo_mes     Int
-  monto           Decimal        @db.Decimal(18,2)
-  centro_salud_id Int?
-  referencia_id   Int?
-  detalle         String?        @db.VarChar(255)
+model ASC_asiento_financiero {
+  asiento_financiero_id Int            @id @default(autoincrement())
+  tipo                  tipo_asiento
+  fuente                fuente_asiento
+  fecha                 DateTime
+  periodo_anio          Int
+  periodo_mes           Int
+  monto                 Decimal        @db.Decimal(18, 2)
+  centro_salud_id       Int?
+  referencia_id         Int?
+  detalle               String?        @db.VarChar(255)
 
-  creado_en       DateTime       @default(now())
-  actualizado_en  DateTime       @updatedAt
+  creado_en      DateTime @default(now())
+  actualizado_en DateTime @updatedAt
 
   @@index([periodo_anio, periodo_mes])
   @@index([centro_salud_id])
@@ -32,13 +32,13 @@ model asiento_financiero {
   @@index([fuente])
 }
 
-model resumen_financiero_mensual {
-  id             Int      @id @default(autoincrement())
-  periodo_anio   Int
-  periodo_mes    Int
-  ingresos       Decimal  @db.Decimal(18,2) @default(0)
-  gastos         Decimal  @db.Decimal(18,2) @default(0)
-  utilidad       Decimal  @db.Decimal(18,2) @default(0)
+model ASC_resumen_financiero_mensual {
+  resumen_financiero_mensual_id Int     @id @default(autoincrement())
+  periodo_anio                  Int
+  periodo_mes                   Int
+  ingresos                      Decimal @default(0) @db.Decimal(18, 2)
+  gastos                        Decimal @default(0) @db.Decimal(18, 2)
+  utilidad                      Decimal @default(0) @db.Decimal(18, 2)
 
   creado_en      DateTime @default(now())
   actualizado_en DateTime @updatedAt
@@ -46,17 +46,17 @@ model resumen_financiero_mensual {
   @@unique([periodo_anio, periodo_mes])
 }
 
-model resumen_financiero_centro_mensual {
-  id              Int      @id @default(autoincrement())
-  centro_salud_id Int
-  periodo_anio    Int
-  periodo_mes     Int
-  ingresos        Decimal  @db.Decimal(18,2) @default(0)
-  gastos          Decimal  @db.Decimal(18,2) @default(0)
-  utilidad        Decimal  @db.Decimal(18,2) @default(0)
+model ASC_resumen_financiero_centro_mensual {
+  resumen_financiero_centro_mensual_id Int     @id @default(autoincrement())
+  centro_salud_id                      Int
+  periodo_anio                         Int
+  periodo_mes                          Int
+  ingresos                             Decimal @default(0) @db.Decimal(18, 2)
+  gastos                               Decimal @default(0) @db.Decimal(18, 2)
+  utilidad                             Decimal @default(0) @db.Decimal(18, 2)
 
-  creado_en       DateTime @default(now())
-  actualizado_en  DateTime @updatedAt
+  creado_en      DateTime @default(now())
+  actualizado_en DateTime @updatedAt
 
   @@unique([centro_salud_id, periodo_anio, periodo_mes])
   @@index([centro_salud_id])

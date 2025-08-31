@@ -25,8 +25,8 @@ enum TipoCuenta {
     CORRIENTE
 }
 
-model Permiso {
-    id Int @id @default(autoincrement())
+model ASC_Permiso {
+    permiso_id Int @id @default(autoincrement())
 
     pantalla    String  @unique
     lectura     Boolean @default(false)
@@ -34,40 +34,40 @@ model Permiso {
     eliminacion Boolean @default(false)
 
     // Relaciones
-    Accesos   Accesos? @relation(fields: [accesosId], references: [id])
-    accesosId Int?
+    Accesos    ASC_Accesos? @relation(fields: [accesos_id], references: [accesos_id])
+    accesos_id Int?
 }
 
-model Accesos {
-    id Int @id @default(autoincrement())
+model ASC_Accesos {
+    accesos_id Int @id @default(autoincrement())
 
     tipoUsuariol TipoUsuario
 
-    permisos Permiso[]
+    permisos ASC_Permiso[]
 }
 
-model DetalleDocumento {
-    id Int @id @default(autoincrement())
+model ASC_Detalle_documento {
+    detalle_documento_id Int @id @default(autoincrement())
 
     tipoUsuariol         TipoUsuario
     documentosRequeridos String
 }
 
-model Documento {
-    id Int @id @default(autoincrement())
+model ASC_Documento {
+    documento_id Int @id @default(autoincrement())
 
     url         String @unique
     descripcion String
 
     // Relaciones
-    Medico           Medico?         @relation(fields: [medicoId], references: [id])
-    medicoId         Int?
-    Administrativo   Administrativo? @relation(fields: [administrativoId], references: [id])
-    administrativoId Int?
+    Medico            ASC_Medico?         @relation(fields: [medico_id], references: [medico_id])
+    medico_id         Int?
+    Administrativo    ASC_Administrativo? @relation(fields: [administrativo_id], references: [administrativo_id])
+    administrativo_id Int?
 }
 
-model CuentaBancaria {
-    id Int @id @default(autoincrement())
+model ASC_CuentaBancaria {
+    cuentaBancaria_id Int @id @default(autoincrement())
 
     banco      String
     numero     String     @unique
@@ -77,14 +77,13 @@ model CuentaBancaria {
     esPrincipal Boolean
 
     // Relaciones
-    Usuario   Usuario? @relation(fields: [usuarioId], references: [id])
-    usuarioId Int?
+    Usuario    ASC_Usuario? @relation(fields: [usuario_id], references: [usuario_id])
+    usuario_id Int?
 }
 
-model Preregistro {
-    // Identificación
-    id     Int    @id @default(autoincrement())
-    cedula String @unique
+model ASC_Preregistro {
+    preregistro_id Int    @id @default(autoincrement())
+    cedula         String @unique
 
     // Información usuariol
     nombre          String
@@ -105,10 +104,9 @@ model Preregistro {
     estadoRegistro EstadoRegistro @default(PENDIENTE)
 }
 
-model Usuario {
-    // Identificación
-    id     Int    @id @default(autoincrement())
-    cedula String @unique
+model ASC_Usuario {
+    usuario_id Int    @id @default(autoincrement())
+    cedula     String @unique
 
     // Información usuariol
     nombre          String
@@ -119,7 +117,7 @@ model Usuario {
     nacionalidad    Nacionalidad
 
     // Informacion de cuentas bancarias
-    cuentaBancarias CuentaBancaria[]
+    cuentaBancarias ASC_CuentaBancaria[]
 
     // Contacto
     email            String @unique
@@ -129,13 +127,12 @@ model Usuario {
     direccionTrabajo String
 
     // Relaciones
-    Medico         Medico[]
-    Administrativo Administrativo[]
+    Medico         ASC_Medico[]
+    Administrativo ASC_Administrativo[]
 }
 
-// model Perfil {
-// Identificación
-//     id Int @id @default(autoincrement())
+// model ASC_Perfil {
+//     SC_Perfil_id Int @id @default(autoincrement())
 
 //     documentosRequeridos Documento[]
 
@@ -144,38 +141,36 @@ model Usuario {
 //     tipoUsuario TipoUsuario
 
 // Relaciones
-// usuario   Usuario @relation(fields: [usuarioId], references: [id])
-// usuarioId Int
+// usuario   Usuario @relation(fields: [usuario_id], references: [id])
+// usuario_id Int
 // }
 
-model Medico {
-    // Identificación
-    id Int @id @default(autoincrement())
+model ASC_Medico {
+    medico_id Int @id @default(autoincrement())
 
-    documentosRequeridos Documento[]
+    documentosRequeridos ASC_Documento[]
 
     // Estado y tipo
     estado      EstadoPerfil @default(ACTIVO)
     tipoUsuario TipoUsuario
 
     // Relaciones
-    usuario                Usuario                  @relation(fields: [usuarioId], references: [id])
-    usuarioId              Int                      @unique
-    procedimiento_detalle  procedimiento_detalle[]
-    escala_mensual_detalle escala_mensual_detalle[]
+    usuario                ASC_Usuario                  @relation(fields: [usuario_id], references: [usuario_id])
+    usuario_id             Int                          @unique
+    procedimiento_detalle  ASC_procedimiento_detalle[]
+    escala_mensual_detalle ASC_escala_mensual_detalle[]
 }
 
-model Administrativo {
-    // Identificación
-    id Int @id @default(autoincrement())
+model ASC_Administrativo {
+    administrativo_id Int @id @default(autoincrement())
 
-    documentosRequeridos Documento[]
+    documentosRequeridos ASC_Documento[]
 
     // Estado y tipo
     estado      EstadoPerfil @default(ACTIVO)
     tipoUsuario TipoUsuario
 
     // Relaciones
-    usuario   Usuario @relation(fields: [usuarioId], references: [id])
-    usuarioId Int     @unique
+    usuario    ASC_Usuario @relation(fields: [usuario_id], references: [usuario_id])
+    usuario_id Int         @unique
 }
