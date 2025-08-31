@@ -34,14 +34,14 @@ model ASC_Permiso {
     eliminacion Boolean @default(false)
 
     // Relaciones
-    Accesos    ASC_Accesos? @relation(fields: [accesos_id], references: [accesos_id])
+    accesos    ASC_Accesos? @relation(fields: [accesos_id], references: [accesos_id])
     accesos_id Int?
 }
 
 model ASC_Accesos {
     accesos_id Int @id @default(autoincrement())
 
-    tipoUsuariol TipoUsuario
+    tipo_usuario TipoUsuario
 
     permisos ASC_Permiso[]
 }
@@ -49,8 +49,8 @@ model ASC_Accesos {
 model ASC_Detalle_documento {
     detalle_documento_id Int @id @default(autoincrement())
 
-    tipoUsuariol         TipoUsuario
-    documentosRequeridos String
+    tipo_usuario          TipoUsuario
+    documentos_requeridos String
 }
 
 model ASC_Documento {
@@ -60,24 +60,24 @@ model ASC_Documento {
     descripcion String
 
     // Relaciones
-    Medico            ASC_Medico?         @relation(fields: [medico_id], references: [medico_id])
+    medico            ASC_Medico?         @relation(fields: [medico_id], references: [medico_id])
     medico_id         Int?
-    Administrativo    ASC_Administrativo? @relation(fields: [administrativo_id], references: [administrativo_id])
+    administrativo    ASC_Administrativo? @relation(fields: [administrativo_id], references: [administrativo_id])
     administrativo_id Int?
 }
 
 model ASC_CuentaBancaria {
     cuentaBancaria_id Int @id @default(autoincrement())
 
-    banco      String
-    numero     String     @unique
-    titular    String
-    tipoCuenta TipoCuenta
+    banco       String
+    numero      String     @unique
+    titular     String
+    tipo_cuenta TipoCuenta
 
-    esPrincipal Boolean
+    es_principal Boolean
 
     // Relaciones
-    Usuario    ASC_Usuario? @relation(fields: [usuario_id], references: [usuario_id])
+    usuario    ASC_Usuario? @relation(fields: [usuario_id], references: [usuario_id])
     usuario_id Int?
 }
 
@@ -85,74 +85,61 @@ model ASC_Preregistro {
     preregistro_id Int    @id @default(autoincrement())
     cedula         String @unique
 
-    // Información usuariol
-    nombre          String
-    apellidos       String
-    fechaNacimiento DateTime
-    sexo            String
-    estadoCivil     String
-    nacionalidad    Nacionalidad
-    residencia      String
+    // Información usuario
+    nombre           String
+    apellidos        String
+    fecha_nacimiento DateTime
+    sexo             String
+    estado_civil     String
+    nacionalidad     Nacionalidad
+    residencia       String
 
     // Contacto
-    email            String @unique
-    telefono         String
-    direccionCasa    String
-    direccionTrabajo String
+    email             String @unique
+    telefono          String
+    direccion_casa    String
+    direccion_trabajo String
 
     // Estados
-    estadoRegistro EstadoRegistro @default(PENDIENTE)
+    estado_registro EstadoRegistro @default(PENDIENTE)
 }
 
 model ASC_Usuario {
     usuario_id Int    @id @default(autoincrement())
     cedula     String @unique
 
-    // Información usuariol
-    nombre          String
-    apellidos       String
-    fechaNacimiento DateTime
-    sexo            String
-    estadoCivil     String
-    nacionalidad    Nacionalidad
+    // Información usuario
+    nombre            String
+    apellidos         String
+    fechaNacimiento   DateTime
+    sexo              String
+    estado_civil      String
+    tipo_nacionalidad Nacionalidad
+
+    tipo_usuario TipoUsuario
 
     // Informacion de cuentas bancarias
-    cuentaBancarias ASC_CuentaBancaria[]
+    cuentas_bancarias ASC_CuentaBancaria[]
 
     // Contacto
-    email            String @unique
-    telefono         String
-    residencia       String
-    direccionCasa    String
-    direccionTrabajo String
+    email             String @unique
+    telefono          String
+    residencia        String
+    direccion_casa    String
+    direccion_trabajo String
 
     // Relaciones
-    Medico         ASC_Medico[]
-    Administrativo ASC_Administrativo[]
+    medico         ASC_Medico[]
+    administrativo ASC_Administrativo[]
 }
-
-// model ASC_Perfil {
-//     SC_Perfil_id Int @id @default(autoincrement())
-
-//     documentosRequeridos Documento[]
-
-// Estado y tipo
-//     estado      EstadoPerfil @default(ACTIVO)
-//     tipoUsuario TipoUsuario
-
-// Relaciones
-// usuario   Usuario @relation(fields: [usuario_id], references: [id])
-// usuario_id Int
-// }
 
 model ASC_Medico {
     medico_id Int @id @default(autoincrement())
 
-    documentosRequeridos ASC_Documento[]
+    documentos_requeridos ASC_Documento[]
 
     // Estado y tipo
-    estado      EstadoPerfil @default(ACTIVO)
-    tipoUsuario TipoUsuario
+    estado EstadoPerfil @default(ACTIVO)
 
     // Relaciones
     usuario                ASC_Usuario                  @relation(fields: [usuario_id], references: [usuario_id])
@@ -164,11 +151,10 @@ model ASC_Medico {
 model ASC_Administrativo {
     administrativo_id Int @id @default(autoincrement())
 
-    documentosRequeridos ASC_Documento[]
+    documentos_requeridos ASC_Documento[]
 
     // Estado y tipo
-    estado      EstadoPerfil @default(ACTIVO)
-    tipoUsuario TipoUsuario
+    estado EstadoPerfil @default(ACTIVO)
 
     // Relaciones
     usuario    ASC_Usuario @relation(fields: [usuario_id], references: [usuario_id])
