@@ -82,8 +82,8 @@ model ASC_Cuenta_Bancaria {
 }
 
 model ASC_Preregistro {
-    preregistro_id Int    @id @default(autoincrement())
-    cedula         String @unique
+    Prerregistro_id Int    @id @default(autoincrement())
+    cedula          String @unique
 
     // Información usuario
     nombre           String
