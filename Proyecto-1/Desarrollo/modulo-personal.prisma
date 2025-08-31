@@ -66,7 +66,7 @@ model ASC_Documento {
     administrativo_id Int?
 }
 
-model ASC_CuentaBancaria {
+model ASC_Cuenta_Bancaria {
     cuentaBancaria_id Int @id @default(autoincrement())
 
     banco       String
@@ -119,7 +119,7 @@ model ASC_Usuario {
     tipo_usuario TipoUsuario
 
     // Informacion de cuentas bancarias
-    cuentas_bancarias ASC_CuentaBancaria[]
+    cuentas_bancarias ASC_Cuenta_Bancaria[]
 
     // Contacto
     email             String @unique
