@@ -160,7 +160,8 @@ create table  asc_detalle_documento (
    documentos_requeridos varchar2(4000)
 );
 
--- 
+-- Comentarios descriptivos
+COMMENT ON TABLE asc_detalle_documento IS 'Documentos requeridos por tipo de usuario, separados por comas';
 
 -- ! TABLA
 create table  asc_documento (
@@ -170,19 +171,11 @@ create table  asc_documento (
    descripcion       varchar2(4000),
 
    -- Relation
-   medico_id         number,
-   administrativo_id number,
-
-   -- Auditoria
-   fecha_creacion   date default sysdate
-   fecha_modificacion date
-
-   constraint fk_documento_medico foreign key ( medico_id )
-      references asc_medico ( medico_id ),
-
-   constraint fk_documento_administrativo foreign key ( administrativo_id )
-      references asc_administrativo ( administrativo_id )
+   usuario_id        number unique,
 );
+
+-- Comentarios descriptivos
+COMMENT ON TABLE asc_documento IS 'Documentos subidos por los usuarios, relacionados con su';
 
 -- * end Modulo de Personal *
 -- * ------------------
