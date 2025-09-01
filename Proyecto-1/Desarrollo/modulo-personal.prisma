@@ -1,4 +1,4 @@
-// estados
+// * Estados *
 enum EstadoPerfil {
     ACTIVO
     INACTIVO
@@ -24,6 +24,21 @@ enum TipoCuenta {
     AHORROS
     CORRIENTE
 }
+
+enum Sexo {
+    MASCULINO
+    FEMENINO
+    OTRO
+}
+
+enum EstadoCivil {
+    SOLTERO
+    CASADO
+    DIVORCIADO
+    VIUDO
+}
+
+// * Entidades * 
 
 model ASC_Permiso {
     permiso_id Int @id @default(autoincrement())
@@ -89,10 +104,12 @@ model ASC_Prerregistro {
     nombre           String
     apellidos        String
     fecha_nacimiento DateTime
-    sexo             String
-    estado_civil     String
-    nacionalidad     Nacionalidad
     residencia       String
+
+    // tipo 
+    sexo         Sexo
+    estado_civil EstadoCivil
+    nacionalidad Nacionalidad
 
     // Contacto
     email             String @unique
@@ -109,14 +126,15 @@ model ASC_Usuario {
     cedula     String @unique
 
     // Información usuario
-    nombre            String
-    apellidos         String
-    fecha_nacimiento  DateTime
-    sexo              String
-    estado_civil      String
-    tipo_nacionalidad Nacionalidad
+    nombre           String
+    apellidos        String
+    fecha_nacimiento DateTime
 
-    tipo_usuario TipoUsuario
+    // tipo
+    sexo              Sexo
+    estado_civil      EstadoCivil
+    tipo_nacionalidad Nacionalidad
+    tipo_usuario      TipoUsuario // Solo se define una vez (al crear y crea el perfil correspondiente)
 
     // Informacion de cuentas bancarias
     cuentas_bancarias ASC_Cuenta_Bancaria[]
@@ -131,10 +149,13 @@ model ASC_Usuario {
     // Relaciones
     medico         ASC_Medico[]
     administrativo ASC_Administrativo[]
+
+    @@index([cedula])
+    @@index([nombre, apellidos])
 }
 
 model ASC_Medico {
-    medico_id Int @id @default(autoincrement())
+    medico_id Int @id // Mismo id que usuario_id
 
     documentos_requeridos ASC_Documento[]
 
@@ -149,7 +170,7 @@ model ASC_Medico {
 }
 
 model ASC_Administrativo {
-    administrativo_id Int @id @default(autoincrement())
+    administrativo_id Int @id // Mismo id que usuario_id
 
     documentos_requeridos ASC_Documento[]
 
