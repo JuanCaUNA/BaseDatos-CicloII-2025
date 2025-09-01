@@ -15,7 +15,7 @@ create table  asc_permiso (
    tipo_usuario varchar2(20) check ( tipo_usuario in ( 'MEDICO', 'ADMINISTRATIVO' ) ) unique,
 );
 
--- Comentarios descriptivos
+-- * Comentarios descriptivos
 COMMENT ON TABLE asc_permiso IS 'Permisos de acceso por tipo de usuario';
 
 -- ! TABLA
@@ -43,7 +43,7 @@ create table  asc_prerregistro (
    fecha_creacion   date default sysdate
 );
 
--- Comentarios descriptivos
+-- * Comentarios descriptivos
 COMMENT ON TABLE asc_prerregistro IS 'Datos de solicitantes a ser usuarios';
 COMMENT ON COLUMN asc_prerregistro.residencia IS 'Lugar general donde vive';
 COMMENT ON COLUMN asc_prerregistro.direccion_casa IS 'Dirección específica de la casa';
@@ -78,12 +78,12 @@ create table  asc_usuario (
    fecha_modificacion date
 );
 
--- Índice por nombre para búsqueda alfabética
+-- * Índices
 CREATE INDEX idx_ ON asc_usuario (cedula);
 CREATE INDEX idx_nombre_completo ON asc_usuario (nombre, apellidos);
 CREATE INDEX inx_tipo_usuario ON asc_usuario (tipo_usuario);
 
--- Comentarios descriptivos
+-- * Comentarios descriptivos
 COMMENT ON TABLE asc_usuario IS 'Datos de usuario';
 COMMENT ON COLUMN asc_usuario.residencia IS 'Lugar general donde vive';
 COMMENT ON COLUMN asc_usuario.direccion_casa IS 'Dirección específica de la casa';
@@ -133,7 +133,7 @@ create table  asc_medico (
       references asc_usuario ( usuario_id )
 );
 
--- Comentarios descriptivos
+-- * Comentarios descriptivos
 COMMENT ON COLUMN asc_medico.medico_id IS 'El id del médico es el mismo que el id del usuario asociado';
 
 -- ! TABLA
@@ -149,7 +149,7 @@ create table  asc_administrativo (
       references asc_usuario ( usuario_id )
 );
 
--- Comentarios descriptivos
+-- * Comentarios descriptivos
 COMMENT ON COLUMN asc_administrativo.administrativo_id IS 'El id del administrativo es el mismo que el id del usuario asociado';
 
 -- ! TABLA
@@ -160,7 +160,7 @@ create table  asc_detalle_documento (
    documentos_requeridos varchar2(4000)
 );
 
--- Comentarios descriptivos
+-- * Comentarios descriptivos
 COMMENT ON TABLE asc_detalle_documento IS 'Documentos requeridos por tipo de usuario, separados por comas';
 
 -- ! TABLA
@@ -174,7 +174,7 @@ create table  asc_documento (
    usuario_id        number unique,
 );
 
--- Comentarios descriptivos
+-- * Comentarios descriptivos
 COMMENT ON TABLE asc_documento IS 'Documentos subidos por los usuarios, relacionados con su';
 
 -- * end Modulo de Personal *
