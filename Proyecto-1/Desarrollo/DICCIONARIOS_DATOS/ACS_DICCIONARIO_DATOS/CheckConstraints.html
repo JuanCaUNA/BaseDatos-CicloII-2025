@@ -1,0 +1,1745 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <meta name="keywords" content="TDM_Report">
+        <link rel="stylesheet" type="text/css" media="screen" href="dark.css" title="report">
+        <link rel="stylesheet" type="text/css" media="print" href="dark_NoFrames_print.css" title="report">
+            <script src="tdmShowDetails.js" type="text/javascript"></script>
+        <title>Toad Data Modeler - HTML Report</title>
+    </head>
+
+<body onLoad="getUrlItem()"><div class="mainContainer"><div id="headerContainer"><div id="header"><div class="title1"></div><div class="title2">Check Constraints</div><div class="reportStats">martes, 9 de septiembre de 2025 05:16:56 p. m.</div><div class="titleimage"><a href="https://www.quest.com/" target="_blank"><img src="Img/logo.png" alt="Made with Toad Data Modeler" border="0" /></a></div><div class="headerEnd"><p>&nbsp;</p></div></div><div id="navTop"><ul><li><a href="MInfo.html">Model Info</a></li><li><a href="MImage.html">ER Diagram</a></li><li><a href="Tables.html">Entities</a></li><li><a href="Columns.html">Attributes</a></li><li><a href="Indexes.html">Indexes</a></li><li><a href="Keys.html">Keys</a></li><li><a href="Relations.html">Relationships</a></li><li class="selLi"><a href="CheckConstraints.html" class="selAnchor">Check Constraints</a></li><li><a href="Tablespaces.html">Tablespaces</a></li><li><a href="UserGroups.html">User Groups</a></li></ul><div id="navTopEnd"><p>&nbsp;</p></div></div></div><div id="navCombo"><form name="allItems" action=""><select name="listOfItems" onChange="showSelected()"><option value="Check_TABLECOL">Entities and Attributes</option><option value="Check_{8FDF59DE-7C71-4DA3-B722-C96A73962AC1}">ACS_ADMINISTRATIVO.CHK_AAD_ESTADO</option><option>------------</option><option value="Check_{DC14FE1C-9C74-453A-B4A2-84CD862358D3}">ACS_ASIENTO_FINANCIERO.CHK_AAF_FUENTE</option><option value="Check_{898714C8-5449-4C50-9395-C6C8D44C89D0}">ACS_ASIENTO_FINANCIERO.CHK_AAF_PERIODO_MES</option><option value="Check_{2A3A7CA2-7A1B-4490-9BE5-D09C8F3337F8}">ACS_ASIENTO_FINANCIERO.CHK_AAF_TIPO</option><option>------------</option><option value="Check_{77A61513-E44B-402E-813D-4A96E8FD719F}">ACS_AUDITORIA_DETALLE_MENSUAL.CHK_ADM_ESTADO (AUM)</option><option value="Check_{B5D63945-518E-494A-AEC4-6FFA893A5B03}">ACS_AUDITORIA_DETALLE_MENSUAL.CHK_AMD_ESTADO_TURNO (AUM)</option><option>------------</option><option value="Check_{85115EB5-04DF-4F83-8AC3-679088E7949D}">ACS_BANCO.CHK_ABA_ESTADO</option><option>------------</option><option value="Check_{9F4C8C4F-A5C3-4714-AD62-874B639D420D}">ACS_CENTRO_MEDICO.CHK_ACM_ESTADO</option><option>------------</option><option value="Check_{6E64C52B-660E-4434-8A5A-2D966E58DD1B}">ACS_CUENTA_BANCARIA.CHK_ACB_ES_PRINCIPAL</option><option value="Check_{0AD7EF30-8B3F-4241-AE51-1500166947B5}">ACS_CUENTA_BANCARIA.CHK_ACB_ESTADO</option><option value="Check_{F1FE15F2-56D3-48B6-AB2E-73784854CBB6}">ACS_CUENTA_BANCARIA.CHK_ACB_TIPO_CUENTA</option><option>------------</option><option value="Check_{876E1D70-BF16-4030-A635-63417F6C2F69}">ACS_DETALLE_MENSUAL.CHK_ADM_ESTADO</option><option value="Check_{8B0DE07A-1187-45F2-BA55-0521AEE4CEB5}">ACS_DETALLE_MENSUAL.CHK_AMD_ESTADO_TURNO</option><option>------------</option><option value="Check_{9D1B3504-075E-4DA9-880E-9D51E8C48BA9}">ACS_DETALLE_PLANILLA.CHK_ADP_TIPO_PERSONA</option><option value="Check_{89CB70E8-F611-4039-BF7E-1FD7442CAE59}">ACS_DETALLE_PLANILLA.CHL_ADP_EMAIL_ENV</option><option>------------</option><option value="Check_{86165488-98D4-42FC-B933-A71DF60CD84A}">ACS_DETALLE_SEMANAL.CHK_ADS_DIA_SEMANA</option><option value="Check_{4FAF99A5-682A-40FA-B7B1-CD31E8A54714}">ACS_DETALLE_SEMANAL.CHK_ADS_ESTADO</option><option>------------</option><option value="Check_{93B8B0BC-0640-4F1E-9FF7-F9A9C0A63074}">ACS_DOCUMENTO_USUARIO.CHK_ADU_ESTADO</option><option>------------</option><option value="Check_{4169CE2D-D249-49AE-8A51-ED434F7DDDBE}">ACS_ESCALA_MENSUAL.CHK_AEM_ANIO</option><option value="Check_{7A80F95A-8E24-42BB-BE31-1923DA15C117}">ACS_ESCALA_MENSUAL.CHK_AEM_ESTADO</option><option value="Check_{FA835F93-D7E0-44E1-A0DE-F917D604C6C6}">ACS_ESCALA_MENSUAL.CHK_AEM_MES</option><option>------------</option><option value="Check_{F8D74B55-CBB2-4A4F-8FCF-02A959D236CC}">ACS_ESCALA_SEMANAL.CHK_AES_ESTADO</option><option>------------</option><option value="Check_{C468BEDF-2839-4511-9C3D-3743F03794A0}">ACS_HISTORIAL_PROCEDIMIENTO.CHK_AHP_ESTADO</option><option>------------</option><option value="Check_{A3BEB662-3EAA-4A31-A67C-4F6B59BE93B9}">ACS_MEDICO.CHK_AME_ESTADO</option><option>------------</option><option value="Check_{44C1C95B-B6A3-4564-96CE-1846E62BB7A1}">ACS_MOVIMIENTO_PLANILLA.CHK_AMP_FUENTE</option><option>------------</option><option value="Check_{DE448BC7-65D4-4F41-A685-055334C68BB4}">ACS_PERMISO.CHK_APR_PERMISO_BORRAR</option><option value="Check_{AC269C97-4A03-4FAF-BD23-727B430C0C19}">ACS_PERMISO.CHK_APR_PERMISO_CREAR</option><option value="Check_{04831BAC-8A42-4455-9C2E-505D25D76233}">ACS_PERMISO.CHK_APR_PERMISO_EDITAR</option><option value="Check_{182757A1-2F76-4D59-AC9A-675E588D5258}">ACS_PERMISO.CHK_APR_PERMISO_LEER</option><option>------------</option><option value="Check_{9B2DB977-1DEA-41E4-91C7-EC15AB47D50C}">ACS_PERSONA.CHK_APE_ESTADO_CIVIL</option><option value="Check_{D324F546-2692-4A92-BD3F-1B6B930F6942}">ACS_PERSONA.CHK_APE_ESTADO_REGISTRO</option><option value="Check_{92BB4735-DEE5-4401-B1BC-DBB17F0AFBF7}">ACS_PERSONA.CHK_APE_NACIONALIDAD</option><option value="Check_{34C45A25-3EB6-4D40-886A-599884692F9B}">ACS_PERSONA.CHK_APE_SEXO</option><option value="Check_{6606521B-D832-45FF-A5F9-71B7556CBAA3}">ACS_PERSONA.CHK_APE_TIPO_USUARIO</option><option>------------</option><option value="Check_{0C9A41BD-9D38-47F9-B534-54CB413E0199}">ACS_PERSONAL_TIPO_PLANILLA.CHK_APTP_ACTIVO</option><option>------------</option><option value="Check_{4549023B-723E-451A-984C-843D829D23D7}">ACS_PLANILLA.CHK_APL_ANIO</option><option value="Check_{8A5D1B0A-0FE5-42DA-B90D-69BA4D980B9F}">ACS_PLANILLA.CHK_APL_ESTADO</option><option value="Check_{7F883120-6009-4606-9768-4B24E1F02279}">ACS_PLANILLA.CHK_APL_MES</option><option>------------</option><option value="Check_{C38453B8-44DE-421F-A30C-FAB914ABCCDE}">ACS_PRECIOXTURNO.CHK_APT_ESTADO</option><option value="Check_{3FD00917-BA8B-4918-9320-9E1916A50808}">ACS_PRECIOXTURNO.CHK_APT_TIPO_PAGO</option><option>------------</option><option value="Check_{4848776C-D16C-4998-9362-BA2FFDC09B42}">ACS_PROC_APLICADO.CHK_APA_ESTADO</option><option>------------</option><option value="Check_{8EAF69A2-7870-4FDB-AB29-FE1CD434D6AE}">ACS_PROCEDIMIENTO.CHK_APD_ESTADO</option><option>------------</option><option value="Check_{AD9DE97D-EBFA-4C47-A332-077A88ECE1BB}">ACS_PROCEDIMIENTO_PLANILLA.CHK_APRP_ESTADO</option><option value="Check_{AA8C0A71-4AC3-41C4-B7B7-F9C32CA1CCC3}">ACS_PROCEDIMIENTO_PLANILLA.CHK_APRP_PROCESADO</option><option>------------</option><option value="Check_{773BDA54-CBD8-4E75-8FCB-EFE742881C67}">ACS_PUESTO_MEDICO.CHK_APM_ESTADO</option><option>------------</option><option value="Check_{200A7E3D-118F-43ED-AEE9-C9BE42A311B3}">ACS_RESUMEN_FIN_CENTRO_MES.CHK_ARCM_PERIODO_ANIO</option><option value="Check_{9607E103-2878-45B5-8E36-92BFC026526C}">ACS_RESUMEN_FIN_CENTRO_MES.CHK_ARCM_PERIODO_MES</option><option>------------</option><option value="Check_{A1856F30-9D6A-4D96-9822-94087AD987FA}">ACS_RESUMEN_FIN_MENSUAL.CHK_ARM_PERIODO_ANIO</option><option value="Check_{4F8197D1-1D1D-4397-9D24-A28347E56B9A}">ACS_RESUMEN_FIN_MENSUAL.CHK_ARM_PERIODO_MES</option><option>------------</option><option value="Check_{7E6DC351-C7B6-47A9-95C0-A6B19FE64CDD}">ACS_TIPO_DOCUMENTO.CHK_ATD_ESTADO</option><option value="Check_{D6CC5F23-4530-4102-98AC-A57D6321E783}">ACS_TIPO_DOCUMENTO.CHK_ATD_TIPO_USUARIO</option><option>------------</option><option value="Check_{128F75BC-2777-48BB-9568-C014C666E05B}">ACS_TIPO_MOV.CHK_ATM_APLICA_A</option><option value="Check_{D75D4F79-0955-4360-A9E5-4C0960B11B62}">ACS_TIPO_MOV.CHK_ATM_BASE</option><option value="Check_{7D016500-80AB-47A7-B147-023FA52F3A55}">ACS_TIPO_MOV.CHK_ATM_ES_AUTOMATICO</option><option value="Check_{9262994C-40E0-4B43-B7BB-72F4C1274BF1}">ACS_TIPO_MOV.CHK_ATM_ESTADO</option><option value="Check_{5E40AFB4-DB95-4088-B4CB-8EB34194099A}">ACS_TIPO_MOV.CHK_ATM_MODO</option><option value="Check_{C8B91694-7884-45F4-A6CE-D1EFC8A6CE0B}">ACS_TIPO_MOV.CHK_ATM_NATURALEZA</option><option>------------</option><option value="Check_{3AE8334C-D33B-4979-9C0B-F3BC16E68541}">ACS_TIPO_PLANILLA.CHK_ATP_APLICA_A</option><option value="Check_{06274D7B-9606-4E4E-9478-10D03F788AAF}">ACS_TIPO_PLANILLA.CHL_ATP_ESTADO</option><option>------------</option><option value="Check_{607EE158-3A6C-4ADF-8F05-C5E49661FFA0}">ACS_TURNO.CHK_ATU_ESTADO</option><option>------------</option><option value="Check_{6D509E2C-F75A-4BA8-9938-841E620AFFBF}">ACS_TURNO_PLANILLA.CHK_ATRP_PROCESADO</option><option>------------</option><option value="Check_{FAA98C5B-D1A6-42CB-BA79-9D03B5076899}">ACS_USUARIO.CHK_AUS_ESTADO</option><option>------------</option><option value="CheckD_DOMAIN">Domains</option></select></form><div id="navComboEnd"><p></p></div></div><div id="navLeft"><div id="bookmark"><ul><li class="liBookmarkHeader"><span class="bookmarkHeader">Entities and Attributes</span></li><li><a onClick="return showDetail('Check_{8FDF59DE-7C71-4DA3-B722-C96A73962AC1}', this)">ACS_ADMINISTRATIVO.CHK_AAD_ESTADO</a></li><li class="spacerGap"></li><li><a onClick="return showDetail('Check_{DC14FE1C-9C74-453A-B4A2-84CD862358D3}', this)">ACS_ASIENTO_FINANCIERO.CHK_AAF_FUENTE</a></li><li><a onClick="return showDetail('Check_{898714C8-5449-4C50-9395-C6C8D44C89D0}', this)">ACS_ASIENTO_FINANCIERO.CHK_AAF_PERIODO_MES</a></li><li><a onClick="return showDetail('Check_{2A3A7CA2-7A1B-4490-9BE5-D09C8F3337F8}', this)">ACS_ASIENTO_FINANCIERO.CHK_AAF_TIPO</a></li><li class="spacerGap"></li><li><a onClick="return showDetail('Check_{77A61513-E44B-402E-813D-4A96E8FD719F}', this)">ACS_AUDITORIA_DETALLE_MENSUAL.CHK_ADM_ESTADO (AUM)</a></li><li><a onClick="return showDetail('Check_{B5D63945-518E-494A-AEC4-6FFA893A5B03}', this)">ACS_AUDITORIA_DETALLE_MENSUAL.CHK_AMD_ESTADO_TURNO (AUM)</a></li><li class="spacerGap"></li><li><a onClick="return showDetail('Check_{85115EB5-04DF-4F83-8AC3-679088E7949D}', this)">ACS_BANCO.CHK_ABA_ESTADO</a></li><li class="spacerGap"></li><li><a onClick="return showDetail('Check_{9F4C8C4F-A5C3-4714-AD62-874B639D420D}', this)">ACS_CENTRO_MEDICO.CHK_ACM_ESTADO</a></li><li class="spacerGap"></li><li><a onClick="return showDetail('Check_{6E64C52B-660E-4434-8A5A-2D966E58DD1B}', this)">ACS_CUENTA_BANCARIA.CHK_ACB_ES_PRINCIPAL</a></li><li><a onClick="return showDetail('Check_{0AD7EF30-8B3F-4241-AE51-1500166947B5}', this)">ACS_CUENTA_BANCARIA.CHK_ACB_ESTADO</a></li><li><a onClick="return showDetail('Check_{F1FE15F2-56D3-48B6-AB2E-73784854CBB6}', this)">ACS_CUENTA_BANCARIA.CHK_ACB_TIPO_CUENTA</a></li><li class="spacerGap"></li><li><a onClick="return showDetail('Check_{876E1D70-BF16-4030-A635-63417F6C2F69}', this)">ACS_DETALLE_MENSUAL.CHK_ADM_ESTADO</a></li><li><a onClick="return showDetail('Check_{8B0DE07A-1187-45F2-BA55-0521AEE4CEB5}', this)">ACS_DETALLE_MENSUAL.CHK_AMD_ESTADO_TURNO</a></li><li class="spacerGap"></li><li><a onClick="return showDetail('Check_{9D1B3504-075E-4DA9-880E-9D51E8C48BA9}', this)">ACS_DETALLE_PLANILLA.CHK_ADP_TIPO_PERSONA</a></li><li><a onClick="return showDetail('Check_{89CB70E8-F611-4039-BF7E-1FD7442CAE59}', this)">ACS_DETALLE_PLANILLA.CHL_ADP_EMAIL_ENV</a></li><li class="spacerGap"></li><li><a onClick="return showDetail('Check_{86165488-98D4-42FC-B933-A71DF60CD84A}', this)">ACS_DETALLE_SEMANAL.CHK_ADS_DIA_SEMANA</a></li><li><a onClick="return showDetail('Check_{4FAF99A5-682A-40FA-B7B1-CD31E8A54714}', this)">ACS_DETALLE_SEMANAL.CHK_ADS_ESTADO</a></li><li class="spacerGap"></li><li><a onClick="return showDetail('Check_{93B8B0BC-0640-4F1E-9FF7-F9A9C0A63074}', this)">ACS_DOCUMENTO_USUARIO.CHK_ADU_ESTADO</a></li><li class="spacerGap"></li><li><a onClick="return showDetail('Check_{4169CE2D-D249-49AE-8A51-ED434F7DDDBE}', this)">ACS_ESCALA_MENSUAL.CHK_AEM_ANIO</a></li><li><a onClick="return showDetail('Check_{7A80F95A-8E24-42BB-BE31-1923DA15C117}', this)">ACS_ESCALA_MENSUAL.CHK_AEM_ESTADO</a></li><li><a onClick="return showDetail('Check_{FA835F93-D7E0-44E1-A0DE-F917D604C6C6}', this)">ACS_ESCALA_MENSUAL.CHK_AEM_MES</a></li><li class="spacerGap"></li><li><a onClick="return showDetail('Check_{F8D74B55-CBB2-4A4F-8FCF-02A959D236CC}', this)">ACS_ESCALA_SEMANAL.CHK_AES_ESTADO</a></li><li class="spacerGap"></li><li><a onClick="return showDetail('Check_{C468BEDF-2839-4511-9C3D-3743F03794A0}', this)">ACS_HISTORIAL_PROCEDIMIENTO.CHK_AHP_ESTADO</a></li><li class="spacerGap"></li><li><a onClick="return showDetail('Check_{A3BEB662-3EAA-4A31-A67C-4F6B59BE93B9}', this)">ACS_MEDICO.CHK_AME_ESTADO</a></li><li class="spacerGap"></li><li><a onClick="return showDetail('Check_{44C1C95B-B6A3-4564-96CE-1846E62BB7A1}', this)">ACS_MOVIMIENTO_PLANILLA.CHK_AMP_FUENTE</a></li><li class="spacerGap"></li><li><a onClick="return showDetail('Check_{DE448BC7-65D4-4F41-A685-055334C68BB4}', this)">ACS_PERMISO.CHK_APR_PERMISO_BORRAR</a></li><li><a onClick="return showDetail('Check_{AC269C97-4A03-4FAF-BD23-727B430C0C19}', this)">ACS_PERMISO.CHK_APR_PERMISO_CREAR</a></li><li><a onClick="return showDetail('Check_{04831BAC-8A42-4455-9C2E-505D25D76233}', this)">ACS_PERMISO.CHK_APR_PERMISO_EDITAR</a></li><li><a onClick="return showDetail('Check_{182757A1-2F76-4D59-AC9A-675E588D5258}', this)">ACS_PERMISO.CHK_APR_PERMISO_LEER</a></li><li class="spacerGap"></li><li><a onClick="return showDetail('Check_{9B2DB977-1DEA-41E4-91C7-EC15AB47D50C}', this)">ACS_PERSONA.CHK_APE_ESTADO_CIVIL</a></li><li><a onClick="return showDetail('Check_{D324F546-2692-4A92-BD3F-1B6B930F6942}', this)">ACS_PERSONA.CHK_APE_ESTADO_REGISTRO</a></li><li><a onClick="return showDetail('Check_{92BB4735-DEE5-4401-B1BC-DBB17F0AFBF7}', this)">ACS_PERSONA.CHK_APE_NACIONALIDAD</a></li><li><a onClick="return showDetail('Check_{34C45A25-3EB6-4D40-886A-599884692F9B}', this)">ACS_PERSONA.CHK_APE_SEXO</a></li><li><a onClick="return showDetail('Check_{6606521B-D832-45FF-A5F9-71B7556CBAA3}', this)">ACS_PERSONA.CHK_APE_TIPO_USUARIO</a></li><li class="spacerGap"></li><li><a onClick="return showDetail('Check_{0C9A41BD-9D38-47F9-B534-54CB413E0199}', this)">ACS_PERSONAL_TIPO_PLANILLA.CHK_APTP_ACTIVO</a></li><li class="spacerGap"></li><li><a onClick="return showDetail('Check_{4549023B-723E-451A-984C-843D829D23D7}', this)">ACS_PLANILLA.CHK_APL_ANIO</a></li><li><a onClick="return showDetail('Check_{8A5D1B0A-0FE5-42DA-B90D-69BA4D980B9F}', this)">ACS_PLANILLA.CHK_APL_ESTADO</a></li><li><a onClick="return showDetail('Check_{7F883120-6009-4606-9768-4B24E1F02279}', this)">ACS_PLANILLA.CHK_APL_MES</a></li><li class="spacerGap"></li><li><a onClick="return showDetail('Check_{C38453B8-44DE-421F-A30C-FAB914ABCCDE}', this)">ACS_PRECIOXTURNO.CHK_APT_ESTADO</a></li><li><a onClick="return showDetail('Check_{3FD00917-BA8B-4918-9320-9E1916A50808}', this)">ACS_PRECIOXTURNO.CHK_APT_TIPO_PAGO</a></li><li class="spacerGap"></li><li><a onClick="return showDetail('Check_{4848776C-D16C-4998-9362-BA2FFDC09B42}', this)">ACS_PROC_APLICADO.CHK_APA_ESTADO</a></li><li class="spacerGap"></li><li><a onClick="return showDetail('Check_{8EAF69A2-7870-4FDB-AB29-FE1CD434D6AE}', this)">ACS_PROCEDIMIENTO.CHK_APD_ESTADO</a></li><li class="spacerGap"></li><li><a onClick="return showDetail('Check_{AD9DE97D-EBFA-4C47-A332-077A88ECE1BB}', this)">ACS_PROCEDIMIENTO_PLANILLA.CHK_APRP_ESTADO</a></li><li><a onClick="return showDetail('Check_{AA8C0A71-4AC3-41C4-B7B7-F9C32CA1CCC3}', this)">ACS_PROCEDIMIENTO_PLANILLA.CHK_APRP_PROCESADO</a></li><li class="spacerGap"></li><li><a onClick="return showDetail('Check_{773BDA54-CBD8-4E75-8FCB-EFE742881C67}', this)">ACS_PUESTO_MEDICO.CHK_APM_ESTADO</a></li><li class="spacerGap"></li><li><a onClick="return showDetail('Check_{200A7E3D-118F-43ED-AEE9-C9BE42A311B3}', this)">ACS_RESUMEN_FIN_CENTRO_MES.CHK_ARCM_PERIODO_ANIO</a></li><li><a onClick="return showDetail('Check_{9607E103-2878-45B5-8E36-92BFC026526C}', this)">ACS_RESUMEN_FIN_CENTRO_MES.CHK_ARCM_PERIODO_MES</a></li><li class="spacerGap"></li><li><a onClick="return showDetail('Check_{A1856F30-9D6A-4D96-9822-94087AD987FA}', this)">ACS_RESUMEN_FIN_MENSUAL.CHK_ARM_PERIODO_ANIO</a></li><li><a onClick="return showDetail('Check_{4F8197D1-1D1D-4397-9D24-A28347E56B9A}', this)">ACS_RESUMEN_FIN_MENSUAL.CHK_ARM_PERIODO_MES</a></li><li class="spacerGap"></li><li><a onClick="return showDetail('Check_{7E6DC351-C7B6-47A9-95C0-A6B19FE64CDD}', this)">ACS_TIPO_DOCUMENTO.CHK_ATD_ESTADO</a></li><li><a onClick="return showDetail('Check_{D6CC5F23-4530-4102-98AC-A57D6321E783}', this)">ACS_TIPO_DOCUMENTO.CHK_ATD_TIPO_USUARIO</a></li><li class="spacerGap"></li><li><a onClick="return showDetail('Check_{128F75BC-2777-48BB-9568-C014C666E05B}', this)">ACS_TIPO_MOV.CHK_ATM_APLICA_A</a></li><li><a onClick="return showDetail('Check_{D75D4F79-0955-4360-A9E5-4C0960B11B62}', this)">ACS_TIPO_MOV.CHK_ATM_BASE</a></li><li><a onClick="return showDetail('Check_{7D016500-80AB-47A7-B147-023FA52F3A55}', this)">ACS_TIPO_MOV.CHK_ATM_ES_AUTOMATICO</a></li><li><a onClick="return showDetail('Check_{9262994C-40E0-4B43-B7BB-72F4C1274BF1}', this)">ACS_TIPO_MOV.CHK_ATM_ESTADO</a></li><li><a onClick="return showDetail('Check_{5E40AFB4-DB95-4088-B4CB-8EB34194099A}', this)">ACS_TIPO_MOV.CHK_ATM_MODO</a></li><li><a onClick="return showDetail('Check_{C8B91694-7884-45F4-A6CE-D1EFC8A6CE0B}', this)">ACS_TIPO_MOV.CHK_ATM_NATURALEZA</a></li><li class="spacerGap"></li><li><a onClick="return showDetail('Check_{3AE8334C-D33B-4979-9C0B-F3BC16E68541}', this)">ACS_TIPO_PLANILLA.CHK_ATP_APLICA_A</a></li><li><a onClick="return showDetail('Check_{06274D7B-9606-4E4E-9478-10D03F788AAF}', this)">ACS_TIPO_PLANILLA.CHL_ATP_ESTADO</a></li><li class="spacerGap"></li><li><a onClick="return showDetail('Check_{607EE158-3A6C-4ADF-8F05-C5E49661FFA0}', this)">ACS_TURNO.CHK_ATU_ESTADO</a></li><li class="spacerGap"></li><li><a onClick="return showDetail('Check_{6D509E2C-F75A-4BA8-9938-841E620AFFBF}', this)">ACS_TURNO_PLANILLA.CHK_ATRP_PROCESADO</a></li><li class="spacerGap"></li><li><a onClick="return showDetail('Check_{FAA98C5B-D1A6-42CB-BA79-9D03B5076899}', this)">ACS_USUARIO.CHK_AUS_ESTADO</a></li><li class="spacerGap"></li><li class="liBookmarkHeader"><span class="bookmarkHeader">Domains</span></li></ul><div id="bookmarkEnd"><p>&nbsp;</p></div></div></div><div class="separator" ></div><div class="container"><div id="content"><a name = "Check_TABLECOL"></a>
+<div id="Check_{8FDF59DE-7C71-4DA3-B722-C96A73962AC1}" class="item">
+<a name = "Check_{8FDF59DE-7C71-4DA3-B722-C96A73962AC1}"></a>
+<div class="caption1"><p>ACS_ADMINISTRATIVO.CHK_AAD_ESTADO</p></div>
+<div class="caption2"><p>General Info</p></div>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabhead" width="23%">Caption</td>
+<td class="tabdata">CHK_AAD_ESTADO</td>
+</tr>
+<tr>
+<td class="tabhead" width="23%">Entity Name</td>
+<td class="tabdata">ACS_ADMINISTRATIVO</td>
+</tr>
+</table>
+<br>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabdata"><pre><code>AAD_ESTADO IN ('ACTIVO', 'INACTIVO', 'ARCHIVADO', 'SUSPENDIDO')</code></pre></td>
+</tr>
+</table>
+<br>
+<div class="caption2"><p>Notes</p></div>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabdata">Restricción para el campo estado, esto para que solo pueda ser ACTIVO, INACTIVO, ARCHIVADO o SUSPENDIDO</td>
+</tr>
+</table>
+<br>
+<div class="itemEnd"><p>&nbsp;</p></div></div>
+<div id="Check_{DC14FE1C-9C74-453A-B4A2-84CD862358D3}" class="item">
+<a name = "Check_{DC14FE1C-9C74-453A-B4A2-84CD862358D3}"></a>
+<div class="caption1"><p>ACS_ASIENTO_FINANCIERO.CHK_AAF_FUENTE</p></div>
+<div class="caption2"><p>General Info</p></div>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabhead" width="23%">Caption</td>
+<td class="tabdata">CHK_AAF_FUENTE</td>
+</tr>
+<tr>
+<td class="tabhead" width="23%">Entity Name</td>
+<td class="tabdata">ACS_ASIENTO_FINANCIERO</td>
+</tr>
+</table>
+<br>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabdata"><pre><code>AAF_FUENTE IN ('TURNO', 'PROCEDIMIENTO', 'PLANILLA_ADMINISTRATIVA', 'PLANILLA_MEDICA', 'AJUSTE')</code></pre></td>
+</tr>
+</table>
+<br>
+<div class="caption2"><p>Notes</p></div>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabdata">Restringe la fuente del registro a TURNO, PROCEDIMIENTO, PLANILLA_ADMIN, PLANILLA_MEDICA o AJUSTE.</td>
+</tr>
+</table>
+<br>
+<div class="itemEnd"><p>&nbsp;</p></div></div>
+<div id="Check_{898714C8-5449-4C50-9395-C6C8D44C89D0}" class="item">
+<a name = "Check_{898714C8-5449-4C50-9395-C6C8D44C89D0}"></a>
+<div class="caption1"><p>ACS_ASIENTO_FINANCIERO.CHK_AAF_PERIODO_MES</p></div>
+<div class="caption2"><p>General Info</p></div>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabhead" width="23%">Caption</td>
+<td class="tabdata">CHK_AAF_PERIODO_MES</td>
+</tr>
+<tr>
+<td class="tabhead" width="23%">Entity Name</td>
+<td class="tabdata">ACS_ASIENTO_FINANCIERO</td>
+</tr>
+</table>
+<br>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabdata"><pre><code>AAF_PERIODO_MES BETWEEN 1 AND 12</code></pre></td>
+</tr>
+</table>
+<br>
+<div class="caption2"><p>Notes</p></div>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabdata">Valida que el mes del periodo esté entre 1 y 12.</td>
+</tr>
+</table>
+<br>
+<div class="itemEnd"><p>&nbsp;</p></div></div>
+<div id="Check_{2A3A7CA2-7A1B-4490-9BE5-D09C8F3337F8}" class="item">
+<a name = "Check_{2A3A7CA2-7A1B-4490-9BE5-D09C8F3337F8}"></a>
+<div class="caption1"><p>ACS_ASIENTO_FINANCIERO.CHK_AAF_TIPO</p></div>
+<div class="caption2"><p>General Info</p></div>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabhead" width="23%">Caption</td>
+<td class="tabdata">CHK_AAF_TIPO</td>
+</tr>
+<tr>
+<td class="tabhead" width="23%">Entity Name</td>
+<td class="tabdata">ACS_ASIENTO_FINANCIERO</td>
+</tr>
+</table>
+<br>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabdata"><pre><code>AAF_TIPO IN ('INGRESO', 'GASTO')</code></pre></td>
+</tr>
+</table>
+<br>
+<div class="caption2"><p>Notes</p></div>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabdata">Asegura que el tipo de movimiento de dinero sea INGRESO o GASTO.</td>
+</tr>
+</table>
+<br>
+<div class="itemEnd"><p>&nbsp;</p></div></div>
+<div id="Check_{77A61513-E44B-402E-813D-4A96E8FD719F}" class="item">
+<a name = "Check_{77A61513-E44B-402E-813D-4A96E8FD719F}"></a>
+<div class="caption1"><p>ACS_AUDITORIA_DETALLE_MENSUAL.CHK_ADM_ESTADO (AUM)</p></div>
+<div class="caption2"><p>General Info</p></div>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabhead" width="23%">Caption</td>
+<td class="tabdata">CHK_ADM_ESTADO (AUM)</td>
+</tr>
+<tr>
+<td class="tabhead" width="23%">Entity Name</td>
+<td class="tabdata">ACS_AUDITORIA_DETALLE_MENSUAL</td>
+</tr>
+</table>
+<br>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabdata"><pre><code>AUM_ESTADO IN ('ACTIVO', 'INACTIVO')</code></pre></td>
+</tr>
+</table>
+<br>
+<div class="caption2"><p>Notes</p></div>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabdata">Restricción para el campo estado, esto para que solo pueda ser ACTIVO, INACTIVO</td>
+</tr>
+</table>
+<br>
+<div class="itemEnd"><p>&nbsp;</p></div></div>
+<div id="Check_{B5D63945-518E-494A-AEC4-6FFA893A5B03}" class="item">
+<a name = "Check_{B5D63945-518E-494A-AEC4-6FFA893A5B03}"></a>
+<div class="caption1"><p>ACS_AUDITORIA_DETALLE_MENSUAL.CHK_AMD_ESTADO_TURNO (AUM)</p></div>
+<div class="caption2"><p>General Info</p></div>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabhead" width="23%">Caption</td>
+<td class="tabdata">CHK_AMD_ESTADO_TURNO (AUM)</td>
+</tr>
+<tr>
+<td class="tabhead" width="23%">Entity Name</td>
+<td class="tabdata">ACS_AUDITORIA_DETALLE_MENSUAL</td>
+</tr>
+</table>
+<br>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabdata"><pre><code>AUM_ESTADO_TURNO IN ('CUMPLIDO','FALTA','CANCELADO','REEMPLAZADO')</code></pre></td>
+</tr>
+</table>
+<br>
+<div class="itemEnd"><p>&nbsp;</p></div></div>
+<div id="Check_{85115EB5-04DF-4F83-8AC3-679088E7949D}" class="item">
+<a name = "Check_{85115EB5-04DF-4F83-8AC3-679088E7949D}"></a>
+<div class="caption1"><p>ACS_BANCO.CHK_ABA_ESTADO</p></div>
+<div class="caption2"><p>General Info</p></div>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabhead" width="23%">Caption</td>
+<td class="tabdata">CHK_ABA_ESTADO</td>
+</tr>
+<tr>
+<td class="tabhead" width="23%">Entity Name</td>
+<td class="tabdata">ACS_BANCO</td>
+</tr>
+</table>
+<br>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabdata"><pre><code>ABA_ESTADO IN ('ACTIVO', 'INACTIVO', 'ARCHIVADO', 'SUSPENDIDO')</code></pre></td>
+</tr>
+</table>
+<br>
+<div class="caption2"><p>Notes</p></div>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabdata">Restricción para el campo estado, esto para que solo pueda ser ACTIVO, INACTIVO, ARCHIVADO o SUSPENDIDO</td>
+</tr>
+</table>
+<br>
+<div class="itemEnd"><p>&nbsp;</p></div></div>
+<div id="Check_{9F4C8C4F-A5C3-4714-AD62-874B639D420D}" class="item">
+<a name = "Check_{9F4C8C4F-A5C3-4714-AD62-874B639D420D}"></a>
+<div class="caption1"><p>ACS_CENTRO_MEDICO.CHK_ACM_ESTADO</p></div>
+<div class="caption2"><p>General Info</p></div>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabhead" width="23%">Caption</td>
+<td class="tabdata">CHK_ACM_ESTADO</td>
+</tr>
+<tr>
+<td class="tabhead" width="23%">Entity Name</td>
+<td class="tabdata">ACS_CENTRO_MEDICO</td>
+</tr>
+</table>
+<br>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabdata"><pre><code>ACM_ESTADO IN ('ACTIVO', 'INACTIVO')</code></pre></td>
+</tr>
+</table>
+<br>
+<div class="caption2"><p>Notes</p></div>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabdata">Restricción para el campo estado, esto para que solo pueda ser ACTIVO, INACTIVO</td>
+</tr>
+</table>
+<br>
+<div class="itemEnd"><p>&nbsp;</p></div></div>
+<div id="Check_{6E64C52B-660E-4434-8A5A-2D966E58DD1B}" class="item">
+<a name = "Check_{6E64C52B-660E-4434-8A5A-2D966E58DD1B}"></a>
+<div class="caption1"><p>ACS_CUENTA_BANCARIA.CHK_ACB_ES_PRINCIPAL</p></div>
+<div class="caption2"><p>General Info</p></div>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabhead" width="23%">Caption</td>
+<td class="tabdata">CHK_ACB_ES_PRINCIPAL</td>
+</tr>
+<tr>
+<td class="tabhead" width="23%">Entity Name</td>
+<td class="tabdata">ACS_CUENTA_BANCARIA</td>
+</tr>
+</table>
+<br>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabdata"><pre><code>ACB_ES_PRINCIPAL IN ('SI', 'NO')</code></pre></td>
+</tr>
+</table>
+<br>
+<div class="itemEnd"><p>&nbsp;</p></div></div>
+<div id="Check_{0AD7EF30-8B3F-4241-AE51-1500166947B5}" class="item">
+<a name = "Check_{0AD7EF30-8B3F-4241-AE51-1500166947B5}"></a>
+<div class="caption1"><p>ACS_CUENTA_BANCARIA.CHK_ACB_ESTADO</p></div>
+<div class="caption2"><p>General Info</p></div>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabhead" width="23%">Caption</td>
+<td class="tabdata">CHK_ACB_ESTADO</td>
+</tr>
+<tr>
+<td class="tabhead" width="23%">Entity Name</td>
+<td class="tabdata">ACS_CUENTA_BANCARIA</td>
+</tr>
+</table>
+<br>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabdata"><pre><code>ACB_ESTADO IN ('ACTIVO', 'INACTIVO')</code></pre></td>
+</tr>
+</table>
+<br>
+<div class="caption2"><p>Notes</p></div>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabdata">Restricción para el campo estado, esto para que solo pueda ser ACTIVO, INACTIVO,</td>
+</tr>
+</table>
+<br>
+<div class="itemEnd"><p>&nbsp;</p></div></div>
+<div id="Check_{F1FE15F2-56D3-48B6-AB2E-73784854CBB6}" class="item">
+<a name = "Check_{F1FE15F2-56D3-48B6-AB2E-73784854CBB6}"></a>
+<div class="caption1"><p>ACS_CUENTA_BANCARIA.CHK_ACB_TIPO_CUENTA</p></div>
+<div class="caption2"><p>General Info</p></div>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabhead" width="23%">Caption</td>
+<td class="tabdata">CHK_ACB_TIPO_CUENTA</td>
+</tr>
+<tr>
+<td class="tabhead" width="23%">Entity Name</td>
+<td class="tabdata">ACS_CUENTA_BANCARIA</td>
+</tr>
+</table>
+<br>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabdata"><pre><code>ACB_TIPO_CUENTA in ('AHORRO', 'CORRIENTE')</code></pre></td>
+</tr>
+</table>
+<br>
+<div class="caption2"><p>Notes</p></div>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabdata">Check para validar cual es el tipo de cuenta, sea CORRIENTE o de AHORRO<br> </td>
+</tr>
+</table>
+<br>
+<div class="itemEnd"><p>&nbsp;</p></div></div>
+<div id="Check_{876E1D70-BF16-4030-A635-63417F6C2F69}" class="item">
+<a name = "Check_{876E1D70-BF16-4030-A635-63417F6C2F69}"></a>
+<div class="caption1"><p>ACS_DETALLE_MENSUAL.CHK_ADM_ESTADO</p></div>
+<div class="caption2"><p>General Info</p></div>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabhead" width="23%">Caption</td>
+<td class="tabdata">CHK_ADM_ESTADO</td>
+</tr>
+<tr>
+<td class="tabhead" width="23%">Entity Name</td>
+<td class="tabdata">ACS_DETALLE_MENSUAL</td>
+</tr>
+</table>
+<br>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabdata"><pre><code>ADM_ESTADO IN ('ACTIVO', 'INACTIVO')</code></pre></td>
+</tr>
+</table>
+<br>
+<div class="caption2"><p>Notes</p></div>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabdata">Restricción para el campo estado, esto para que solo pueda ser ACTIVO, INACTIVO</td>
+</tr>
+</table>
+<br>
+<div class="itemEnd"><p>&nbsp;</p></div></div>
+<div id="Check_{8B0DE07A-1187-45F2-BA55-0521AEE4CEB5}" class="item">
+<a name = "Check_{8B0DE07A-1187-45F2-BA55-0521AEE4CEB5}"></a>
+<div class="caption1"><p>ACS_DETALLE_MENSUAL.CHK_AMD_ESTADO_TURNO</p></div>
+<div class="caption2"><p>General Info</p></div>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabhead" width="23%">Caption</td>
+<td class="tabdata">CHK_AMD_ESTADO_TURNO</td>
+</tr>
+<tr>
+<td class="tabhead" width="23%">Entity Name</td>
+<td class="tabdata">ACS_DETALLE_MENSUAL</td>
+</tr>
+</table>
+<br>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabdata"><pre><code>ADM_ESTADO_TURNO IN ('CUMPLIDO','FALTA','CANCELADO','REEMPLAZADO')</code></pre></td>
+</tr>
+</table>
+<br>
+<div class="itemEnd"><p>&nbsp;</p></div></div>
+<div id="Check_{9D1B3504-075E-4DA9-880E-9D51E8C48BA9}" class="item">
+<a name = "Check_{9D1B3504-075E-4DA9-880E-9D51E8C48BA9}"></a>
+<div class="caption1"><p>ACS_DETALLE_PLANILLA.CHK_ADP_TIPO_PERSONA</p></div>
+<div class="caption2"><p>General Info</p></div>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabhead" width="23%">Caption</td>
+<td class="tabdata">CHK_ADP_TIPO_PERSONA</td>
+</tr>
+<tr>
+<td class="tabhead" width="23%">Entity Name</td>
+<td class="tabdata">ACS_DETALLE_PLANILLA</td>
+</tr>
+</table>
+<br>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabdata"><pre><code>ADP_TIPO_PERSONA IN ('MEDICO', 'ADMINISTRATIVO')</code></pre></td>
+</tr>
+</table>
+<br>
+<div class="caption2"><p>Notes</p></div>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabdata">Asegura que el tipo de persona del detalle sea MEDICO o ADMINISTRATIVO.</td>
+</tr>
+</table>
+<br>
+<div class="itemEnd"><p>&nbsp;</p></div></div>
+<div id="Check_{89CB70E8-F611-4039-BF7E-1FD7442CAE59}" class="item">
+<a name = "Check_{89CB70E8-F611-4039-BF7E-1FD7442CAE59}"></a>
+<div class="caption1"><p>ACS_DETALLE_PLANILLA.CHL_ADP_EMAIL_ENV</p></div>
+<div class="caption2"><p>General Info</p></div>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabhead" width="23%">Caption</td>
+<td class="tabdata">CHL_ADP_EMAIL_ENV</td>
+</tr>
+<tr>
+<td class="tabhead" width="23%">Entity Name</td>
+<td class="tabdata">ACS_DETALLE_PLANILLA</td>
+</tr>
+</table>
+<br>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabdata"><pre><code>ADP_EMAIL_ENV IN (0,1)</code></pre></td>
+</tr>
+</table>
+<br>
+<div class="caption2"><p>Notes</p></div>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabdata">Restringe el indicador de envío de comprobante a valores 0 o 1 (falso/verdadero).</td>
+</tr>
+</table>
+<br>
+<div class="itemEnd"><p>&nbsp;</p></div></div>
+<div id="Check_{86165488-98D4-42FC-B933-A71DF60CD84A}" class="item">
+<a name = "Check_{86165488-98D4-42FC-B933-A71DF60CD84A}"></a>
+<div class="caption1"><p>ACS_DETALLE_SEMANAL.CHK_ADS_DIA_SEMANA</p></div>
+<div class="caption2"><p>General Info</p></div>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabhead" width="23%">Caption</td>
+<td class="tabdata">CHK_ADS_DIA_SEMANA</td>
+</tr>
+<tr>
+<td class="tabhead" width="23%">Entity Name</td>
+<td class="tabdata">ACS_DETALLE_SEMANAL</td>
+</tr>
+</table>
+<br>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabdata"><pre><code>ADS_DIA_SEMANA IN ('LUNES', 'MARTES', 'MIERCOLES', 'JUEVES', 'VIERNES', 'SABADO', 'DOMINGO')</code></pre></td>
+</tr>
+</table>
+<br>
+<div class="itemEnd"><p>&nbsp;</p></div></div>
+<div id="Check_{4FAF99A5-682A-40FA-B7B1-CD31E8A54714}" class="item">
+<a name = "Check_{4FAF99A5-682A-40FA-B7B1-CD31E8A54714}"></a>
+<div class="caption1"><p>ACS_DETALLE_SEMANAL.CHK_ADS_ESTADO</p></div>
+<div class="caption2"><p>General Info</p></div>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabhead" width="23%">Caption</td>
+<td class="tabdata">CHK_ADS_ESTADO</td>
+</tr>
+<tr>
+<td class="tabhead" width="23%">Entity Name</td>
+<td class="tabdata">ACS_DETALLE_SEMANAL</td>
+</tr>
+</table>
+<br>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabdata"><pre><code>ADS_ESTADO IN ('ACTIVO', 'INACTIVO')</code></pre></td>
+</tr>
+</table>
+<br>
+<div class="caption2"><p>Notes</p></div>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabdata">Restricción para el campo estado, esto para que solo pueda ser ACTIVO, INACTIVO</td>
+</tr>
+</table>
+<br>
+<div class="itemEnd"><p>&nbsp;</p></div></div>
+<div id="Check_{93B8B0BC-0640-4F1E-9FF7-F9A9C0A63074}" class="item">
+<a name = "Check_{93B8B0BC-0640-4F1E-9FF7-F9A9C0A63074}"></a>
+<div class="caption1"><p>ACS_DOCUMENTO_USUARIO.CHK_ADU_ESTADO</p></div>
+<div class="caption2"><p>General Info</p></div>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabhead" width="23%">Caption</td>
+<td class="tabdata">CHK_ADU_ESTADO</td>
+</tr>
+<tr>
+<td class="tabhead" width="23%">Entity Name</td>
+<td class="tabdata">ACS_DOCUMENTO_USUARIO</td>
+</tr>
+</table>
+<br>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabdata"><pre><code>ADU_ESTADO IN ('PENDIENTE', 'APROBADO', 'RECHAZADO')</code></pre></td>
+</tr>
+</table>
+<br>
+<div class="caption2"><p>Notes</p></div>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabdata">determina el estado del documento ('PENDIENTE', 'APROBADO', 'RECHAZADO')</td>
+</tr>
+</table>
+<br>
+<div class="itemEnd"><p>&nbsp;</p></div></div>
+<div id="Check_{4169CE2D-D249-49AE-8A51-ED434F7DDDBE}" class="item">
+<a name = "Check_{4169CE2D-D249-49AE-8A51-ED434F7DDDBE}"></a>
+<div class="caption1"><p>ACS_ESCALA_MENSUAL.CHK_AEM_ANIO</p></div>
+<div class="caption2"><p>General Info</p></div>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabhead" width="23%">Caption</td>
+<td class="tabdata">CHK_AEM_ANIO</td>
+</tr>
+<tr>
+<td class="tabhead" width="23%">Entity Name</td>
+<td class="tabdata">ACS_ESCALA_MENSUAL</td>
+</tr>
+</table>
+<br>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabdata"><pre><code>AEM_ANIO &gt;= 2000</code></pre></td>
+</tr>
+</table>
+<br>
+<div class="caption2"><p>Notes</p></div>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabdata">Check para valir que el año sea mayor o igual al año 2000<br> </td>
+</tr>
+</table>
+<br>
+<div class="itemEnd"><p>&nbsp;</p></div></div>
+<div id="Check_{7A80F95A-8E24-42BB-BE31-1923DA15C117}" class="item">
+<a name = "Check_{7A80F95A-8E24-42BB-BE31-1923DA15C117}"></a>
+<div class="caption1"><p>ACS_ESCALA_MENSUAL.CHK_AEM_ESTADO</p></div>
+<div class="caption2"><p>General Info</p></div>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabhead" width="23%">Caption</td>
+<td class="tabdata">CHK_AEM_ESTADO</td>
+</tr>
+<tr>
+<td class="tabhead" width="23%">Entity Name</td>
+<td class="tabdata">ACS_ESCALA_MENSUAL</td>
+</tr>
+</table>
+<br>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabdata"><pre><code>AEM_ESTADO IN ('CONSTRUCCION', 'VIGENTE', 'EN REVISION', 'LISTA PARA PAGO', 'PROCESADA')</code></pre></td>
+</tr>
+</table>
+<br>
+<div class="caption2"><p>Notes</p></div>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabdata">Restricción para el campo estado, esto para que solo pueda ser 'CONSTRUCCION', 'VIGENTE', 'EN REVISION', 'LISTA PARA PAGO' o 'PROCESADA'</td>
+</tr>
+</table>
+<br>
+<div class="itemEnd"><p>&nbsp;</p></div></div>
+<div id="Check_{FA835F93-D7E0-44E1-A0DE-F917D604C6C6}" class="item">
+<a name = "Check_{FA835F93-D7E0-44E1-A0DE-F917D604C6C6}"></a>
+<div class="caption1"><p>ACS_ESCALA_MENSUAL.CHK_AEM_MES</p></div>
+<div class="caption2"><p>General Info</p></div>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabhead" width="23%">Caption</td>
+<td class="tabdata">CHK_AEM_MES</td>
+</tr>
+<tr>
+<td class="tabhead" width="23%">Entity Name</td>
+<td class="tabdata">ACS_ESCALA_MENSUAL</td>
+</tr>
+</table>
+<br>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabdata"><pre><code>AEM_MES BETWEEN 1 AND 12</code></pre></td>
+</tr>
+</table>
+<br>
+<div class="caption2"><p>Notes</p></div>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabdata">Check para validar los meses validos</td>
+</tr>
+</table>
+<br>
+<div class="itemEnd"><p>&nbsp;</p></div></div>
+<div id="Check_{F8D74B55-CBB2-4A4F-8FCF-02A959D236CC}" class="item">
+<a name = "Check_{F8D74B55-CBB2-4A4F-8FCF-02A959D236CC}"></a>
+<div class="caption1"><p>ACS_ESCALA_SEMANAL.CHK_AES_ESTADO</p></div>
+<div class="caption2"><p>General Info</p></div>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabhead" width="23%">Caption</td>
+<td class="tabdata">CHK_AES_ESTADO</td>
+</tr>
+<tr>
+<td class="tabhead" width="23%">Entity Name</td>
+<td class="tabdata">ACS_ESCALA_SEMANAL</td>
+</tr>
+</table>
+<br>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabdata"><pre><code>AES_ESTADO IN ('ACTIVO', 'INACTIVO')</code></pre></td>
+</tr>
+</table>
+<br>
+<div class="caption2"><p>Notes</p></div>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabdata">Restricción para el campo estado, esto para que solo pueda ser ACTIVO, INACTIVO</td>
+</tr>
+</table>
+<br>
+<div class="itemEnd"><p>&nbsp;</p></div></div>
+<div id="Check_{C468BEDF-2839-4511-9C3D-3743F03794A0}" class="item">
+<a name = "Check_{C468BEDF-2839-4511-9C3D-3743F03794A0}"></a>
+<div class="caption1"><p>ACS_HISTORIAL_PROCEDIMIENTO.CHK_AHP_ESTADO</p></div>
+<div class="caption2"><p>General Info</p></div>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabhead" width="23%">Caption</td>
+<td class="tabdata">CHK_AHP_ESTADO</td>
+</tr>
+<tr>
+<td class="tabhead" width="23%">Entity Name</td>
+<td class="tabdata">ACS_HISTORIAL_PROCEDIMIENTO</td>
+</tr>
+</table>
+<br>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabdata"><pre><code>AHP_ESTADO IN ('ACTIVO', 'INACTIVO')</code></pre></td>
+</tr>
+</table>
+<br>
+<div class="caption2"><p>Notes</p></div>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabdata">Restricción para el campo estado, esto para que solo pueda ser ACTIVO, INACTIVO</td>
+</tr>
+</table>
+<br>
+<div class="itemEnd"><p>&nbsp;</p></div></div>
+<div id="Check_{A3BEB662-3EAA-4A31-A67C-4F6B59BE93B9}" class="item">
+<a name = "Check_{A3BEB662-3EAA-4A31-A67C-4F6B59BE93B9}"></a>
+<div class="caption1"><p>ACS_MEDICO.CHK_AME_ESTADO</p></div>
+<div class="caption2"><p>General Info</p></div>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabhead" width="23%">Caption</td>
+<td class="tabdata">CHK_AME_ESTADO</td>
+</tr>
+<tr>
+<td class="tabhead" width="23%">Entity Name</td>
+<td class="tabdata">ACS_MEDICO</td>
+</tr>
+</table>
+<br>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabdata"><pre><code>AME_ESTADO IN ('ACTIVO', 'INACTIVO')</code></pre></td>
+</tr>
+</table>
+<br>
+<div class="caption2"><p>Notes</p></div>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabdata">Restricción para el campo estado, esto para que solo pueda ser ACTIVO, INACTIVO</td>
+</tr>
+</table>
+<br>
+<div class="itemEnd"><p>&nbsp;</p></div></div>
+<div id="Check_{44C1C95B-B6A3-4564-96CE-1846E62BB7A1}" class="item">
+<a name = "Check_{44C1C95B-B6A3-4564-96CE-1846E62BB7A1}"></a>
+<div class="caption1"><p>ACS_MOVIMIENTO_PLANILLA.CHK_AMP_FUENTE</p></div>
+<div class="caption2"><p>General Info</p></div>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabhead" width="23%">Caption</td>
+<td class="tabdata">CHK_AMP_FUENTE</td>
+</tr>
+<tr>
+<td class="tabhead" width="23%">Entity Name</td>
+<td class="tabdata">ACS_MOVIMIENTO_PLANILLA</td>
+</tr>
+</table>
+<br>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabdata"><pre><code>AMP_FUENTE IN ('AUTOMATICO', 'MANUAL')</code></pre></td>
+</tr>
+</table>
+<br>
+<div class="caption2"><p>Notes</p></div>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabdata">Restringe la fuente del movimiento aplicado a AUTOMATICO o MANUAL.</td>
+</tr>
+</table>
+<br>
+<div class="itemEnd"><p>&nbsp;</p></div></div>
+<div id="Check_{DE448BC7-65D4-4F41-A685-055334C68BB4}" class="item">
+<a name = "Check_{DE448BC7-65D4-4F41-A685-055334C68BB4}"></a>
+<div class="caption1"><p>ACS_PERMISO.CHK_APR_PERMISO_BORRAR</p></div>
+<div class="caption2"><p>General Info</p></div>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabhead" width="23%">Caption</td>
+<td class="tabdata">CHK_APR_PERMISO_BORRAR</td>
+</tr>
+<tr>
+<td class="tabhead" width="23%">Entity Name</td>
+<td class="tabdata">ACS_PERMISO</td>
+</tr>
+</table>
+<br>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabdata"><pre><code>APR_BORRAR IN (0, 1)</code></pre></td>
+</tr>
+</table>
+<br>
+<div class="itemEnd"><p>&nbsp;</p></div></div>
+<div id="Check_{AC269C97-4A03-4FAF-BD23-727B430C0C19}" class="item">
+<a name = "Check_{AC269C97-4A03-4FAF-BD23-727B430C0C19}"></a>
+<div class="caption1"><p>ACS_PERMISO.CHK_APR_PERMISO_CREAR</p></div>
+<div class="caption2"><p>General Info</p></div>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabhead" width="23%">Caption</td>
+<td class="tabdata">CHK_APR_PERMISO_CREAR</td>
+</tr>
+<tr>
+<td class="tabhead" width="23%">Entity Name</td>
+<td class="tabdata">ACS_PERMISO</td>
+</tr>
+</table>
+<br>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabdata"><pre><code>APR_CREAR IN (0, 1)</code></pre></td>
+</tr>
+</table>
+<br>
+<div class="itemEnd"><p>&nbsp;</p></div></div>
+<div id="Check_{04831BAC-8A42-4455-9C2E-505D25D76233}" class="item">
+<a name = "Check_{04831BAC-8A42-4455-9C2E-505D25D76233}"></a>
+<div class="caption1"><p>ACS_PERMISO.CHK_APR_PERMISO_EDITAR</p></div>
+<div class="caption2"><p>General Info</p></div>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabhead" width="23%">Caption</td>
+<td class="tabdata">CHK_APR_PERMISO_EDITAR</td>
+</tr>
+<tr>
+<td class="tabhead" width="23%">Entity Name</td>
+<td class="tabdata">ACS_PERMISO</td>
+</tr>
+</table>
+<br>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabdata"><pre><code>APR_EDITAR IN (0, 1)</code></pre></td>
+</tr>
+</table>
+<br>
+<div class="itemEnd"><p>&nbsp;</p></div></div>
+<div id="Check_{182757A1-2F76-4D59-AC9A-675E588D5258}" class="item">
+<a name = "Check_{182757A1-2F76-4D59-AC9A-675E588D5258}"></a>
+<div class="caption1"><p>ACS_PERMISO.CHK_APR_PERMISO_LEER</p></div>
+<div class="caption2"><p>General Info</p></div>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabhead" width="23%">Caption</td>
+<td class="tabdata">CHK_APR_PERMISO_LEER</td>
+</tr>
+<tr>
+<td class="tabhead" width="23%">Entity Name</td>
+<td class="tabdata">ACS_PERMISO</td>
+</tr>
+</table>
+<br>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabdata"><pre><code>APR_LEER IN (0, 1)</code></pre></td>
+</tr>
+</table>
+<br>
+<div class="itemEnd"><p>&nbsp;</p></div></div>
+<div id="Check_{9B2DB977-1DEA-41E4-91C7-EC15AB47D50C}" class="item">
+<a name = "Check_{9B2DB977-1DEA-41E4-91C7-EC15AB47D50C}"></a>
+<div class="caption1"><p>ACS_PERSONA.CHK_APE_ESTADO_CIVIL</p></div>
+<div class="caption2"><p>General Info</p></div>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabhead" width="23%">Caption</td>
+<td class="tabdata">CHK_APE_ESTADO_CIVIL</td>
+</tr>
+<tr>
+<td class="tabhead" width="23%">Entity Name</td>
+<td class="tabdata">ACS_PERSONA</td>
+</tr>
+</table>
+<br>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabdata"><pre><code>APE_ESTADO_CIVIL IN ('SOLTERO', 'CASADO', 'DIVORCIADO', 'VIUDO', 'UNION LIBRE')</code></pre></td>
+</tr>
+</table>
+<br>
+<div class="caption2"><p>Notes</p></div>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabdata">Restricción para el campo estado civil.</td>
+</tr>
+</table>
+<br>
+<div class="itemEnd"><p>&nbsp;</p></div></div>
+<div id="Check_{D324F546-2692-4A92-BD3F-1B6B930F6942}" class="item">
+<a name = "Check_{D324F546-2692-4A92-BD3F-1B6B930F6942}"></a>
+<div class="caption1"><p>ACS_PERSONA.CHK_APE_ESTADO_REGISTRO</p></div>
+<div class="caption2"><p>General Info</p></div>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabhead" width="23%">Caption</td>
+<td class="tabdata">CHK_APE_ESTADO_REGISTRO</td>
+</tr>
+<tr>
+<td class="tabhead" width="23%">Entity Name</td>
+<td class="tabdata">ACS_PERSONA</td>
+</tr>
+</table>
+<br>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabdata"><pre><code>APE_ESTADO_REGISTRO IN ('PENDIENTE', 'APROBADO', 'RECHAZADO')</code></pre></td>
+</tr>
+</table>
+<br>
+<div class="caption2"><p>Notes</p></div>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabdata">Restricción para el campo estado del registro, esto para que solo pueda ser PEDIENTE, APROBADO, RECHAZADO</td>
+</tr>
+</table>
+<br>
+<div class="itemEnd"><p>&nbsp;</p></div></div>
+<div id="Check_{92BB4735-DEE5-4401-B1BC-DBB17F0AFBF7}" class="item">
+<a name = "Check_{92BB4735-DEE5-4401-B1BC-DBB17F0AFBF7}"></a>
+<div class="caption1"><p>ACS_PERSONA.CHK_APE_NACIONALIDAD</p></div>
+<div class="caption2"><p>General Info</p></div>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabhead" width="23%">Caption</td>
+<td class="tabdata">CHK_APE_NACIONALIDAD</td>
+</tr>
+<tr>
+<td class="tabhead" width="23%">Entity Name</td>
+<td class="tabdata">ACS_PERSONA</td>
+</tr>
+</table>
+<br>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabdata"><pre><code>APE_NACIONALIDAD IN ('NACIONAL', 'EXTRANJERO')</code></pre></td>
+</tr>
+</table>
+<br>
+<div class="caption2"><p>Notes</p></div>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabdata">Restricción para el campo estado, esto para que solo pueda ser NACIONAL, EXTRANGERO</td>
+</tr>
+</table>
+<br>
+<div class="itemEnd"><p>&nbsp;</p></div></div>
+<div id="Check_{34C45A25-3EB6-4D40-886A-599884692F9B}" class="item">
+<a name = "Check_{34C45A25-3EB6-4D40-886A-599884692F9B}"></a>
+<div class="caption1"><p>ACS_PERSONA.CHK_APE_SEXO</p></div>
+<div class="caption2"><p>General Info</p></div>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabhead" width="23%">Caption</td>
+<td class="tabdata">CHK_APE_SEXO</td>
+</tr>
+<tr>
+<td class="tabhead" width="23%">Entity Name</td>
+<td class="tabdata">ACS_PERSONA</td>
+</tr>
+</table>
+<br>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabdata"><pre><code>APE_SEXO IN ('MASCULINO', 'FEMENINO')</code></pre></td>
+</tr>
+</table>
+<br>
+<div class="caption2"><p>Notes</p></div>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabdata">Restricción para el campo sexo, esto para que solo pueda ser MASCULINO, FEMENINO</td>
+</tr>
+</table>
+<br>
+<div class="itemEnd"><p>&nbsp;</p></div></div>
+<div id="Check_{6606521B-D832-45FF-A5F9-71B7556CBAA3}" class="item">
+<a name = "Check_{6606521B-D832-45FF-A5F9-71B7556CBAA3}"></a>
+<div class="caption1"><p>ACS_PERSONA.CHK_APE_TIPO_USUARIO</p></div>
+<div class="caption2"><p>General Info</p></div>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabhead" width="23%">Caption</td>
+<td class="tabdata">CHK_APE_TIPO_USUARIO</td>
+</tr>
+<tr>
+<td class="tabhead" width="23%">Entity Name</td>
+<td class="tabdata">ACS_PERSONA</td>
+</tr>
+</table>
+<br>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabdata"><pre><code>APE_TIPO_USUARIO in ('MEDICO', 'ADMINISTRATIVO')</code></pre></td>
+</tr>
+</table>
+<br>
+<div class="caption2"><p>Notes</p></div>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabdata">Check para validar de cual es el tipo de usuario, si MEDICO o AMINISTRATIVO</td>
+</tr>
+</table>
+<br>
+<div class="itemEnd"><p>&nbsp;</p></div></div>
+<div id="Check_{0C9A41BD-9D38-47F9-B534-54CB413E0199}" class="item">
+<a name = "Check_{0C9A41BD-9D38-47F9-B534-54CB413E0199}"></a>
+<div class="caption1"><p>ACS_PERSONAL_TIPO_PLANILLA.CHK_APTP_ACTIVO</p></div>
+<div class="caption2"><p>General Info</p></div>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabhead" width="23%">Caption</td>
+<td class="tabdata">CHK_APTP_ACTIVO</td>
+</tr>
+<tr>
+<td class="tabhead" width="23%">Entity Name</td>
+<td class="tabdata">ACS_PERSONAL_TIPO_PLANILLA</td>
+</tr>
+</table>
+<br>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabdata"><pre><code>APTP_ACTIVO IN (0,1)</code></pre></td>
+</tr>
+</table>
+<br>
+<div class="itemEnd"><p>&nbsp;</p></div></div>
+<div id="Check_{4549023B-723E-451A-984C-843D829D23D7}" class="item">
+<a name = "Check_{4549023B-723E-451A-984C-843D829D23D7}"></a>
+<div class="caption1"><p>ACS_PLANILLA.CHK_APL_ANIO</p></div>
+<div class="caption2"><p>General Info</p></div>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabhead" width="23%">Caption</td>
+<td class="tabdata">CHK_APL_ANIO</td>
+</tr>
+<tr>
+<td class="tabhead" width="23%">Entity Name</td>
+<td class="tabdata">ACS_PLANILLA</td>
+</tr>
+</table>
+<br>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabdata"><pre><code>APL_ANIO &gt;= 2000</code></pre></td>
+</tr>
+</table>
+<br>
+<div class="caption2"><p>Notes</p></div>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabdata">Asegura que el año del periodo esté dentro de un rango válido (por ejemplo 2000–2100).</td>
+</tr>
+</table>
+<br>
+<div class="itemEnd"><p>&nbsp;</p></div></div>
+<div id="Check_{8A5D1B0A-0FE5-42DA-B90D-69BA4D980B9F}" class="item">
+<a name = "Check_{8A5D1B0A-0FE5-42DA-B90D-69BA4D980B9F}"></a>
+<div class="caption1"><p>ACS_PLANILLA.CHK_APL_ESTADO</p></div>
+<div class="caption2"><p>General Info</p></div>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabhead" width="23%">Caption</td>
+<td class="tabdata">CHK_APL_ESTADO</td>
+</tr>
+<tr>
+<td class="tabhead" width="23%">Entity Name</td>
+<td class="tabdata">ACS_PLANILLA</td>
+</tr>
+</table>
+<br>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabdata"><pre><code>APL_ESTADO IN ('CONSTRUCCION', 'APROBADA', 'PROCESADA', 'NOTIFICADA')</code></pre></td>
+</tr>
+</table>
+<br>
+<div class="caption2"><p>Notes</p></div>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabdata">Restringe el estado de la planilla a CONSTRUCCION, APROBADA, PROCESADA o ANULADA.</td>
+</tr>
+</table>
+<br>
+<div class="itemEnd"><p>&nbsp;</p></div></div>
+<div id="Check_{7F883120-6009-4606-9768-4B24E1F02279}" class="item">
+<a name = "Check_{7F883120-6009-4606-9768-4B24E1F02279}"></a>
+<div class="caption1"><p>ACS_PLANILLA.CHK_APL_MES</p></div>
+<div class="caption2"><p>General Info</p></div>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabhead" width="23%">Caption</td>
+<td class="tabdata">CHK_APL_MES</td>
+</tr>
+<tr>
+<td class="tabhead" width="23%">Entity Name</td>
+<td class="tabdata">ACS_PLANILLA</td>
+</tr>
+</table>
+<br>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabdata"><pre><code>APL_MES BETWEEN 1 AND 12</code></pre></td>
+</tr>
+</table>
+<br>
+<div class="caption2"><p>Notes</p></div>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabdata">Valida que el mes del periodo esté entre 1 y 12.</td>
+</tr>
+</table>
+<br>
+<div class="itemEnd"><p>&nbsp;</p></div></div>
+<div id="Check_{C38453B8-44DE-421F-A30C-FAB914ABCCDE}" class="item">
+<a name = "Check_{C38453B8-44DE-421F-A30C-FAB914ABCCDE}"></a>
+<div class="caption1"><p>ACS_PRECIOXTURNO.CHK_APT_ESTADO</p></div>
+<div class="caption2"><p>General Info</p></div>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabhead" width="23%">Caption</td>
+<td class="tabdata">CHK_APT_ESTADO</td>
+</tr>
+<tr>
+<td class="tabhead" width="23%">Entity Name</td>
+<td class="tabdata">ACS_PRECIOXTURNO</td>
+</tr>
+</table>
+<br>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabdata"><pre><code>APT_ESTADO IN ('ACTIVO', 'INACTIVO')</code></pre></td>
+</tr>
+</table>
+<br>
+<div class="caption2"><p>Notes</p></div>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabdata">Restricción para el campo estado, esto para que solo pueda ser ACTIVO, INACTIVO</td>
+</tr>
+</table>
+<br>
+<div class="itemEnd"><p>&nbsp;</p></div></div>
+<div id="Check_{3FD00917-BA8B-4918-9320-9E1916A50808}" class="item">
+<a name = "Check_{3FD00917-BA8B-4918-9320-9E1916A50808}"></a>
+<div class="caption1"><p>ACS_PRECIOXTURNO.CHK_APT_TIPO_PAGO</p></div>
+<div class="caption2"><p>General Info</p></div>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabhead" width="23%">Caption</td>
+<td class="tabdata">CHK_APT_TIPO_PAGO</td>
+</tr>
+<tr>
+<td class="tabhead" width="23%">Entity Name</td>
+<td class="tabdata">ACS_PRECIOXTURNO</td>
+</tr>
+</table>
+<br>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabdata"><pre><code>APT_TIPO_PAGO IN ('TURNO', 'HORAS')</code></pre></td>
+</tr>
+</table>
+<br>
+<div class="itemEnd"><p>&nbsp;</p></div></div>
+<div id="Check_{4848776C-D16C-4998-9362-BA2FFDC09B42}" class="item">
+<a name = "Check_{4848776C-D16C-4998-9362-BA2FFDC09B42}"></a>
+<div class="caption1"><p>ACS_PROC_APLICADO.CHK_APA_ESTADO</p></div>
+<div class="caption2"><p>General Info</p></div>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabhead" width="23%">Caption</td>
+<td class="tabdata">CHK_APA_ESTADO</td>
+</tr>
+<tr>
+<td class="tabhead" width="23%">Entity Name</td>
+<td class="tabdata">ACS_PROC_APLICADO</td>
+</tr>
+</table>
+<br>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabdata"><pre><code>APA_ESTADO IN ('ACTIVO', 'INACTIVO')</code></pre></td>
+</tr>
+</table>
+<br>
+<div class="caption2"><p>Notes</p></div>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabdata">Restricción para el campo estado, esto para que solo pueda ser ACTIVO, INACTIVO</td>
+</tr>
+</table>
+<br>
+<div class="itemEnd"><p>&nbsp;</p></div></div>
+<div id="Check_{8EAF69A2-7870-4FDB-AB29-FE1CD434D6AE}" class="item">
+<a name = "Check_{8EAF69A2-7870-4FDB-AB29-FE1CD434D6AE}"></a>
+<div class="caption1"><p>ACS_PROCEDIMIENTO.CHK_APD_ESTADO</p></div>
+<div class="caption2"><p>General Info</p></div>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabhead" width="23%">Caption</td>
+<td class="tabdata">CHK_APD_ESTADO</td>
+</tr>
+<tr>
+<td class="tabhead" width="23%">Entity Name</td>
+<td class="tabdata">ACS_PROCEDIMIENTO</td>
+</tr>
+</table>
+<br>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabdata"><pre><code>APD_ESTADO IN ('ACTIVO', 'INACTIVO')</code></pre></td>
+</tr>
+</table>
+<br>
+<div class="caption2"><p>Notes</p></div>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabdata">Restricción para el campo estado, esto para que solo pueda ser ACTIVO, INACTIVO</td>
+</tr>
+</table>
+<br>
+<div class="itemEnd"><p>&nbsp;</p></div></div>
+<div id="Check_{AD9DE97D-EBFA-4C47-A332-077A88ECE1BB}" class="item">
+<a name = "Check_{AD9DE97D-EBFA-4C47-A332-077A88ECE1BB}"></a>
+<div class="caption1"><p>ACS_PROCEDIMIENTO_PLANILLA.CHK_APRP_ESTADO</p></div>
+<div class="caption2"><p>General Info</p></div>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabhead" width="23%">Caption</td>
+<td class="tabdata">CHK_APRP_ESTADO</td>
+</tr>
+<tr>
+<td class="tabhead" width="23%">Entity Name</td>
+<td class="tabdata">ACS_PROCEDIMIENTO_PLANILLA</td>
+</tr>
+</table>
+<br>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabdata"><pre><code>APRP_ESTADO IN ('ACTIVO', 'INACTIVO')</code></pre></td>
+</tr>
+</table>
+<br>
+<div class="caption2"><p>Notes</p></div>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabdata">Restricción para el campo estado, esto para que solo pueda ser ACTIVO, INACTIVO</td>
+</tr>
+</table>
+<br>
+<div class="itemEnd"><p>&nbsp;</p></div></div>
+<div id="Check_{AA8C0A71-4AC3-41C4-B7B7-F9C32CA1CCC3}" class="item">
+<a name = "Check_{AA8C0A71-4AC3-41C4-B7B7-F9C32CA1CCC3}"></a>
+<div class="caption1"><p>ACS_PROCEDIMIENTO_PLANILLA.CHK_APRP_PROCESADO</p></div>
+<div class="caption2"><p>General Info</p></div>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabhead" width="23%">Caption</td>
+<td class="tabdata">CHK_APRP_PROCESADO</td>
+</tr>
+<tr>
+<td class="tabhead" width="23%">Entity Name</td>
+<td class="tabdata">ACS_PROCEDIMIENTO_PLANILLA</td>
+</tr>
+</table>
+<br>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabdata"><pre><code>APRP_PROCESADO IN (0,1)</code></pre></td>
+</tr>
+</table>
+<br>
+<div class="caption2"><p>Notes</p></div>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabdata">Asegura procedimiento este:  0: Pendiente y 1: Liquidado</td>
+</tr>
+</table>
+<br>
+<div class="itemEnd"><p>&nbsp;</p></div></div>
+<div id="Check_{773BDA54-CBD8-4E75-8FCB-EFE742881C67}" class="item">
+<a name = "Check_{773BDA54-CBD8-4E75-8FCB-EFE742881C67}"></a>
+<div class="caption1"><p>ACS_PUESTO_MEDICO.CHK_APM_ESTADO</p></div>
+<div class="caption2"><p>General Info</p></div>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabhead" width="23%">Caption</td>
+<td class="tabdata">CHK_APM_ESTADO</td>
+</tr>
+<tr>
+<td class="tabhead" width="23%">Entity Name</td>
+<td class="tabdata">ACS_PUESTO_MEDICO</td>
+</tr>
+</table>
+<br>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabdata"><pre><code>APM_ESTADO IN ('ACTIVO', 'INACTIVO')</code></pre></td>
+</tr>
+</table>
+<br>
+<div class="caption2"><p>Notes</p></div>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabdata">Restricción para el campo estado, esto para que solo pueda ser ACTIVO, INACTIVO</td>
+</tr>
+</table>
+<br>
+<div class="itemEnd"><p>&nbsp;</p></div></div>
+<div id="Check_{200A7E3D-118F-43ED-AEE9-C9BE42A311B3}" class="item">
+<a name = "Check_{200A7E3D-118F-43ED-AEE9-C9BE42A311B3}"></a>
+<div class="caption1"><p>ACS_RESUMEN_FIN_CENTRO_MES.CHK_ARCM_PERIODO_ANIO</p></div>
+<div class="caption2"><p>General Info</p></div>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabhead" width="23%">Caption</td>
+<td class="tabdata">CHK_ARCM_PERIODO_ANIO</td>
+</tr>
+<tr>
+<td class="tabhead" width="23%">Entity Name</td>
+<td class="tabdata">ACS_RESUMEN_FIN_CENTRO_MES</td>
+</tr>
+</table>
+<br>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabdata"><pre><code>ARCM_PERIODO_ANIO &gt;= 2000</code></pre></td>
+</tr>
+</table>
+<br>
+<div class="caption2"><p>Notes</p></div>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabdata">Asegura que el año esté dentro de un rango válido (por ejemplo 2000–2100).</td>
+</tr>
+</table>
+<br>
+<div class="itemEnd"><p>&nbsp;</p></div></div>
+<div id="Check_{9607E103-2878-45B5-8E36-92BFC026526C}" class="item">
+<a name = "Check_{9607E103-2878-45B5-8E36-92BFC026526C}"></a>
+<div class="caption1"><p>ACS_RESUMEN_FIN_CENTRO_MES.CHK_ARCM_PERIODO_MES</p></div>
+<div class="caption2"><p>General Info</p></div>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabhead" width="23%">Caption</td>
+<td class="tabdata">CHK_ARCM_PERIODO_MES</td>
+</tr>
+<tr>
+<td class="tabhead" width="23%">Entity Name</td>
+<td class="tabdata">ACS_RESUMEN_FIN_CENTRO_MES</td>
+</tr>
+</table>
+<br>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabdata"><pre><code>ARCM_PERIODO_MES BETWEEN 1 AND 12</code></pre></td>
+</tr>
+</table>
+<br>
+<div class="caption2"><p>Notes</p></div>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabdata">Valida que el mes del periodo esté entre 1 y 12.</td>
+</tr>
+</table>
+<br>
+<div class="itemEnd"><p>&nbsp;</p></div></div>
+<div id="Check_{A1856F30-9D6A-4D96-9822-94087AD987FA}" class="item">
+<a name = "Check_{A1856F30-9D6A-4D96-9822-94087AD987FA}"></a>
+<div class="caption1"><p>ACS_RESUMEN_FIN_MENSUAL.CHK_ARM_PERIODO_ANIO</p></div>
+<div class="caption2"><p>General Info</p></div>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabhead" width="23%">Caption</td>
+<td class="tabdata">CHK_ARM_PERIODO_ANIO</td>
+</tr>
+<tr>
+<td class="tabhead" width="23%">Entity Name</td>
+<td class="tabdata">ACS_RESUMEN_FIN_MENSUAL</td>
+</tr>
+</table>
+<br>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabdata"><pre><code>ARM_PERIODO_ANIO &gt;= 2000</code></pre></td>
+</tr>
+</table>
+<br>
+<div class="caption2"><p>Notes</p></div>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabdata">Asegura que el año esté dentro de un rango válido (por ejemplo 2000–2100).</td>
+</tr>
+</table>
+<br>
+<div class="itemEnd"><p>&nbsp;</p></div></div>
+<div id="Check_{4F8197D1-1D1D-4397-9D24-A28347E56B9A}" class="item">
+<a name = "Check_{4F8197D1-1D1D-4397-9D24-A28347E56B9A}"></a>
+<div class="caption1"><p>ACS_RESUMEN_FIN_MENSUAL.CHK_ARM_PERIODO_MES</p></div>
+<div class="caption2"><p>General Info</p></div>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabhead" width="23%">Caption</td>
+<td class="tabdata">CHK_ARM_PERIODO_MES</td>
+</tr>
+<tr>
+<td class="tabhead" width="23%">Entity Name</td>
+<td class="tabdata">ACS_RESUMEN_FIN_MENSUAL</td>
+</tr>
+</table>
+<br>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabdata"><pre><code>ARM_PERIODO_MES BETWEEN 1 AND 12</code></pre></td>
+</tr>
+</table>
+<br>
+<div class="caption2"><p>Notes</p></div>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabdata">Valida que el mes del periodo esté entre 1 y 12</td>
+</tr>
+</table>
+<br>
+<div class="itemEnd"><p>&nbsp;</p></div></div>
+<div id="Check_{7E6DC351-C7B6-47A9-95C0-A6B19FE64CDD}" class="item">
+<a name = "Check_{7E6DC351-C7B6-47A9-95C0-A6B19FE64CDD}"></a>
+<div class="caption1"><p>ACS_TIPO_DOCUMENTO.CHK_ATD_ESTADO</p></div>
+<div class="caption2"><p>General Info</p></div>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabhead" width="23%">Caption</td>
+<td class="tabdata">CHK_ATD_ESTADO</td>
+</tr>
+<tr>
+<td class="tabhead" width="23%">Entity Name</td>
+<td class="tabdata">ACS_TIPO_DOCUMENTO</td>
+</tr>
+</table>
+<br>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabdata"><pre><code>ATD_ESTADO IN ('ACTIVO', 'INACTIVO')</code></pre></td>
+</tr>
+</table>
+<br>
+<div class="caption2"><p>Notes</p></div>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabdata">Restricción para el campo estado, esto para que solo pueda ser ACTIVO, INACTIVO,</td>
+</tr>
+</table>
+<br>
+<div class="itemEnd"><p>&nbsp;</p></div></div>
+<div id="Check_{D6CC5F23-4530-4102-98AC-A57D6321E783}" class="item">
+<a name = "Check_{D6CC5F23-4530-4102-98AC-A57D6321E783}"></a>
+<div class="caption1"><p>ACS_TIPO_DOCUMENTO.CHK_ATD_TIPO_USUARIO</p></div>
+<div class="caption2"><p>General Info</p></div>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabhead" width="23%">Caption</td>
+<td class="tabdata">CHK_ATD_TIPO_USUARIO</td>
+</tr>
+<tr>
+<td class="tabhead" width="23%">Entity Name</td>
+<td class="tabdata">ACS_TIPO_DOCUMENTO</td>
+</tr>
+</table>
+<br>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabdata"><pre><code>ATD_TIPO_USUARIO in ('MEDICO', 'ADMINISTRATIVO')</code></pre></td>
+</tr>
+</table>
+<br>
+<div class="caption2"><p>Notes</p></div>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabdata">Check para validar si el tipo de usuario es MEDICO o AMINISTRATIVO</td>
+</tr>
+</table>
+<br>
+<div class="itemEnd"><p>&nbsp;</p></div></div>
+<div id="Check_{128F75BC-2777-48BB-9568-C014C666E05B}" class="item">
+<a name = "Check_{128F75BC-2777-48BB-9568-C014C666E05B}"></a>
+<div class="caption1"><p>ACS_TIPO_MOV.CHK_ATM_APLICA_A</p></div>
+<div class="caption2"><p>General Info</p></div>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabhead" width="23%">Caption</td>
+<td class="tabdata">CHK_ATM_APLICA_A</td>
+</tr>
+<tr>
+<td class="tabhead" width="23%">Entity Name</td>
+<td class="tabdata">ACS_TIPO_MOV</td>
+</tr>
+</table>
+<br>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabdata"><pre><code>ATM_APLICA_A IN ('MEDICO', 'ADMINISTRATIVO', 'AMBOS')</code></pre></td>
+</tr>
+</table>
+<br>
+<div class="caption2"><p>Notes</p></div>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabdata">Restringimos para ver a quién aplica el movimiento</td>
+</tr>
+</table>
+<br>
+<div class="itemEnd"><p>&nbsp;</p></div></div>
+<div id="Check_{D75D4F79-0955-4360-A9E5-4C0960B11B62}" class="item">
+<a name = "Check_{D75D4F79-0955-4360-A9E5-4C0960B11B62}"></a>
+<div class="caption1"><p>ACS_TIPO_MOV.CHK_ATM_BASE</p></div>
+<div class="caption2"><p>General Info</p></div>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabhead" width="23%">Caption</td>
+<td class="tabdata">CHK_ATM_BASE</td>
+</tr>
+<tr>
+<td class="tabhead" width="23%">Entity Name</td>
+<td class="tabdata">ACS_TIPO_MOV</td>
+</tr>
+</table>
+<br>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabdata"><pre><code>ATM_BASE IN ('BRUTO', 'SALARIO_BASE', 'HORAS', 'PROCEDIMIENTOS', 'PERSONALIZADA')</code></pre></td>
+</tr>
+</table>
+<br>
+<div class="caption2"><p>Notes</p></div>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabdata">Define la base de cálculo permitida: BRUTO, SALARIO_BASE, HORAS, PROCEDIMIENTOS o PERSONALIZADA</td>
+</tr>
+</table>
+<br>
+<div class="itemEnd"><p>&nbsp;</p></div></div>
+<div id="Check_{7D016500-80AB-47A7-B147-023FA52F3A55}" class="item">
+<a name = "Check_{7D016500-80AB-47A7-B147-023FA52F3A55}"></a>
+<div class="caption1"><p>ACS_TIPO_MOV.CHK_ATM_ES_AUTOMATICO</p></div>
+<div class="caption2"><p>General Info</p></div>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabhead" width="23%">Caption</td>
+<td class="tabdata">CHK_ATM_ES_AUTOMATICO</td>
+</tr>
+<tr>
+<td class="tabhead" width="23%">Entity Name</td>
+<td class="tabdata">ACS_TIPO_MOV</td>
+</tr>
+</table>
+<br>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabdata"><pre><code>ATM_ES_AUTOMATICO IN (0,1)</code></pre></td>
+</tr>
+</table>
+<br>
+<div class="caption2"><p>Notes</p></div>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabdata">Restringe el indicador de movimiento automático a 0 o 1.</td>
+</tr>
+</table>
+<br>
+<div class="itemEnd"><p>&nbsp;</p></div></div>
+<div id="Check_{9262994C-40E0-4B43-B7BB-72F4C1274BF1}" class="item">
+<a name = "Check_{9262994C-40E0-4B43-B7BB-72F4C1274BF1}"></a>
+<div class="caption1"><p>ACS_TIPO_MOV.CHK_ATM_ESTADO</p></div>
+<div class="caption2"><p>General Info</p></div>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabhead" width="23%">Caption</td>
+<td class="tabdata">CHK_ATM_ESTADO</td>
+</tr>
+<tr>
+<td class="tabhead" width="23%">Entity Name</td>
+<td class="tabdata">ACS_TIPO_MOV</td>
+</tr>
+</table>
+<br>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabdata"><pre><code>ATM_ESTADO IN ('ACTIVO', 'INACTIVO')</code></pre></td>
+</tr>
+</table>
+<br>
+<div class="caption2"><p>Notes</p></div>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabdata">Restricción para el campo estado, esto para que solo pueda ser ACTIVO, INACTIVO</td>
+</tr>
+</table>
+<br>
+<div class="itemEnd"><p>&nbsp;</p></div></div>
+<div id="Check_{5E40AFB4-DB95-4088-B4CB-8EB34194099A}" class="item">
+<a name = "Check_{5E40AFB4-DB95-4088-B4CB-8EB34194099A}"></a>
+<div class="caption1"><p>ACS_TIPO_MOV.CHK_ATM_MODO</p></div>
+<div class="caption2"><p>General Info</p></div>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabhead" width="23%">Caption</td>
+<td class="tabdata">CHK_ATM_MODO</td>
+</tr>
+<tr>
+<td class="tabhead" width="23%">Entity Name</td>
+<td class="tabdata">ACS_TIPO_MOV</td>
+</tr>
+</table>
+<br>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabdata"><pre><code>ATM_MODO IN ('FIJO', 'PORCENTAJE')</code></pre></td>
+</tr>
+</table>
+<br>
+<div class="caption2"><p>Notes</p></div>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabdata">Valida el modo de cálculo: FIJO o PORCENTAJE.</td>
+</tr>
+</table>
+<br>
+<div class="itemEnd"><p>&nbsp;</p></div></div>
+<div id="Check_{C8B91694-7884-45F4-A6CE-D1EFC8A6CE0B}" class="item">
+<a name = "Check_{C8B91694-7884-45F4-A6CE-D1EFC8A6CE0B}"></a>
+<div class="caption1"><p>ACS_TIPO_MOV.CHK_ATM_NATURALEZA</p></div>
+<div class="caption2"><p>General Info</p></div>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabhead" width="23%">Caption</td>
+<td class="tabdata">CHK_ATM_NATURALEZA</td>
+</tr>
+<tr>
+<td class="tabhead" width="23%">Entity Name</td>
+<td class="tabdata">ACS_TIPO_MOV</td>
+</tr>
+</table>
+<br>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabdata"><pre><code>ATM_NATURALEZA IN ('INGRESO', 'DEDUCCION')</code></pre></td>
+</tr>
+</table>
+<br>
+<div class="caption2"><p>Notes</p></div>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabdata">Asegura que la naturaleza sea INGRESO o DEDUCCION.</td>
+</tr>
+</table>
+<br>
+<div class="itemEnd"><p>&nbsp;</p></div></div>
+<div id="Check_{3AE8334C-D33B-4979-9C0B-F3BC16E68541}" class="item">
+<a name = "Check_{3AE8334C-D33B-4979-9C0B-F3BC16E68541}"></a>
+<div class="caption1"><p>ACS_TIPO_PLANILLA.CHK_ATP_APLICA_A</p></div>
+<div class="caption2"><p>General Info</p></div>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabhead" width="23%">Caption</td>
+<td class="tabdata">CHK_ATP_APLICA_A</td>
+</tr>
+<tr>
+<td class="tabhead" width="23%">Entity Name</td>
+<td class="tabdata">ACS_TIPO_PLANILLA</td>
+</tr>
+</table>
+<br>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabdata"><pre><code>ATP_APLICA_A IN ('MEDICO', 'ADMINISTRATIVO', 'AMBOS')</code></pre></td>
+</tr>
+</table>
+<br>
+<div class="caption2"><p>Notes</p></div>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabdata">Asegura que el tipo de planilla indique a quién aplica: MEDICO, ADMINISTRATIVO o AMBOS.</td>
+</tr>
+</table>
+<br>
+<div class="itemEnd"><p>&nbsp;</p></div></div>
+<div id="Check_{06274D7B-9606-4E4E-9478-10D03F788AAF}" class="item">
+<a name = "Check_{06274D7B-9606-4E4E-9478-10D03F788AAF}"></a>
+<div class="caption1"><p>ACS_TIPO_PLANILLA.CHL_ATP_ESTADO</p></div>
+<div class="caption2"><p>General Info</p></div>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabhead" width="23%">Caption</td>
+<td class="tabdata">CHL_ATP_ESTADO</td>
+</tr>
+<tr>
+<td class="tabhead" width="23%">Entity Name</td>
+<td class="tabdata">ACS_TIPO_PLANILLA</td>
+</tr>
+</table>
+<br>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabdata"><pre><code>ATP_ESTADO IN ('ACTIVO', 'INACTIVO')</code></pre></td>
+</tr>
+</table>
+<br>
+<div class="caption2"><p>Notes</p></div>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabdata">Restricción para el campo estado, esto para que solo pueda ser ACTIVO, INACTIVO</td>
+</tr>
+</table>
+<br>
+<div class="itemEnd"><p>&nbsp;</p></div></div>
+<div id="Check_{607EE158-3A6C-4ADF-8F05-C5E49661FFA0}" class="item">
+<a name = "Check_{607EE158-3A6C-4ADF-8F05-C5E49661FFA0}"></a>
+<div class="caption1"><p>ACS_TURNO.CHK_ATU_ESTADO</p></div>
+<div class="caption2"><p>General Info</p></div>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabhead" width="23%">Caption</td>
+<td class="tabdata">CHK_ATU_ESTADO</td>
+</tr>
+<tr>
+<td class="tabhead" width="23%">Entity Name</td>
+<td class="tabdata">ACS_TURNO</td>
+</tr>
+</table>
+<br>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabdata"><pre><code>ATU_ESTADO IN ('ACTIVO', 'INACTIVO')</code></pre></td>
+</tr>
+</table>
+<br>
+<div class="caption2"><p>Notes</p></div>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabdata">Restricción para el campo estado, esto para que solo pueda ser ACTIVO, INACTIVO</td>
+</tr>
+</table>
+<br>
+<div class="itemEnd"><p>&nbsp;</p></div></div>
+<div id="Check_{6D509E2C-F75A-4BA8-9938-841E620AFFBF}" class="item">
+<a name = "Check_{6D509E2C-F75A-4BA8-9938-841E620AFFBF}"></a>
+<div class="caption1"><p>ACS_TURNO_PLANILLA.CHK_ATRP_PROCESADO</p></div>
+<div class="caption2"><p>General Info</p></div>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabhead" width="23%">Caption</td>
+<td class="tabdata">CHK_ATRP_PROCESADO</td>
+</tr>
+<tr>
+<td class="tabhead" width="23%">Entity Name</td>
+<td class="tabdata">ACS_TURNO_PLANILLA</td>
+</tr>
+</table>
+<br>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabdata"><pre><code>ATRP_PROCESADO IN (0,1)</code></pre></td>
+</tr>
+</table>
+<br>
+<div class="caption2"><p>Notes</p></div>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabdata">Asegura 0: Pendiente y 1: Liquidado</td>
+</tr>
+</table>
+<br>
+<div class="itemEnd"><p>&nbsp;</p></div></div>
+<div id="Check_{FAA98C5B-D1A6-42CB-BA79-9D03B5076899}" class="item">
+<a name = "Check_{FAA98C5B-D1A6-42CB-BA79-9D03B5076899}"></a>
+<div class="caption1"><p>ACS_USUARIO.CHK_AUS_ESTADO</p></div>
+<div class="caption2"><p>General Info</p></div>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabhead" width="23%">Caption</td>
+<td class="tabdata">CHK_AUS_ESTADO</td>
+</tr>
+<tr>
+<td class="tabhead" width="23%">Entity Name</td>
+<td class="tabdata">ACS_USUARIO</td>
+</tr>
+</table>
+<br>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabdata"><pre><code>AUS_ESTADO IN ('ACTIVO', 'INACTIVO')</code></pre></td>
+</tr>
+</table>
+<br>
+<div class="caption2"><p>Notes</p></div>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabdata">ESTADO DE USUARIO EN EL SITEMA</td>
+</tr>
+</table>
+<br>
+<div class="itemEnd"><p>&nbsp;</p></div></div>
+<a name = "CheckD_DOMAIN"></a>
+</div><div id="footer"><div class="pageFooter">Copyright &copy; Sitename 2005</div><div class="footerEnd"><p></p></div></div></div></div></body></html>

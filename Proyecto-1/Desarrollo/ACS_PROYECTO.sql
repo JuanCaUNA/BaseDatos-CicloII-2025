@@ -1859,6 +1859,56 @@ COMMENT ON COLUMN "ACS_AUDITORIA_CENTRAL"."AUD_OPERACION" IS '''INSERT'', ''UPDA
 COMMENT ON COLUMN "ACS_AUDITORIA_CENTRAL"."AUD_FECHA_CAMBIO" IS 'Fecha en la que se realizó el cambio'
 /
 
+-- Table ACS_PADRON
+
+CREATE TABLE "ACS_PADRON"(
+  "APN_ID" Number GENERATED ALWAYS AS IDENTITY(
+    START WITH 1
+    INCREMENT BY 1
+    NOMAXVALUE
+    NOMINVALUE
+    CACHE 20) NOT NULL,
+  "APN_CEDULA" Varchar2(9 ) NOT NULL,
+  "APN_CODELEC" Varchar2(6 ) NOT NULL,
+  "APN_RELLENO" Varchar2(1 ) NOT NULL,
+  "APN_FECHA_CADUC" Timestamp(6) NOT NULL,
+  "APN_JUNTA" Varchar2(30 ) NOT NULL,
+  "APN_NOMBRE" Varchar2(30 ) NOT NULL,
+  "APN_P_APELLIDO" Varchar2(30 ) NOT NULL,
+  "APN_S_APELLIDO" Varchar2(30 ) NOT NULL
+)
+TABLESPACE "TBS_ACS_DATOS"
+/
+
+-- Add keys for table ACS_PADRON
+
+ALTER TABLE "ACS_PADRON" ADD CONSTRAINT "PK_ACS_PADRON" PRIMARY KEY ("APN_ID")
+   USING INDEX TABLESPACE "TBS_ACS_DATOS"
+/
+
+-- Table and Columns comments section
+
+COMMENT ON TABLE "ACS_PADRON" IS 'Tabla de padron para poder tener un listado de usuarios '
+/
+COMMENT ON COLUMN "ACS_PADRON"."APN_ID" IS 'ID propio del registro'
+/
+COMMENT ON COLUMN "ACS_PADRON"."APN_CEDULA" IS 'Cedula del ciudadano '
+/
+COMMENT ON COLUMN "ACS_PADRON"."APN_CODELEC" IS 'Codigo Electoral donde est  inscrito'
+/
+COMMENT ON COLUMN "ACS_PADRON"."APN_RELLENO" IS 'Campo que cambió'
+/
+COMMENT ON COLUMN "ACS_PADRON"."APN_FECHA_CADUC" IS 'Fecha vencimiento de la cedula'
+/
+COMMENT ON COLUMN "ACS_PADRON"."APN_JUNTA" IS 'Junta Receptora de Votos'
+/
+COMMENT ON COLUMN "ACS_PADRON"."APN_NOMBRE" IS 'Nombre completo del ciudadano'
+/
+COMMENT ON COLUMN "ACS_PADRON"."APN_P_APELLIDO" IS 'Primer apellido'
+/
+COMMENT ON COLUMN "ACS_PADRON"."APN_S_APELLIDO" IS 'Segundo apellido'
+/
+
 
 -- Create foreign keys (relationships) section ------------------------------------------------- 
 

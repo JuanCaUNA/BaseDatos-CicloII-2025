@@ -1,0 +1,1263 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <meta name="keywords" content="TDM_Report">
+        <link rel="stylesheet" type="text/css" media="screen" href="dark.css" title="report">
+        <link rel="stylesheet" type="text/css" media="print" href="dark_NoFrames_print.css" title="report">
+            <script src="tdmShowDetails.js" type="text/javascript"></script>
+        <title>Toad Data Modeler - HTML Report</title>
+    </head>
+
+<body onLoad="getUrlItem()"><div class="mainContainer"><div id="headerContainer"><div id="header"><div class="title1"></div><div class="title2">Keys</div><div class="reportStats">martes, 9 de septiembre de 2025 05:16:56 p. m.</div><div class="titleimage"><a href="https://www.quest.com/" target="_blank"><img src="Img/logo.png" alt="Made with Toad Data Modeler" border="0" /></a></div><div class="headerEnd"><p>&nbsp;</p></div></div><div id="navTop"><ul><li><a href="MInfo.html">Model Info</a></li><li><a href="MImage.html">ER Diagram</a></li><li><a href="Tables.html">Entities</a></li><li><a href="Columns.html">Attributes</a></li><li><a href="Indexes.html">Indexes</a></li><li class="selLi"><a href="Keys.html" class="selAnchor">Keys</a></li><li><a href="Relations.html">Relationships</a></li><li><a href="CheckConstraints.html">Check Constraints</a></li><li><a href="Tablespaces.html">Tablespaces</a></li><li><a href="UserGroups.html">User Groups</a></li></ul><div id="navTopEnd"><p>&nbsp;</p></div></div></div><div id="navCombo"><form name="allItems" action=""><select name="listOfItems" onChange="showSelected()"><option value="Key_{5EB5BEEE-8C53-4035-9D3A-5198D9CDDA71}">PK_ACS_ADMINISTRATIVO (ACS_ADMINISTRATIVO)</option><option>------------</option><option value="Key_{7475725A-293B-4D45-8798-1BAE1B6D6B5F}">PK_ACS_ASIENTO_FINANCIERO (ACS_ASIENTO_FINANCIERO)</option><option>------------</option><option value="Key_{FC97BBCC-D631-4DA6-AF57-75C0265AD3C0}">PK_ACS_AUDITORIA_CENTRAL (ACS_AUDITORIA_CENTRAL)</option><option>------------</option><option value="Key_{5E627F02-35BD-4D00-B3EE-648177CAB81E}">PK_ACS_AUDITORIA_DETALLE_MENSUAL (ACS_AUDITORIA_DETALLE_MENSUAL)</option><option>------------</option><option value="Key_{CF47D140-884E-49ED-8C1C-F1D151248119}">PK_ACS_BANCO (ACS_BANCO)</option><option>------------</option><option value="Key_{C8C71665-C57E-4A8E-B5EE-52FB4B43B220}">PK_ACS_BITACORA_PLANILLA (ACS_BITACORA_PLANILLA)</option><option>------------</option><option value="Key_{772E76AB-BE28-4E34-BEF3-D1DD8291906E}">PK_ACS_CENTRO_MEDICO (ACS_CENTRO_MEDICO)</option><option>------------</option><option value="Key_{878F5053-494E-429D-B073-5B0C85AB86B8}">PK_ACS_CLAVE (ACS_CLAVE)</option><option>------------</option><option value="Key_{F0ADC1C3-9FA0-446F-8939-6614FBA567BB}">PK_ACS_CUENTA_BANCARIA (ACS_CUENTA_BANCARIA)</option><option>------------</option><option value="Key_{AAD8BAFD-8C65-46AC-A7D4-743D393176E8}">PK_ACS_DETALLE_MENSUAL (ACS_DETALLE_MENSUAL)</option><option>------------</option><option value="Key_{0FF03614-3C71-43C3-A4CA-110E448E8ADF}">PK_ACS_DETALLE_PLANILLA (ACS_DETALLE_PLANILLA)</option><option>------------</option><option value="Key_{7DDA0CFB-27B5-48B4-ACF2-384B0A5739AE}">PK_ACS_DETALLE_SEMANAL (ACS_DETALLE_SEMANAL)</option><option>------------</option><option value="Key_{17C74FB1-2E8E-45D0-B489-F8B44DD954A7}">PK_ACS_DOCUMENTO_USUARIO (ACS_DOCUMENTO_USUARIO)</option><option>------------</option><option value="Key_{1F578DDB-D260-401D-9B9D-7FD43842BC87}">PK_ACS_ENVIO_COMP (ACS_ENVIO_COMP)</option><option>------------</option><option value="Key_{DBF4D929-34FF-4F31-97E3-76688D194BF8}">PK_ACS_ESCALA_MENSUAL (ACS_ESCALA_MENSUAL)</option><option>------------</option><option value="Key_{90A02F77-CA71-43A0-94FE-457E044846B8}">PK_ACS_ESCALA_SEMANAL (ACS_ESCALA_SEMANAL)</option><option>------------</option><option value="Key_{CBBE88BF-3622-4830-88C1-C61B5C5BB50B}">PK_ACS_HISTORIAL_PROCEDIMIENTO (ACS_HISTORIAL_PROCEDIMIENTO)</option><option>------------</option><option value="Key_{0CA28815-C054-430F-A3A9-B5EDC8402801}">PK_ACS_MEDICO (ACS_MEDICO)</option><option>------------</option><option value="Key_{951087D7-941B-4780-BADE-DF8D60B7E633}">PK_ACS_MOVIMIENTO_PLANILLA (ACS_MOVIMIENTO_PLANILLA)</option><option>------------</option><option value="Key_{ECA0A048-4FE2-4AB4-AF70-DE8D3BE4070E}">PK_ACS_PADRON (ACS_PADRON)</option><option>------------</option><option value="Key_{3AFAADDE-6CC5-4945-9761-3A427FA1C30D}">PK_ACS_PERMISO (ACS_PERMISO)</option><option>------------</option><option value="Key_{F7FECDE1-35B8-4CB3-AA49-264BBEC5398B}">PK_ACS_PERSONA (ACS_PERSONA)</option><option>------------</option><option value="Key_{60ECC18B-F05B-4D0B-ACB9-F3BED4CA1645}">PK_ACS_PERSONAL_TIPO_PLANILLA (ACS_PERSONAL_TIPO_PLANILLA)</option><option>------------</option><option value="Key_{D4610495-5988-4B71-AC8B-567AB249057F}">PK_ACS_PLANILLA (ACS_PLANILLA)</option><option>------------</option><option value="Key_{B4297902-AF7F-4C72-B907-9AA1D9BD0566}">PK_ACS_PRECIOXTURNO (ACS_PRECIOXTURNO)</option><option>------------</option><option value="Key_{B56026A4-BAE7-456D-B478-BBC98A27DDC6}">PK_ACS_PROC_APLICADO (ACS_PROC_APLICADO)</option><option>------------</option><option value="Key_{7BFB6E4F-9313-4157-BE40-D95425A0AE37}">PK_ACS_PROCEDIMIENTO (ACS_PROCEDIMIENTO)</option><option>------------</option><option value="Key_{757070CF-CA98-49BE-A060-809FA70DC849}">PK_ACS_PROCEDIMIENTO_PLANILLA (ACS_PROCEDIMIENTO_PLANILLA)</option><option>------------</option><option value="Key_{0ADEFB17-6367-45A5-81F9-9BF165D14866}">PK_ACS_PROCEDIMIENTOXCENTRO (ACS_PROCEDIMIENTOXCENTRO)</option><option>------------</option><option value="Key_{E4A352F4-3EA8-45E4-8200-8E2581CC021B}">PK_ACS_PUESTO_MEDICO (ACS_PUESTO_MEDICO)</option><option>------------</option><option value="Key_{595A4895-1C7B-478A-8361-EE4355115BDA}">PK_ACS_PUESTOXCENTRO (ACS_PUESTOXCENTRO)</option><option>------------</option><option value="Key_{3478325C-D743-4B57-B557-88B3A72E1C7C}">PK_ACS_RESUMEN_FIN_CENTRO_MES (ACS_RESUMEN_FIN_CENTRO_MES)</option><option>------------</option><option value="Key_{71EABADB-5FA8-4BC0-8A5D-1B3C618CF7F3}">PK_ACS_RESUMEN_FIN_MENSUAL (ACS_RESUMEN_FIN_MENSUAL)</option><option>------------</option><option value="Key_{0DAFC08B-5A0A-4D51-9AAC-F75AC2EC65D1}">PK_ACS_TIPO_DOCUMENTO (ACS_TIPO_DOCUMENTO)</option><option>------------</option><option value="Key_{434AE1BD-1AD4-4695-853B-8F37F9856982}">PK_ACS_TIPO_MOV (ACS_TIPO_MOV)</option><option>------------</option><option value="Key_{D6929E02-F9A7-443E-B738-C59957599B63}">PK_ACS_TIPO_PLANILLA (ACS_TIPO_PLANILLA)</option><option>------------</option><option value="Key_{53CA2D0A-4440-4B2D-B83E-0F68C15E3A38}">PK_ACS_TURNO (ACS_TURNO)</option><option>------------</option><option value="Key_{81E18761-F052-4DD7-B522-3B6F4047BA6F}">PK_ACS_TURNO_PLANILLA (ACS_TURNO_PLANILLA)</option><option>------------</option><option value="Key_{B493267C-8593-47AA-AA74-C69B3BB62B6E}">PK_ACS_USUARIO (ACS_USUARIO)</option></select></form><div id="navComboEnd"><p></p></div></div><div id="navLeft"><div id="bookmark"><ul><li><a onClick="return showDetail('Key_{5EB5BEEE-8C53-4035-9D3A-5198D9CDDA71}', this)">PK_ACS_ADMINISTRATIVO (ACS_ADMINISTRATIVO)</a></li><li class="spacerGap"></li><li><a onClick="return showDetail('Key_{7475725A-293B-4D45-8798-1BAE1B6D6B5F}', this)">PK_ACS_ASIENTO_FINANCIERO (ACS_ASIENTO_FINANCIERO)</a></li><li class="spacerGap"></li><li><a onClick="return showDetail('Key_{FC97BBCC-D631-4DA6-AF57-75C0265AD3C0}', this)">PK_ACS_AUDITORIA_CENTRAL (ACS_AUDITORIA_CENTRAL)</a></li><li class="spacerGap"></li><li><a onClick="return showDetail('Key_{5E627F02-35BD-4D00-B3EE-648177CAB81E}', this)">PK_ACS_AUDITORIA_DETALLE_MENSUAL (ACS_AUDITORIA_DETALLE_MENSUAL)</a></li><li class="spacerGap"></li><li><a onClick="return showDetail('Key_{CF47D140-884E-49ED-8C1C-F1D151248119}', this)">PK_ACS_BANCO (ACS_BANCO)</a></li><li class="spacerGap"></li><li><a onClick="return showDetail('Key_{C8C71665-C57E-4A8E-B5EE-52FB4B43B220}', this)">PK_ACS_BITACORA_PLANILLA (ACS_BITACORA_PLANILLA)</a></li><li class="spacerGap"></li><li><a onClick="return showDetail('Key_{772E76AB-BE28-4E34-BEF3-D1DD8291906E}', this)">PK_ACS_CENTRO_MEDICO (ACS_CENTRO_MEDICO)</a></li><li class="spacerGap"></li><li><a onClick="return showDetail('Key_{878F5053-494E-429D-B073-5B0C85AB86B8}', this)">PK_ACS_CLAVE (ACS_CLAVE)</a></li><li class="spacerGap"></li><li><a onClick="return showDetail('Key_{F0ADC1C3-9FA0-446F-8939-6614FBA567BB}', this)">PK_ACS_CUENTA_BANCARIA (ACS_CUENTA_BANCARIA)</a></li><li class="spacerGap"></li><li><a onClick="return showDetail('Key_{AAD8BAFD-8C65-46AC-A7D4-743D393176E8}', this)">PK_ACS_DETALLE_MENSUAL (ACS_DETALLE_MENSUAL)</a></li><li class="spacerGap"></li><li><a onClick="return showDetail('Key_{0FF03614-3C71-43C3-A4CA-110E448E8ADF}', this)">PK_ACS_DETALLE_PLANILLA (ACS_DETALLE_PLANILLA)</a></li><li class="spacerGap"></li><li><a onClick="return showDetail('Key_{7DDA0CFB-27B5-48B4-ACF2-384B0A5739AE}', this)">PK_ACS_DETALLE_SEMANAL (ACS_DETALLE_SEMANAL)</a></li><li class="spacerGap"></li><li><a onClick="return showDetail('Key_{17C74FB1-2E8E-45D0-B489-F8B44DD954A7}', this)">PK_ACS_DOCUMENTO_USUARIO (ACS_DOCUMENTO_USUARIO)</a></li><li class="spacerGap"></li><li><a onClick="return showDetail('Key_{1F578DDB-D260-401D-9B9D-7FD43842BC87}', this)">PK_ACS_ENVIO_COMP (ACS_ENVIO_COMP)</a></li><li class="spacerGap"></li><li><a onClick="return showDetail('Key_{DBF4D929-34FF-4F31-97E3-76688D194BF8}', this)">PK_ACS_ESCALA_MENSUAL (ACS_ESCALA_MENSUAL)</a></li><li class="spacerGap"></li><li><a onClick="return showDetail('Key_{90A02F77-CA71-43A0-94FE-457E044846B8}', this)">PK_ACS_ESCALA_SEMANAL (ACS_ESCALA_SEMANAL)</a></li><li class="spacerGap"></li><li><a onClick="return showDetail('Key_{CBBE88BF-3622-4830-88C1-C61B5C5BB50B}', this)">PK_ACS_HISTORIAL_PROCEDIMIENTO (ACS_HISTORIAL_PROCEDIMIENTO)</a></li><li class="spacerGap"></li><li><a onClick="return showDetail('Key_{0CA28815-C054-430F-A3A9-B5EDC8402801}', this)">PK_ACS_MEDICO (ACS_MEDICO)</a></li><li class="spacerGap"></li><li><a onClick="return showDetail('Key_{951087D7-941B-4780-BADE-DF8D60B7E633}', this)">PK_ACS_MOVIMIENTO_PLANILLA (ACS_MOVIMIENTO_PLANILLA)</a></li><li class="spacerGap"></li><li><a onClick="return showDetail('Key_{ECA0A048-4FE2-4AB4-AF70-DE8D3BE4070E}', this)">PK_ACS_PADRON (ACS_PADRON)</a></li><li class="spacerGap"></li><li><a onClick="return showDetail('Key_{3AFAADDE-6CC5-4945-9761-3A427FA1C30D}', this)">PK_ACS_PERMISO (ACS_PERMISO)</a></li><li class="spacerGap"></li><li><a onClick="return showDetail('Key_{F7FECDE1-35B8-4CB3-AA49-264BBEC5398B}', this)">PK_ACS_PERSONA (ACS_PERSONA)</a></li><li class="spacerGap"></li><li><a onClick="return showDetail('Key_{60ECC18B-F05B-4D0B-ACB9-F3BED4CA1645}', this)">PK_ACS_PERSONAL_TIPO_PLANILLA (ACS_PERSONAL_TIPO_PLANILLA)</a></li><li class="spacerGap"></li><li><a onClick="return showDetail('Key_{D4610495-5988-4B71-AC8B-567AB249057F}', this)">PK_ACS_PLANILLA (ACS_PLANILLA)</a></li><li class="spacerGap"></li><li><a onClick="return showDetail('Key_{B4297902-AF7F-4C72-B907-9AA1D9BD0566}', this)">PK_ACS_PRECIOXTURNO (ACS_PRECIOXTURNO)</a></li><li class="spacerGap"></li><li><a onClick="return showDetail('Key_{B56026A4-BAE7-456D-B478-BBC98A27DDC6}', this)">PK_ACS_PROC_APLICADO (ACS_PROC_APLICADO)</a></li><li class="spacerGap"></li><li><a onClick="return showDetail('Key_{7BFB6E4F-9313-4157-BE40-D95425A0AE37}', this)">PK_ACS_PROCEDIMIENTO (ACS_PROCEDIMIENTO)</a></li><li class="spacerGap"></li><li><a onClick="return showDetail('Key_{757070CF-CA98-49BE-A060-809FA70DC849}', this)">PK_ACS_PROCEDIMIENTO_PLANILLA (ACS_PROCEDIMIENTO_PLANILLA)</a></li><li class="spacerGap"></li><li><a onClick="return showDetail('Key_{0ADEFB17-6367-45A5-81F9-9BF165D14866}', this)">PK_ACS_PROCEDIMIENTOXCENTRO (ACS_PROCEDIMIENTOXCENTRO)</a></li><li class="spacerGap"></li><li><a onClick="return showDetail('Key_{E4A352F4-3EA8-45E4-8200-8E2581CC021B}', this)">PK_ACS_PUESTO_MEDICO (ACS_PUESTO_MEDICO)</a></li><li class="spacerGap"></li><li><a onClick="return showDetail('Key_{595A4895-1C7B-478A-8361-EE4355115BDA}', this)">PK_ACS_PUESTOXCENTRO (ACS_PUESTOXCENTRO)</a></li><li class="spacerGap"></li><li><a onClick="return showDetail('Key_{3478325C-D743-4B57-B557-88B3A72E1C7C}', this)">PK_ACS_RESUMEN_FIN_CENTRO_MES (ACS_RESUMEN_FIN_CENTRO_MES)</a></li><li class="spacerGap"></li><li><a onClick="return showDetail('Key_{71EABADB-5FA8-4BC0-8A5D-1B3C618CF7F3}', this)">PK_ACS_RESUMEN_FIN_MENSUAL (ACS_RESUMEN_FIN_MENSUAL)</a></li><li class="spacerGap"></li><li><a onClick="return showDetail('Key_{0DAFC08B-5A0A-4D51-9AAC-F75AC2EC65D1}', this)">PK_ACS_TIPO_DOCUMENTO (ACS_TIPO_DOCUMENTO)</a></li><li class="spacerGap"></li><li><a onClick="return showDetail('Key_{434AE1BD-1AD4-4695-853B-8F37F9856982}', this)">PK_ACS_TIPO_MOV (ACS_TIPO_MOV)</a></li><li class="spacerGap"></li><li><a onClick="return showDetail('Key_{D6929E02-F9A7-443E-B738-C59957599B63}', this)">PK_ACS_TIPO_PLANILLA (ACS_TIPO_PLANILLA)</a></li><li class="spacerGap"></li><li><a onClick="return showDetail('Key_{53CA2D0A-4440-4B2D-B83E-0F68C15E3A38}', this)">PK_ACS_TURNO (ACS_TURNO)</a></li><li class="spacerGap"></li><li><a onClick="return showDetail('Key_{81E18761-F052-4DD7-B522-3B6F4047BA6F}', this)">PK_ACS_TURNO_PLANILLA (ACS_TURNO_PLANILLA)</a></li><li class="spacerGap"></li><li><a onClick="return showDetail('Key_{B493267C-8593-47AA-AA74-C69B3BB62B6E}', this)">PK_ACS_USUARIO (ACS_USUARIO)</a></li></ul><div id="bookmarkEnd"><p>&nbsp;</p></div></div></div><div class="separator" ></div><div class="container"><div id="content"><div id="Key_{5EB5BEEE-8C53-4035-9D3A-5198D9CDDA71}" class="item">
+<a name = "Key_{5EB5BEEE-8C53-4035-9D3A-5198D9CDDA71}"></a>
+<div class="caption1"><p>PK_ACS_ADMINISTRATIVO (ACS_ADMINISTRATIVO)</p></div>
+<div class="caption2"><p>General Info</p></div>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabhead" width="23%">Caption</td>
+<td class="tabdata">PK ACS_ADMINISTRATIVO</td>
+</tr>
+<tr>
+<td class="tabhead" width="23%">Entity Name</td>
+<td class="tabdata">ACS_ADMINISTRATIVO</td>
+</tr>
+<tr>
+<td class="tabhead" width="23%">Key Type</td>
+<td class="tabdata">Primary Key</td>
+</tr>
+<tr>
+<td class="tabhead" width="23%">Attribute Names</td>
+<td class="tabdata">AAD_ID</td>
+</tr>
+</table>
+<br>
+<div class="caption2"><p>Key Properties</p></div>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabhead" width="20%">Tablespace</td>
+<td class="tabdata" width="80%">TBS_ACS_DATOS</td>
+</tr>
+</table>
+<br>
+<div class="itemEnd"><p>&nbsp;</p></div></div>
+<div id="Key_{7475725A-293B-4D45-8798-1BAE1B6D6B5F}" class="item">
+<a name = "Key_{7475725A-293B-4D45-8798-1BAE1B6D6B5F}"></a>
+<div class="caption1"><p>PK_ACS_ASIENTO_FINANCIERO (ACS_ASIENTO_FINANCIERO)</p></div>
+<div class="caption2"><p>General Info</p></div>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabhead" width="23%">Caption</td>
+<td class="tabdata">PK ACS_ASIENTO_FINANCIERO</td>
+</tr>
+<tr>
+<td class="tabhead" width="23%">Entity Name</td>
+<td class="tabdata">ACS_ASIENTO_FINANCIERO</td>
+</tr>
+<tr>
+<td class="tabhead" width="23%">Key Type</td>
+<td class="tabdata">Primary Key</td>
+</tr>
+<tr>
+<td class="tabhead" width="23%">Attribute Names</td>
+<td class="tabdata">AAF_ID</td>
+</tr>
+</table>
+<br>
+<div class="caption2"><p>Key Properties</p></div>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabhead" width="20%">Tablespace</td>
+<td class="tabdata" width="80%">TBS_ACS_DATOS</td>
+</tr>
+</table>
+<br>
+<div class="itemEnd"><p>&nbsp;</p></div></div>
+<div id="Key_{FC97BBCC-D631-4DA6-AF57-75C0265AD3C0}" class="item">
+<a name = "Key_{FC97BBCC-D631-4DA6-AF57-75C0265AD3C0}"></a>
+<div class="caption1"><p>PK_ACS_AUDITORIA_CENTRAL (ACS_AUDITORIA_CENTRAL)</p></div>
+<div class="caption2"><p>General Info</p></div>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabhead" width="23%">Caption</td>
+<td class="tabdata">PK ACS_AUDITORIA_CENTRAL</td>
+</tr>
+<tr>
+<td class="tabhead" width="23%">Entity Name</td>
+<td class="tabdata">ACS_AUDITORIA_CENTRAL</td>
+</tr>
+<tr>
+<td class="tabhead" width="23%">Key Type</td>
+<td class="tabdata">Primary Key</td>
+</tr>
+<tr>
+<td class="tabhead" width="23%">Attribute Names</td>
+<td class="tabdata">AUD_ID</td>
+</tr>
+</table>
+<br>
+<div class="caption2"><p>Key Properties</p></div>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabhead" width="20%">Tablespace</td>
+<td class="tabdata" width="80%">TBS_ACS_DATOS</td>
+</tr>
+</table>
+<br>
+<div class="itemEnd"><p>&nbsp;</p></div></div>
+<div id="Key_{5E627F02-35BD-4D00-B3EE-648177CAB81E}" class="item">
+<a name = "Key_{5E627F02-35BD-4D00-B3EE-648177CAB81E}"></a>
+<div class="caption1"><p>PK_ACS_AUDITORIA_DETALLE_MENSUAL (ACS_AUDITORIA_DETALLE_MENSUAL)</p></div>
+<div class="caption2"><p>General Info</p></div>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabhead" width="23%">Caption</td>
+<td class="tabdata">PK ACS_AUDITORIA_DETALLE_MENSUAL</td>
+</tr>
+<tr>
+<td class="tabhead" width="23%">Entity Name</td>
+<td class="tabdata">ACS_AUDITORIA_DETALLE_MENSUAL</td>
+</tr>
+<tr>
+<td class="tabhead" width="23%">Key Type</td>
+<td class="tabdata">Primary Key</td>
+</tr>
+<tr>
+<td class="tabhead" width="23%">Attribute Names</td>
+<td class="tabdata">AUM_ID</td>
+</tr>
+</table>
+<br>
+<div class="caption2"><p>Key Properties</p></div>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabhead" width="20%">Tablespace</td>
+<td class="tabdata" width="80%">TBS_ACS_DATOS</td>
+</tr>
+</table>
+<br>
+<div class="itemEnd"><p>&nbsp;</p></div></div>
+<div id="Key_{CF47D140-884E-49ED-8C1C-F1D151248119}" class="item">
+<a name = "Key_{CF47D140-884E-49ED-8C1C-F1D151248119}"></a>
+<div class="caption1"><p>PK_ACS_BANCO (ACS_BANCO)</p></div>
+<div class="caption2"><p>General Info</p></div>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabhead" width="23%">Caption</td>
+<td class="tabdata">PK ACS_BANCO</td>
+</tr>
+<tr>
+<td class="tabhead" width="23%">Entity Name</td>
+<td class="tabdata">ACS_BANCO</td>
+</tr>
+<tr>
+<td class="tabhead" width="23%">Key Type</td>
+<td class="tabdata">Primary Key</td>
+</tr>
+<tr>
+<td class="tabhead" width="23%">Attribute Names</td>
+<td class="tabdata">ABA_ID</td>
+</tr>
+</table>
+<br>
+<div class="caption2"><p>Key Properties</p></div>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabhead" width="20%">Tablespace</td>
+<td class="tabdata" width="80%">TBS_ACS_DATOS</td>
+</tr>
+</table>
+<br>
+<div class="itemEnd"><p>&nbsp;</p></div></div>
+<div id="Key_{C8C71665-C57E-4A8E-B5EE-52FB4B43B220}" class="item">
+<a name = "Key_{C8C71665-C57E-4A8E-B5EE-52FB4B43B220}"></a>
+<div class="caption1"><p>PK_ACS_BITACORA_PLANILLA (ACS_BITACORA_PLANILLA)</p></div>
+<div class="caption2"><p>General Info</p></div>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabhead" width="23%">Caption</td>
+<td class="tabdata">PK ACS_BITACORA_PLANILLA</td>
+</tr>
+<tr>
+<td class="tabhead" width="23%">Entity Name</td>
+<td class="tabdata">ACS_BITACORA_PLANILLA</td>
+</tr>
+<tr>
+<td class="tabhead" width="23%">Key Type</td>
+<td class="tabdata">Primary Key</td>
+</tr>
+<tr>
+<td class="tabhead" width="23%">Attribute Names</td>
+<td class="tabdata">ABP_ID</td>
+</tr>
+</table>
+<br>
+<div class="caption2"><p>Key Properties</p></div>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabhead" width="20%">Tablespace</td>
+<td class="tabdata" width="80%">TBS_ACS_DATOS</td>
+</tr>
+</table>
+<br>
+<div class="itemEnd"><p>&nbsp;</p></div></div>
+<div id="Key_{772E76AB-BE28-4E34-BEF3-D1DD8291906E}" class="item">
+<a name = "Key_{772E76AB-BE28-4E34-BEF3-D1DD8291906E}"></a>
+<div class="caption1"><p>PK_ACS_CENTRO_MEDICO (ACS_CENTRO_MEDICO)</p></div>
+<div class="caption2"><p>General Info</p></div>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabhead" width="23%">Caption</td>
+<td class="tabdata">PK ACS_CENTRO_MEDICO</td>
+</tr>
+<tr>
+<td class="tabhead" width="23%">Entity Name</td>
+<td class="tabdata">ACS_CENTRO_MEDICO</td>
+</tr>
+<tr>
+<td class="tabhead" width="23%">Key Type</td>
+<td class="tabdata">Primary Key</td>
+</tr>
+<tr>
+<td class="tabhead" width="23%">Attribute Names</td>
+<td class="tabdata">ACM_ID</td>
+</tr>
+</table>
+<br>
+<div class="caption2"><p>Key Properties</p></div>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabhead" width="20%">Tablespace</td>
+<td class="tabdata" width="80%">TBS_ACS_DATOS</td>
+</tr>
+</table>
+<br>
+<div class="itemEnd"><p>&nbsp;</p></div></div>
+<div id="Key_{878F5053-494E-429D-B073-5B0C85AB86B8}" class="item">
+<a name = "Key_{878F5053-494E-429D-B073-5B0C85AB86B8}"></a>
+<div class="caption1"><p>PK_ACS_CLAVE (ACS_CLAVE)</p></div>
+<div class="caption2"><p>General Info</p></div>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabhead" width="23%">Caption</td>
+<td class="tabdata">PK ACS_CLAVE</td>
+</tr>
+<tr>
+<td class="tabhead" width="23%">Entity Name</td>
+<td class="tabdata">ACS_CLAVE</td>
+</tr>
+<tr>
+<td class="tabhead" width="23%">Key Type</td>
+<td class="tabdata">Primary Key</td>
+</tr>
+<tr>
+<td class="tabhead" width="23%">Attribute Names</td>
+<td class="tabdata">ACL_ID</td>
+</tr>
+</table>
+<br>
+<div class="caption2"><p>Key Properties</p></div>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabhead" width="20%">Tablespace</td>
+<td class="tabdata" width="80%">TBS_ACS_DATOS</td>
+</tr>
+</table>
+<br>
+<div class="itemEnd"><p>&nbsp;</p></div></div>
+<div id="Key_{F0ADC1C3-9FA0-446F-8939-6614FBA567BB}" class="item">
+<a name = "Key_{F0ADC1C3-9FA0-446F-8939-6614FBA567BB}"></a>
+<div class="caption1"><p>PK_ACS_CUENTA_BANCARIA (ACS_CUENTA_BANCARIA)</p></div>
+<div class="caption2"><p>General Info</p></div>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabhead" width="23%">Caption</td>
+<td class="tabdata">PK ACS_CUENTA_BANCARIA</td>
+</tr>
+<tr>
+<td class="tabhead" width="23%">Entity Name</td>
+<td class="tabdata">ACS_CUENTA_BANCARIA</td>
+</tr>
+<tr>
+<td class="tabhead" width="23%">Key Type</td>
+<td class="tabdata">Primary Key</td>
+</tr>
+<tr>
+<td class="tabhead" width="23%">Attribute Names</td>
+<td class="tabdata">ACB_ID</td>
+</tr>
+</table>
+<br>
+<div class="caption2"><p>Key Properties</p></div>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabhead" width="20%">Tablespace</td>
+<td class="tabdata" width="80%">TBS_ACS_DATOS</td>
+</tr>
+</table>
+<br>
+<div class="itemEnd"><p>&nbsp;</p></div></div>
+<div id="Key_{AAD8BAFD-8C65-46AC-A7D4-743D393176E8}" class="item">
+<a name = "Key_{AAD8BAFD-8C65-46AC-A7D4-743D393176E8}"></a>
+<div class="caption1"><p>PK_ACS_DETALLE_MENSUAL (ACS_DETALLE_MENSUAL)</p></div>
+<div class="caption2"><p>General Info</p></div>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabhead" width="23%">Caption</td>
+<td class="tabdata">PK ACS_DETALLE_MENSUAL</td>
+</tr>
+<tr>
+<td class="tabhead" width="23%">Entity Name</td>
+<td class="tabdata">ACS_DETALLE_MENSUAL</td>
+</tr>
+<tr>
+<td class="tabhead" width="23%">Key Type</td>
+<td class="tabdata">Primary Key</td>
+</tr>
+<tr>
+<td class="tabhead" width="23%">Attribute Names</td>
+<td class="tabdata">ADM_ID</td>
+</tr>
+</table>
+<br>
+<div class="caption2"><p>Key Properties</p></div>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabhead" width="20%">Tablespace</td>
+<td class="tabdata" width="80%">TBS_ACS_DATOS</td>
+</tr>
+</table>
+<br>
+<div class="itemEnd"><p>&nbsp;</p></div></div>
+<div id="Key_{0FF03614-3C71-43C3-A4CA-110E448E8ADF}" class="item">
+<a name = "Key_{0FF03614-3C71-43C3-A4CA-110E448E8ADF}"></a>
+<div class="caption1"><p>PK_ACS_DETALLE_PLANILLA (ACS_DETALLE_PLANILLA)</p></div>
+<div class="caption2"><p>General Info</p></div>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabhead" width="23%">Caption</td>
+<td class="tabdata">PK ACS_DETALLE_PLANILLA</td>
+</tr>
+<tr>
+<td class="tabhead" width="23%">Entity Name</td>
+<td class="tabdata">ACS_DETALLE_PLANILLA</td>
+</tr>
+<tr>
+<td class="tabhead" width="23%">Key Type</td>
+<td class="tabdata">Primary Key</td>
+</tr>
+<tr>
+<td class="tabhead" width="23%">Attribute Names</td>
+<td class="tabdata">ADP_ID</td>
+</tr>
+</table>
+<br>
+<div class="caption2"><p>Key Properties</p></div>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabhead" width="20%">Tablespace</td>
+<td class="tabdata" width="80%">TBS_ACS_DATOS</td>
+</tr>
+</table>
+<br>
+<div class="itemEnd"><p>&nbsp;</p></div></div>
+<div id="Key_{7DDA0CFB-27B5-48B4-ACF2-384B0A5739AE}" class="item">
+<a name = "Key_{7DDA0CFB-27B5-48B4-ACF2-384B0A5739AE}"></a>
+<div class="caption1"><p>PK_ACS_DETALLE_SEMANAL (ACS_DETALLE_SEMANAL)</p></div>
+<div class="caption2"><p>General Info</p></div>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabhead" width="23%">Caption</td>
+<td class="tabdata">PK ACS_DETALLE_SEMANAL</td>
+</tr>
+<tr>
+<td class="tabhead" width="23%">Entity Name</td>
+<td class="tabdata">ACS_DETALLE_SEMANAL</td>
+</tr>
+<tr>
+<td class="tabhead" width="23%">Key Type</td>
+<td class="tabdata">Primary Key</td>
+</tr>
+<tr>
+<td class="tabhead" width="23%">Attribute Names</td>
+<td class="tabdata">ADS_ID</td>
+</tr>
+</table>
+<br>
+<div class="caption2"><p>Key Properties</p></div>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabhead" width="20%">Tablespace</td>
+<td class="tabdata" width="80%">TBS_ACS_DATOS</td>
+</tr>
+</table>
+<br>
+<div class="itemEnd"><p>&nbsp;</p></div></div>
+<div id="Key_{17C74FB1-2E8E-45D0-B489-F8B44DD954A7}" class="item">
+<a name = "Key_{17C74FB1-2E8E-45D0-B489-F8B44DD954A7}"></a>
+<div class="caption1"><p>PK_ACS_DOCUMENTO_USUARIO (ACS_DOCUMENTO_USUARIO)</p></div>
+<div class="caption2"><p>General Info</p></div>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabhead" width="23%">Caption</td>
+<td class="tabdata">PK ACS_DOCUMENTO_USUARIO</td>
+</tr>
+<tr>
+<td class="tabhead" width="23%">Entity Name</td>
+<td class="tabdata">ACS_DOCUMENTO_USUARIO</td>
+</tr>
+<tr>
+<td class="tabhead" width="23%">Key Type</td>
+<td class="tabdata">Primary Key</td>
+</tr>
+<tr>
+<td class="tabhead" width="23%">Attribute Names</td>
+<td class="tabdata">ADU_ID</td>
+</tr>
+</table>
+<br>
+<div class="caption2"><p>Key Properties</p></div>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabhead" width="20%">Tablespace</td>
+<td class="tabdata" width="80%">TBS_ACS_DATOS</td>
+</tr>
+</table>
+<br>
+<div class="itemEnd"><p>&nbsp;</p></div></div>
+<div id="Key_{1F578DDB-D260-401D-9B9D-7FD43842BC87}" class="item">
+<a name = "Key_{1F578DDB-D260-401D-9B9D-7FD43842BC87}"></a>
+<div class="caption1"><p>PK_ACS_ENVIO_COMP (ACS_ENVIO_COMP)</p></div>
+<div class="caption2"><p>General Info</p></div>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabhead" width="23%">Caption</td>
+<td class="tabdata">PK ACS_ENVIO_COMP</td>
+</tr>
+<tr>
+<td class="tabhead" width="23%">Entity Name</td>
+<td class="tabdata">ACS_ENVIO_COMP</td>
+</tr>
+<tr>
+<td class="tabhead" width="23%">Key Type</td>
+<td class="tabdata">Primary Key</td>
+</tr>
+<tr>
+<td class="tabhead" width="23%">Attribute Names</td>
+<td class="tabdata">AEC_ID</td>
+</tr>
+</table>
+<br>
+<div class="caption2"><p>Key Properties</p></div>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabhead" width="20%">Tablespace</td>
+<td class="tabdata" width="80%">TBS_ACS_DATOS</td>
+</tr>
+</table>
+<br>
+<div class="itemEnd"><p>&nbsp;</p></div></div>
+<div id="Key_{DBF4D929-34FF-4F31-97E3-76688D194BF8}" class="item">
+<a name = "Key_{DBF4D929-34FF-4F31-97E3-76688D194BF8}"></a>
+<div class="caption1"><p>PK_ACS_ESCALA_MENSUAL (ACS_ESCALA_MENSUAL)</p></div>
+<div class="caption2"><p>General Info</p></div>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabhead" width="23%">Caption</td>
+<td class="tabdata">PK ACS_ESCALA_MENSUAL</td>
+</tr>
+<tr>
+<td class="tabhead" width="23%">Entity Name</td>
+<td class="tabdata">ACS_ESCALA_MENSUAL</td>
+</tr>
+<tr>
+<td class="tabhead" width="23%">Key Type</td>
+<td class="tabdata">Primary Key</td>
+</tr>
+<tr>
+<td class="tabhead" width="23%">Attribute Names</td>
+<td class="tabdata">AEM_ID</td>
+</tr>
+</table>
+<br>
+<div class="caption2"><p>Key Properties</p></div>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabhead" width="20%">Tablespace</td>
+<td class="tabdata" width="80%">TBS_ACS_DATOS</td>
+</tr>
+</table>
+<br>
+<div class="itemEnd"><p>&nbsp;</p></div></div>
+<div id="Key_{90A02F77-CA71-43A0-94FE-457E044846B8}" class="item">
+<a name = "Key_{90A02F77-CA71-43A0-94FE-457E044846B8}"></a>
+<div class="caption1"><p>PK_ACS_ESCALA_SEMANAL (ACS_ESCALA_SEMANAL)</p></div>
+<div class="caption2"><p>General Info</p></div>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabhead" width="23%">Caption</td>
+<td class="tabdata">PK ACS_ESCALA_SEMANAL</td>
+</tr>
+<tr>
+<td class="tabhead" width="23%">Entity Name</td>
+<td class="tabdata">ACS_ESCALA_SEMANAL</td>
+</tr>
+<tr>
+<td class="tabhead" width="23%">Key Type</td>
+<td class="tabdata">Primary Key</td>
+</tr>
+<tr>
+<td class="tabhead" width="23%">Attribute Names</td>
+<td class="tabdata">AES_ID</td>
+</tr>
+</table>
+<br>
+<div class="caption2"><p>Key Properties</p></div>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabhead" width="20%">Tablespace</td>
+<td class="tabdata" width="80%">TBS_ACS_DATOS</td>
+</tr>
+</table>
+<br>
+<div class="itemEnd"><p>&nbsp;</p></div></div>
+<div id="Key_{CBBE88BF-3622-4830-88C1-C61B5C5BB50B}" class="item">
+<a name = "Key_{CBBE88BF-3622-4830-88C1-C61B5C5BB50B}"></a>
+<div class="caption1"><p>PK_ACS_HISTORIAL_PROCEDIMIENTO (ACS_HISTORIAL_PROCEDIMIENTO)</p></div>
+<div class="caption2"><p>General Info</p></div>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabhead" width="23%">Caption</td>
+<td class="tabdata">PK ACS_HISTORIAL_PROCEDIMIENTO</td>
+</tr>
+<tr>
+<td class="tabhead" width="23%">Entity Name</td>
+<td class="tabdata">ACS_HISTORIAL_PROCEDIMIENTO</td>
+</tr>
+<tr>
+<td class="tabhead" width="23%">Key Type</td>
+<td class="tabdata">Primary Key</td>
+</tr>
+<tr>
+<td class="tabhead" width="23%">Attribute Names</td>
+<td class="tabdata">AHP_ID</td>
+</tr>
+</table>
+<br>
+<div class="caption2"><p>Key Properties</p></div>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabhead" width="20%">Tablespace</td>
+<td class="tabdata" width="80%">TBS_ACS_DATOS</td>
+</tr>
+</table>
+<br>
+<div class="itemEnd"><p>&nbsp;</p></div></div>
+<div id="Key_{0CA28815-C054-430F-A3A9-B5EDC8402801}" class="item">
+<a name = "Key_{0CA28815-C054-430F-A3A9-B5EDC8402801}"></a>
+<div class="caption1"><p>PK_ACS_MEDICO (ACS_MEDICO)</p></div>
+<div class="caption2"><p>General Info</p></div>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabhead" width="23%">Caption</td>
+<td class="tabdata">PK ACS_MEDICO</td>
+</tr>
+<tr>
+<td class="tabhead" width="23%">Entity Name</td>
+<td class="tabdata">ACS_MEDICO</td>
+</tr>
+<tr>
+<td class="tabhead" width="23%">Key Type</td>
+<td class="tabdata">Primary Key</td>
+</tr>
+<tr>
+<td class="tabhead" width="23%">Attribute Names</td>
+<td class="tabdata">AME_ID</td>
+</tr>
+</table>
+<br>
+<div class="caption2"><p>Key Properties</p></div>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabhead" width="20%">Tablespace</td>
+<td class="tabdata" width="80%">TBS_ACS_DATOS</td>
+</tr>
+</table>
+<br>
+<div class="itemEnd"><p>&nbsp;</p></div></div>
+<div id="Key_{951087D7-941B-4780-BADE-DF8D60B7E633}" class="item">
+<a name = "Key_{951087D7-941B-4780-BADE-DF8D60B7E633}"></a>
+<div class="caption1"><p>PK_ACS_MOVIMIENTO_PLANILLA (ACS_MOVIMIENTO_PLANILLA)</p></div>
+<div class="caption2"><p>General Info</p></div>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabhead" width="23%">Caption</td>
+<td class="tabdata">PK ACS_MOVIMIENTO_PLANILLA</td>
+</tr>
+<tr>
+<td class="tabhead" width="23%">Entity Name</td>
+<td class="tabdata">ACS_MOVIMIENTO_PLANILLA</td>
+</tr>
+<tr>
+<td class="tabhead" width="23%">Key Type</td>
+<td class="tabdata">Primary Key</td>
+</tr>
+<tr>
+<td class="tabhead" width="23%">Attribute Names</td>
+<td class="tabdata">AMP_ID</td>
+</tr>
+</table>
+<br>
+<div class="caption2"><p>Key Properties</p></div>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabhead" width="20%">Tablespace</td>
+<td class="tabdata" width="80%">TBS_ACS_DATOS</td>
+</tr>
+</table>
+<br>
+<div class="itemEnd"><p>&nbsp;</p></div></div>
+<div id="Key_{ECA0A048-4FE2-4AB4-AF70-DE8D3BE4070E}" class="item">
+<a name = "Key_{ECA0A048-4FE2-4AB4-AF70-DE8D3BE4070E}"></a>
+<div class="caption1"><p>PK_ACS_PADRON (ACS_PADRON)</p></div>
+<div class="caption2"><p>General Info</p></div>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabhead" width="23%">Caption</td>
+<td class="tabdata">PK ACS_PADRON</td>
+</tr>
+<tr>
+<td class="tabhead" width="23%">Entity Name</td>
+<td class="tabdata">ACS_PADRON</td>
+</tr>
+<tr>
+<td class="tabhead" width="23%">Key Type</td>
+<td class="tabdata">Primary Key</td>
+</tr>
+<tr>
+<td class="tabhead" width="23%">Attribute Names</td>
+<td class="tabdata">APN_ID</td>
+</tr>
+</table>
+<br>
+<div class="caption2"><p>Key Properties</p></div>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabhead" width="20%">Tablespace</td>
+<td class="tabdata" width="80%">TBS_ACS_DATOS</td>
+</tr>
+</table>
+<br>
+<div class="itemEnd"><p>&nbsp;</p></div></div>
+<div id="Key_{3AFAADDE-6CC5-4945-9761-3A427FA1C30D}" class="item">
+<a name = "Key_{3AFAADDE-6CC5-4945-9761-3A427FA1C30D}"></a>
+<div class="caption1"><p>PK_ACS_PERMISO (ACS_PERMISO)</p></div>
+<div class="caption2"><p>General Info</p></div>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabhead" width="23%">Caption</td>
+<td class="tabdata">PK ACS_PERMISO</td>
+</tr>
+<tr>
+<td class="tabhead" width="23%">Entity Name</td>
+<td class="tabdata">ACS_PERMISO</td>
+</tr>
+<tr>
+<td class="tabhead" width="23%">Key Type</td>
+<td class="tabdata">Primary Key</td>
+</tr>
+<tr>
+<td class="tabhead" width="23%">Attribute Names</td>
+<td class="tabdata">APR_ID</td>
+</tr>
+</table>
+<br>
+<div class="caption2"><p>Key Properties</p></div>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabhead" width="20%">Tablespace</td>
+<td class="tabdata" width="80%">TBS_ACS_DATOS</td>
+</tr>
+</table>
+<br>
+<div class="itemEnd"><p>&nbsp;</p></div></div>
+<div id="Key_{F7FECDE1-35B8-4CB3-AA49-264BBEC5398B}" class="item">
+<a name = "Key_{F7FECDE1-35B8-4CB3-AA49-264BBEC5398B}"></a>
+<div class="caption1"><p>PK_ACS_PERSONA (ACS_PERSONA)</p></div>
+<div class="caption2"><p>General Info</p></div>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabhead" width="23%">Caption</td>
+<td class="tabdata">PK ACS_PERSONA</td>
+</tr>
+<tr>
+<td class="tabhead" width="23%">Entity Name</td>
+<td class="tabdata">ACS_PERSONA</td>
+</tr>
+<tr>
+<td class="tabhead" width="23%">Key Type</td>
+<td class="tabdata">Primary Key</td>
+</tr>
+<tr>
+<td class="tabhead" width="23%">Attribute Names</td>
+<td class="tabdata">APE_ID</td>
+</tr>
+</table>
+<br>
+<div class="caption2"><p>Key Properties</p></div>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabhead" width="20%">Tablespace</td>
+<td class="tabdata" width="80%">TBS_ACS_DATOS</td>
+</tr>
+</table>
+<br>
+<div class="itemEnd"><p>&nbsp;</p></div></div>
+<div id="Key_{60ECC18B-F05B-4D0B-ACB9-F3BED4CA1645}" class="item">
+<a name = "Key_{60ECC18B-F05B-4D0B-ACB9-F3BED4CA1645}"></a>
+<div class="caption1"><p>PK_ACS_PERSONAL_TIPO_PLANILLA (ACS_PERSONAL_TIPO_PLANILLA)</p></div>
+<div class="caption2"><p>General Info</p></div>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabhead" width="23%">Caption</td>
+<td class="tabdata">PK ACS_PERSONAL_TIPO_PLANILLA</td>
+</tr>
+<tr>
+<td class="tabhead" width="23%">Entity Name</td>
+<td class="tabdata">ACS_PERSONAL_TIPO_PLANILLA</td>
+</tr>
+<tr>
+<td class="tabhead" width="23%">Key Type</td>
+<td class="tabdata">Primary Key</td>
+</tr>
+<tr>
+<td class="tabhead" width="23%">Attribute Names</td>
+<td class="tabdata">APTP_ID</td>
+</tr>
+</table>
+<br>
+<div class="caption2"><p>Key Properties</p></div>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabhead" width="20%">Tablespace</td>
+<td class="tabdata" width="80%">TBS_ACS_DATOS</td>
+</tr>
+</table>
+<br>
+<div class="itemEnd"><p>&nbsp;</p></div></div>
+<div id="Key_{D4610495-5988-4B71-AC8B-567AB249057F}" class="item">
+<a name = "Key_{D4610495-5988-4B71-AC8B-567AB249057F}"></a>
+<div class="caption1"><p>PK_ACS_PLANILLA (ACS_PLANILLA)</p></div>
+<div class="caption2"><p>General Info</p></div>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabhead" width="23%">Caption</td>
+<td class="tabdata">PK ACS_PLANILLA</td>
+</tr>
+<tr>
+<td class="tabhead" width="23%">Entity Name</td>
+<td class="tabdata">ACS_PLANILLA</td>
+</tr>
+<tr>
+<td class="tabhead" width="23%">Key Type</td>
+<td class="tabdata">Primary Key</td>
+</tr>
+<tr>
+<td class="tabhead" width="23%">Attribute Names</td>
+<td class="tabdata">APL_ID</td>
+</tr>
+</table>
+<br>
+<div class="caption2"><p>Key Properties</p></div>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabhead" width="20%">Tablespace</td>
+<td class="tabdata" width="80%">TBS_ACS_DATOS</td>
+</tr>
+</table>
+<br>
+<div class="itemEnd"><p>&nbsp;</p></div></div>
+<div id="Key_{B4297902-AF7F-4C72-B907-9AA1D9BD0566}" class="item">
+<a name = "Key_{B4297902-AF7F-4C72-B907-9AA1D9BD0566}"></a>
+<div class="caption1"><p>PK_ACS_PRECIOXTURNO (ACS_PRECIOXTURNO)</p></div>
+<div class="caption2"><p>General Info</p></div>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabhead" width="23%">Caption</td>
+<td class="tabdata">PK ACS_PRECIOXTURNO</td>
+</tr>
+<tr>
+<td class="tabhead" width="23%">Entity Name</td>
+<td class="tabdata">ACS_PRECIOXTURNO</td>
+</tr>
+<tr>
+<td class="tabhead" width="23%">Key Type</td>
+<td class="tabdata">Primary Key</td>
+</tr>
+<tr>
+<td class="tabhead" width="23%">Attribute Names</td>
+<td class="tabdata">APT_ID</td>
+</tr>
+</table>
+<br>
+<div class="caption2"><p>Key Properties</p></div>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabhead" width="20%">Tablespace</td>
+<td class="tabdata" width="80%">TBS_ACS_DATOS</td>
+</tr>
+</table>
+<br>
+<div class="itemEnd"><p>&nbsp;</p></div></div>
+<div id="Key_{B56026A4-BAE7-456D-B478-BBC98A27DDC6}" class="item">
+<a name = "Key_{B56026A4-BAE7-456D-B478-BBC98A27DDC6}"></a>
+<div class="caption1"><p>PK_ACS_PROC_APLICADO (ACS_PROC_APLICADO)</p></div>
+<div class="caption2"><p>General Info</p></div>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabhead" width="23%">Caption</td>
+<td class="tabdata">PK ACS_PROC_APLICADO</td>
+</tr>
+<tr>
+<td class="tabhead" width="23%">Entity Name</td>
+<td class="tabdata">ACS_PROC_APLICADO</td>
+</tr>
+<tr>
+<td class="tabhead" width="23%">Key Type</td>
+<td class="tabdata">Primary Key</td>
+</tr>
+<tr>
+<td class="tabhead" width="23%">Attribute Names</td>
+<td class="tabdata">APA_ID</td>
+</tr>
+</table>
+<br>
+<div class="caption2"><p>Key Properties</p></div>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabhead" width="20%">Tablespace</td>
+<td class="tabdata" width="80%">TBS_ACS_DATOS</td>
+</tr>
+</table>
+<br>
+<div class="itemEnd"><p>&nbsp;</p></div></div>
+<div id="Key_{7BFB6E4F-9313-4157-BE40-D95425A0AE37}" class="item">
+<a name = "Key_{7BFB6E4F-9313-4157-BE40-D95425A0AE37}"></a>
+<div class="caption1"><p>PK_ACS_PROCEDIMIENTO (ACS_PROCEDIMIENTO)</p></div>
+<div class="caption2"><p>General Info</p></div>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabhead" width="23%">Caption</td>
+<td class="tabdata">PK ACS_PROCEDIMIENTO</td>
+</tr>
+<tr>
+<td class="tabhead" width="23%">Entity Name</td>
+<td class="tabdata">ACS_PROCEDIMIENTO</td>
+</tr>
+<tr>
+<td class="tabhead" width="23%">Key Type</td>
+<td class="tabdata">Primary Key</td>
+</tr>
+<tr>
+<td class="tabhead" width="23%">Attribute Names</td>
+<td class="tabdata">APD_ID</td>
+</tr>
+</table>
+<br>
+<div class="caption2"><p>Key Properties</p></div>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabhead" width="20%">Tablespace</td>
+<td class="tabdata" width="80%">TBS_ACS_DATOS</td>
+</tr>
+</table>
+<br>
+<div class="itemEnd"><p>&nbsp;</p></div></div>
+<div id="Key_{757070CF-CA98-49BE-A060-809FA70DC849}" class="item">
+<a name = "Key_{757070CF-CA98-49BE-A060-809FA70DC849}"></a>
+<div class="caption1"><p>PK_ACS_PROCEDIMIENTO_PLANILLA (ACS_PROCEDIMIENTO_PLANILLA)</p></div>
+<div class="caption2"><p>General Info</p></div>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabhead" width="23%">Caption</td>
+<td class="tabdata">PK ACS_PROCEDIMIENTO_PLANILLA</td>
+</tr>
+<tr>
+<td class="tabhead" width="23%">Entity Name</td>
+<td class="tabdata">ACS_PROCEDIMIENTO_PLANILLA</td>
+</tr>
+<tr>
+<td class="tabhead" width="23%">Key Type</td>
+<td class="tabdata">Primary Key</td>
+</tr>
+<tr>
+<td class="tabhead" width="23%">Attribute Names</td>
+<td class="tabdata">APRP_ID</td>
+</tr>
+</table>
+<br>
+<div class="caption2"><p>Key Properties</p></div>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabhead" width="20%">Tablespace</td>
+<td class="tabdata" width="80%">TBS_ACS_DATOS</td>
+</tr>
+</table>
+<br>
+<div class="itemEnd"><p>&nbsp;</p></div></div>
+<div id="Key_{0ADEFB17-6367-45A5-81F9-9BF165D14866}" class="item">
+<a name = "Key_{0ADEFB17-6367-45A5-81F9-9BF165D14866}"></a>
+<div class="caption1"><p>PK_ACS_PROCEDIMIENTOXCENTRO (ACS_PROCEDIMIENTOXCENTRO)</p></div>
+<div class="caption2"><p>General Info</p></div>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabhead" width="23%">Caption</td>
+<td class="tabdata">PK ACS_PROCEDIMIENTOXCENTRO</td>
+</tr>
+<tr>
+<td class="tabhead" width="23%">Entity Name</td>
+<td class="tabdata">ACS_PROCEDIMIENTOXCENTRO</td>
+</tr>
+<tr>
+<td class="tabhead" width="23%">Key Type</td>
+<td class="tabdata">Primary Key</td>
+</tr>
+<tr>
+<td class="tabhead" width="23%">Attribute Names</td>
+<td class="tabdata">APRC_ID</td>
+</tr>
+</table>
+<br>
+<div class="caption2"><p>Key Properties</p></div>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabhead" width="20%">Tablespace</td>
+<td class="tabdata" width="80%">TBS_ACS_DATOS</td>
+</tr>
+</table>
+<br>
+<div class="itemEnd"><p>&nbsp;</p></div></div>
+<div id="Key_{E4A352F4-3EA8-45E4-8200-8E2581CC021B}" class="item">
+<a name = "Key_{E4A352F4-3EA8-45E4-8200-8E2581CC021B}"></a>
+<div class="caption1"><p>PK_ACS_PUESTO_MEDICO (ACS_PUESTO_MEDICO)</p></div>
+<div class="caption2"><p>General Info</p></div>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabhead" width="23%">Caption</td>
+<td class="tabdata">PK ACS_PUESTO_MEDICO</td>
+</tr>
+<tr>
+<td class="tabhead" width="23%">Entity Name</td>
+<td class="tabdata">ACS_PUESTO_MEDICO</td>
+</tr>
+<tr>
+<td class="tabhead" width="23%">Key Type</td>
+<td class="tabdata">Primary Key</td>
+</tr>
+<tr>
+<td class="tabhead" width="23%">Attribute Names</td>
+<td class="tabdata">APM_ID</td>
+</tr>
+</table>
+<br>
+<div class="caption2"><p>Key Properties</p></div>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabhead" width="20%">Tablespace</td>
+<td class="tabdata" width="80%">TBS_ACS_DATOS</td>
+</tr>
+</table>
+<br>
+<div class="itemEnd"><p>&nbsp;</p></div></div>
+<div id="Key_{595A4895-1C7B-478A-8361-EE4355115BDA}" class="item">
+<a name = "Key_{595A4895-1C7B-478A-8361-EE4355115BDA}"></a>
+<div class="caption1"><p>PK_ACS_PUESTOXCENTRO (ACS_PUESTOXCENTRO)</p></div>
+<div class="caption2"><p>General Info</p></div>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabhead" width="23%">Caption</td>
+<td class="tabdata">PK ACS_PUESTOXCENTRO</td>
+</tr>
+<tr>
+<td class="tabhead" width="23%">Entity Name</td>
+<td class="tabdata">ACS_PUESTOXCENTRO</td>
+</tr>
+<tr>
+<td class="tabhead" width="23%">Key Type</td>
+<td class="tabdata">Primary Key</td>
+</tr>
+<tr>
+<td class="tabhead" width="23%">Attribute Names</td>
+<td class="tabdata">APC_ID</td>
+</tr>
+</table>
+<br>
+<div class="caption2"><p>Key Properties</p></div>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabhead" width="20%">Tablespace</td>
+<td class="tabdata" width="80%">TBS_ACS_DATOS</td>
+</tr>
+</table>
+<br>
+<div class="itemEnd"><p>&nbsp;</p></div></div>
+<div id="Key_{3478325C-D743-4B57-B557-88B3A72E1C7C}" class="item">
+<a name = "Key_{3478325C-D743-4B57-B557-88B3A72E1C7C}"></a>
+<div class="caption1"><p>PK_ACS_RESUMEN_FIN_CENTRO_MES (ACS_RESUMEN_FIN_CENTRO_MES)</p></div>
+<div class="caption2"><p>General Info</p></div>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabhead" width="23%">Caption</td>
+<td class="tabdata">PK ACS_RESUMEN_FIN_CENTRO_MES</td>
+</tr>
+<tr>
+<td class="tabhead" width="23%">Entity Name</td>
+<td class="tabdata">ACS_RESUMEN_FIN_CENTRO_MES</td>
+</tr>
+<tr>
+<td class="tabhead" width="23%">Key Type</td>
+<td class="tabdata">Primary Key</td>
+</tr>
+<tr>
+<td class="tabhead" width="23%">Attribute Names</td>
+<td class="tabdata">ARCM_ID</td>
+</tr>
+</table>
+<br>
+<div class="caption2"><p>Key Properties</p></div>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabhead" width="20%">Tablespace</td>
+<td class="tabdata" width="80%">TBS_ACS_DATOS</td>
+</tr>
+</table>
+<br>
+<div class="itemEnd"><p>&nbsp;</p></div></div>
+<div id="Key_{71EABADB-5FA8-4BC0-8A5D-1B3C618CF7F3}" class="item">
+<a name = "Key_{71EABADB-5FA8-4BC0-8A5D-1B3C618CF7F3}"></a>
+<div class="caption1"><p>PK_ACS_RESUMEN_FIN_MENSUAL (ACS_RESUMEN_FIN_MENSUAL)</p></div>
+<div class="caption2"><p>General Info</p></div>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabhead" width="23%">Caption</td>
+<td class="tabdata">PK ACS_RESUMEN_FIN_MENSUAL</td>
+</tr>
+<tr>
+<td class="tabhead" width="23%">Entity Name</td>
+<td class="tabdata">ACS_RESUMEN_FIN_MENSUAL</td>
+</tr>
+<tr>
+<td class="tabhead" width="23%">Key Type</td>
+<td class="tabdata">Primary Key</td>
+</tr>
+<tr>
+<td class="tabhead" width="23%">Attribute Names</td>
+<td class="tabdata">ARM_ID</td>
+</tr>
+</table>
+<br>
+<div class="caption2"><p>Key Properties</p></div>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabhead" width="20%">Tablespace</td>
+<td class="tabdata" width="80%">TBS_ACS_DATOS</td>
+</tr>
+</table>
+<br>
+<div class="itemEnd"><p>&nbsp;</p></div></div>
+<div id="Key_{0DAFC08B-5A0A-4D51-9AAC-F75AC2EC65D1}" class="item">
+<a name = "Key_{0DAFC08B-5A0A-4D51-9AAC-F75AC2EC65D1}"></a>
+<div class="caption1"><p>PK_ACS_TIPO_DOCUMENTO (ACS_TIPO_DOCUMENTO)</p></div>
+<div class="caption2"><p>General Info</p></div>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabhead" width="23%">Caption</td>
+<td class="tabdata">PK ACS_TIPO_DOCUMENTO</td>
+</tr>
+<tr>
+<td class="tabhead" width="23%">Entity Name</td>
+<td class="tabdata">ACS_TIPO_DOCUMENTO</td>
+</tr>
+<tr>
+<td class="tabhead" width="23%">Key Type</td>
+<td class="tabdata">Primary Key</td>
+</tr>
+<tr>
+<td class="tabhead" width="23%">Attribute Names</td>
+<td class="tabdata">ATD_ID</td>
+</tr>
+</table>
+<br>
+<div class="caption2"><p>Key Properties</p></div>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabhead" width="20%">Tablespace</td>
+<td class="tabdata" width="80%">TBS_ACS_DATOS</td>
+</tr>
+</table>
+<br>
+<div class="itemEnd"><p>&nbsp;</p></div></div>
+<div id="Key_{434AE1BD-1AD4-4695-853B-8F37F9856982}" class="item">
+<a name = "Key_{434AE1BD-1AD4-4695-853B-8F37F9856982}"></a>
+<div class="caption1"><p>PK_ACS_TIPO_MOV (ACS_TIPO_MOV)</p></div>
+<div class="caption2"><p>General Info</p></div>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabhead" width="23%">Caption</td>
+<td class="tabdata">PK ACS_TIPO_MOV</td>
+</tr>
+<tr>
+<td class="tabhead" width="23%">Entity Name</td>
+<td class="tabdata">ACS_TIPO_MOV</td>
+</tr>
+<tr>
+<td class="tabhead" width="23%">Key Type</td>
+<td class="tabdata">Primary Key</td>
+</tr>
+<tr>
+<td class="tabhead" width="23%">Attribute Names</td>
+<td class="tabdata">ATM_ID</td>
+</tr>
+</table>
+<br>
+<div class="caption2"><p>Key Properties</p></div>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabhead" width="20%">Tablespace</td>
+<td class="tabdata" width="80%">TBS_ACS_DATOS</td>
+</tr>
+</table>
+<br>
+<div class="itemEnd"><p>&nbsp;</p></div></div>
+<div id="Key_{D6929E02-F9A7-443E-B738-C59957599B63}" class="item">
+<a name = "Key_{D6929E02-F9A7-443E-B738-C59957599B63}"></a>
+<div class="caption1"><p>PK_ACS_TIPO_PLANILLA (ACS_TIPO_PLANILLA)</p></div>
+<div class="caption2"><p>General Info</p></div>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabhead" width="23%">Caption</td>
+<td class="tabdata">PK ACS_TIPO_PLANILLA</td>
+</tr>
+<tr>
+<td class="tabhead" width="23%">Entity Name</td>
+<td class="tabdata">ACS_TIPO_PLANILLA</td>
+</tr>
+<tr>
+<td class="tabhead" width="23%">Key Type</td>
+<td class="tabdata">Primary Key</td>
+</tr>
+<tr>
+<td class="tabhead" width="23%">Attribute Names</td>
+<td class="tabdata">ATP_ID</td>
+</tr>
+</table>
+<br>
+<div class="caption2"><p>Key Properties</p></div>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabhead" width="20%">Tablespace</td>
+<td class="tabdata" width="80%">TBS_ACS_DATOS</td>
+</tr>
+</table>
+<br>
+<div class="itemEnd"><p>&nbsp;</p></div></div>
+<div id="Key_{53CA2D0A-4440-4B2D-B83E-0F68C15E3A38}" class="item">
+<a name = "Key_{53CA2D0A-4440-4B2D-B83E-0F68C15E3A38}"></a>
+<div class="caption1"><p>PK_ACS_TURNO (ACS_TURNO)</p></div>
+<div class="caption2"><p>General Info</p></div>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabhead" width="23%">Caption</td>
+<td class="tabdata">PK ACS_TURNO</td>
+</tr>
+<tr>
+<td class="tabhead" width="23%">Entity Name</td>
+<td class="tabdata">ACS_TURNO</td>
+</tr>
+<tr>
+<td class="tabhead" width="23%">Key Type</td>
+<td class="tabdata">Primary Key</td>
+</tr>
+<tr>
+<td class="tabhead" width="23%">Attribute Names</td>
+<td class="tabdata">ATU_ID</td>
+</tr>
+</table>
+<br>
+<div class="caption2"><p>Key Properties</p></div>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabhead" width="20%">Tablespace</td>
+<td class="tabdata" width="80%">TBS_ACS_DATOS</td>
+</tr>
+</table>
+<br>
+<div class="itemEnd"><p>&nbsp;</p></div></div>
+<div id="Key_{81E18761-F052-4DD7-B522-3B6F4047BA6F}" class="item">
+<a name = "Key_{81E18761-F052-4DD7-B522-3B6F4047BA6F}"></a>
+<div class="caption1"><p>PK_ACS_TURNO_PLANILLA (ACS_TURNO_PLANILLA)</p></div>
+<div class="caption2"><p>General Info</p></div>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabhead" width="23%">Caption</td>
+<td class="tabdata">PK ACS_TURNO_PLANILLA</td>
+</tr>
+<tr>
+<td class="tabhead" width="23%">Entity Name</td>
+<td class="tabdata">ACS_TURNO_PLANILLA</td>
+</tr>
+<tr>
+<td class="tabhead" width="23%">Key Type</td>
+<td class="tabdata">Primary Key</td>
+</tr>
+<tr>
+<td class="tabhead" width="23%">Attribute Names</td>
+<td class="tabdata">ATRP_ID</td>
+</tr>
+</table>
+<br>
+<div class="caption2"><p>Key Properties</p></div>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabhead" width="20%">Tablespace</td>
+<td class="tabdata" width="80%">TBS_ACS_DATOS</td>
+</tr>
+</table>
+<br>
+<div class="itemEnd"><p>&nbsp;</p></div></div>
+<div id="Key_{B493267C-8593-47AA-AA74-C69B3BB62B6E}" class="item">
+<a name = "Key_{B493267C-8593-47AA-AA74-C69B3BB62B6E}"></a>
+<div class="caption1"><p>PK_ACS_USUARIO (ACS_USUARIO)</p></div>
+<div class="caption2"><p>General Info</p></div>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabhead" width="23%">Caption</td>
+<td class="tabdata">PK ACS_USUARIO</td>
+</tr>
+<tr>
+<td class="tabhead" width="23%">Entity Name</td>
+<td class="tabdata">ACS_USUARIO</td>
+</tr>
+<tr>
+<td class="tabhead" width="23%">Key Type</td>
+<td class="tabdata">Primary Key</td>
+</tr>
+<tr>
+<td class="tabhead" width="23%">Attribute Names</td>
+<td class="tabdata">AUS_ID</td>
+</tr>
+</table>
+<br>
+<div class="caption2"><p>Key Properties</p></div>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabhead" width="20%">Tablespace</td>
+<td class="tabdata" width="80%">TBS_ACS_DATOS</td>
+</tr>
+</table>
+<br>
+<div class="itemEnd"><p>&nbsp;</p></div></div>
+</div><div id="footer"><div class="pageFooter">Copyright &copy; Sitename 2005</div><div class="footerEnd"><p></p></div></div></div></div></body></html>

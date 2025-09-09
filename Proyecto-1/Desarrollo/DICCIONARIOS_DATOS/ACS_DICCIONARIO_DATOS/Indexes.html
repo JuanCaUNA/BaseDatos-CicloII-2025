@@ -1,0 +1,527 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <meta name="keywords" content="TDM_Report">
+        <link rel="stylesheet" type="text/css" media="screen" href="dark.css" title="report">
+        <link rel="stylesheet" type="text/css" media="print" href="dark_NoFrames_print.css" title="report">
+            <script src="tdmShowDetails.js" type="text/javascript"></script>
+        <title>Toad Data Modeler - HTML Report</title>
+    </head>
+
+<body onLoad="getUrlItem()"><div class="mainContainer"><div id="headerContainer"><div id="header"><div class="title1"></div><div class="title2">Indexes</div><div class="reportStats">martes, 9 de septiembre de 2025 05:16:56 p. m.</div><div class="titleimage"><a href="https://www.quest.com/" target="_blank"><img src="Img/logo.png" alt="Made with Toad Data Modeler" border="0" /></a></div><div class="headerEnd"><p>&nbsp;</p></div></div><div id="navTop"><ul><li><a href="MInfo.html">Model Info</a></li><li><a href="MImage.html">ER Diagram</a></li><li><a href="Tables.html">Entities</a></li><li><a href="Columns.html">Attributes</a></li><li class="selLi"><a href="Indexes.html" class="selAnchor">Indexes</a></li><li><a href="Keys.html">Keys</a></li><li><a href="Relations.html">Relationships</a></li><li><a href="CheckConstraints.html">Check Constraints</a></li><li><a href="Tablespaces.html">Tablespaces</a></li><li><a href="UserGroups.html">User Groups</a></li></ul><div id="navTopEnd"><p>&nbsp;</p></div></div></div><div id="navCombo"><form name="allItems" action=""><select name="listOfItems" onChange="showSelected()"><option value="Index_{2E3456BE-6893-42B4-9F3C-F30965454B42}">UQ_ABA_NOMBRE (ACS_BANCO)</option><option>------------</option><option value="Index_{4ACA2F03-B0A0-4AFA-B5A0-89BB8C288D49}">UQ_ACB_ES_PRINCIPAL_USUARIO (ACS_CUENTA_BANCARIA)</option><option value="Index_{E959AD41-A9F9-4B7A-8D26-38C23802B46E}">UQ_ACB_NUMERO_CUENTA (ACS_CUENTA_BANCARIA)</option><option>------------</option><option value="Index_{41475E91-5F68-4348-9541-724F4421326D}">IDX_AME_ID (ADM) (ACS_DETALLE_MENSUAL)</option><option value="Index_{B3643E95-04D2-4196-8E9A-7AB32BB1F0E2}">UQ_AEM_ID_X_ATU_ID_X_APM_ID_X_AME_ID_X_ADM_FECHA (ACS_DETALLE_MENSUAL)</option><option>------------</option><option value="Index_{B0541439-36D6-4E21-AB95-FF3C69B2D529}">UQ_AES_ID_X_APM_ID_X_ATU_ID_X_ADS_DIA_SEMANA (ACS_DETALLE_SEMANAL)</option><option>------------</option><option value="Index_{35355E1B-2AB7-4679-9FCD-577093C004D3}">UQ_AUS_ID_X_ATD_ID (ACS_DOCUMENTO_USUARIO)</option><option>------------</option><option value="Index_{35FD6ACA-4DD7-4406-93D0-C58417801BAC}">UQ_APR_PAN_TIU (ACS_PERMISO)</option><option>------------</option><option value="Index_{4A786789-50C8-4408-A10A-A1B4C0BCEB5D}">IDX_APE_NOMBRE (ACS_PERSONA)</option><option value="Index_{F872ADA8-791B-4089-A937-50E4C484B12F}">UQ_APE_CEDULA (ACS_PERSONA)</option><option value="Index_{5C66C198-9736-4563-9E5A-F0B4DECC1247}">UQ_APE_EMAIL (ACS_PERSONA)</option><option>------------</option><option value="Index_{E54E1F5F-231D-4533-B89A-D42996876918}">IDX_ATU_ID_X_APM_ID (ACS_PRECIOXTURNO)</option><option>------------</option><option value="Index_{A5D1AD00-2D41-4943-9693-11D6B4B89524}">IDX_ACM_ID (ACS_PROC_APLICADO)</option><option value="Index_{A61C32AC-F2F4-469A-8C3C-AFC630EE2A00}">IDX_AME_ID (APA) (ACS_PROC_APLICADO)</option><option value="Index_{51F2265F-B1A1-4E86-A062-55AB9AA0153C}">IDX_AME_ID_X_ACM_ID (ACS_PROC_APLICADO)</option><option>------------</option><option value="Index_{A3CF2A4F-5837-4617-8AC1-B7ECD54F6A98}">UQ_ATD_TIPO_U_X_ATD_DOCU_R (ACS_TIPO_DOCUMENTO)</option></select></form><div id="navComboEnd"><p></p></div></div><div id="navLeft"><div id="bookmark"><ul><li><a onClick="return showDetail('Index_{2E3456BE-6893-42B4-9F3C-F30965454B42}', this)">UQ_ABA_NOMBRE (ACS_BANCO)</a></li><li class="spacerGap"></li><li><a onClick="return showDetail('Index_{4ACA2F03-B0A0-4AFA-B5A0-89BB8C288D49}', this)">UQ_ACB_ES_PRINCIPAL_USUARIO (ACS_CUENTA_BANCARIA)</a></li><li><a onClick="return showDetail('Index_{E959AD41-A9F9-4B7A-8D26-38C23802B46E}', this)">UQ_ACB_NUMERO_CUENTA (ACS_CUENTA_BANCARIA)</a></li><li class="spacerGap"></li><li><a onClick="return showDetail('Index_{41475E91-5F68-4348-9541-724F4421326D}', this)">IDX_AME_ID (ADM) (ACS_DETALLE_MENSUAL)</a></li><li><a onClick="return showDetail('Index_{B3643E95-04D2-4196-8E9A-7AB32BB1F0E2}', this)">UQ_AEM_ID_X_ATU_ID_X_APM_ID_X_AME_ID_X_ADM_FECHA (ACS_DETALLE_MENSUAL)</a></li><li class="spacerGap"></li><li><a onClick="return showDetail('Index_{B0541439-36D6-4E21-AB95-FF3C69B2D529}', this)">UQ_AES_ID_X_APM_ID_X_ATU_ID_X_ADS_DIA_SEMANA (ACS_DETALLE_SEMANAL)</a></li><li class="spacerGap"></li><li><a onClick="return showDetail('Index_{35355E1B-2AB7-4679-9FCD-577093C004D3}', this)">UQ_AUS_ID_X_ATD_ID (ACS_DOCUMENTO_USUARIO)</a></li><li class="spacerGap"></li><li><a onClick="return showDetail('Index_{35FD6ACA-4DD7-4406-93D0-C58417801BAC}', this)">UQ_APR_PAN_TIU (ACS_PERMISO)</a></li><li class="spacerGap"></li><li><a onClick="return showDetail('Index_{4A786789-50C8-4408-A10A-A1B4C0BCEB5D}', this)">IDX_APE_NOMBRE (ACS_PERSONA)</a></li><li><a onClick="return showDetail('Index_{F872ADA8-791B-4089-A937-50E4C484B12F}', this)">UQ_APE_CEDULA (ACS_PERSONA)</a></li><li><a onClick="return showDetail('Index_{5C66C198-9736-4563-9E5A-F0B4DECC1247}', this)">UQ_APE_EMAIL (ACS_PERSONA)</a></li><li class="spacerGap"></li><li><a onClick="return showDetail('Index_{E54E1F5F-231D-4533-B89A-D42996876918}', this)">IDX_ATU_ID_X_APM_ID (ACS_PRECIOXTURNO)</a></li><li class="spacerGap"></li><li><a onClick="return showDetail('Index_{A5D1AD00-2D41-4943-9693-11D6B4B89524}', this)">IDX_ACM_ID (ACS_PROC_APLICADO)</a></li><li><a onClick="return showDetail('Index_{A61C32AC-F2F4-469A-8C3C-AFC630EE2A00}', this)">IDX_AME_ID (APA) (ACS_PROC_APLICADO)</a></li><li><a onClick="return showDetail('Index_{51F2265F-B1A1-4E86-A062-55AB9AA0153C}', this)">IDX_AME_ID_X_ACM_ID (ACS_PROC_APLICADO)</a></li><li class="spacerGap"></li><li><a onClick="return showDetail('Index_{A3CF2A4F-5837-4617-8AC1-B7ECD54F6A98}', this)">UQ_ATD_TIPO_U_X_ATD_DOCU_R (ACS_TIPO_DOCUMENTO)</a></li></ul><div id="bookmarkEnd"><p>&nbsp;</p></div></div></div><div class="separator" ></div><div class="container"><div id="content"><div id="Index_{2E3456BE-6893-42B4-9F3C-F30965454B42}" class="item">
+<a name = "Index_{2E3456BE-6893-42B4-9F3C-F30965454B42}"></a>
+<div class="caption1"><p>UQ_ABA_NOMBRE (ACS_BANCO)</p></div>
+<div class="caption2"><p>General Info</p></div>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabhead" width="23%">Caption</td>
+<td class="tabdata">UQ_ABA_NOMBRE</td>
+</tr>
+<tr>
+<td class="tabhead" width="23%">Entity Name</td>
+<td class="tabdata">ACS_BANCO</td>
+</tr>
+<tr>
+<td class="tabhead" width="23%">Unique</td>
+<td class="tabdata">YES</td>
+</tr>
+<tr>
+<td class="tabhead" width="23%">Attribute Names</td>
+<td class="tabdata">ABA_NOMBRE</td>
+</tr>
+</table>
+<br>
+<div class="caption2"><p>Index Properties</p></div>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabhead" width="20%">Tablespace</td>
+<td class="tabdata" width="80%">TBS_ACS_INDICES</td>
+</tr>
+</table>
+<br>
+<div class="itemEnd"><p>&nbsp;</p></div></div>
+<div id="Index_{4ACA2F03-B0A0-4AFA-B5A0-89BB8C288D49}" class="item">
+<a name = "Index_{4ACA2F03-B0A0-4AFA-B5A0-89BB8C288D49}"></a>
+<div class="caption1"><p>UQ_ACB_ES_PRINCIPAL_USUARIO (ACS_CUENTA_BANCARIA)</p></div>
+<div class="caption2"><p>General Info</p></div>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabhead" width="23%">Caption</td>
+<td class="tabdata">UQ_ACB_ES_PRINCIPAL_USUARIO</td>
+</tr>
+<tr>
+<td class="tabhead" width="23%">Entity Name</td>
+<td class="tabdata">ACS_CUENTA_BANCARIA</td>
+</tr>
+<tr>
+<td class="tabhead" width="23%">Unique</td>
+<td class="tabdata">YES</td>
+</tr>
+<tr>
+<td class="tabhead" width="23%">Expression</td>
+<td class="tabdata">(CASE WHEN ACB_ES_PRINCIPAL = 'SI' THEN AUS_ID END)</td>
+</tr>
+</table>
+<br>
+<div class="caption2"><p>Index Properties</p></div>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabhead" width="20%">Tablespace</td>
+<td class="tabdata" width="80%">TBS_ACS_INDICES</td>
+</tr>
+</table>
+<br>
+<div class="itemEnd"><p>&nbsp;</p></div></div>
+<div id="Index_{E959AD41-A9F9-4B7A-8D26-38C23802B46E}" class="item">
+<a name = "Index_{E959AD41-A9F9-4B7A-8D26-38C23802B46E}"></a>
+<div class="caption1"><p>UQ_ACB_NUMERO_CUENTA (ACS_CUENTA_BANCARIA)</p></div>
+<div class="caption2"><p>General Info</p></div>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabhead" width="23%">Caption</td>
+<td class="tabdata">UQ_ACB_NUMERO_CUENTA</td>
+</tr>
+<tr>
+<td class="tabhead" width="23%">Entity Name</td>
+<td class="tabdata">ACS_CUENTA_BANCARIA</td>
+</tr>
+<tr>
+<td class="tabhead" width="23%">Unique</td>
+<td class="tabdata">YES</td>
+</tr>
+<tr>
+<td class="tabhead" width="23%">Attribute Names</td>
+<td class="tabdata">ACB_NUMERO_CUENTA</td>
+</tr>
+</table>
+<br>
+<div class="caption2"><p>Index Properties</p></div>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabhead" width="20%">Tablespace</td>
+<td class="tabdata" width="80%">TBS_ACS_INDICES</td>
+</tr>
+</table>
+<br>
+<div class="itemEnd"><p>&nbsp;</p></div></div>
+<div id="Index_{41475E91-5F68-4348-9541-724F4421326D}" class="item">
+<a name = "Index_{41475E91-5F68-4348-9541-724F4421326D}"></a>
+<div class="caption1"><p>IDX_AME_ID (ADM) (ACS_DETALLE_MENSUAL)</p></div>
+<div class="caption2"><p>General Info</p></div>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabhead" width="23%">Caption</td>
+<td class="tabdata">IDX_AME_ID</td>
+</tr>
+<tr>
+<td class="tabhead" width="23%">Entity Name</td>
+<td class="tabdata">ACS_DETALLE_MENSUAL</td>
+</tr>
+<tr>
+<td class="tabhead" width="23%">Unique</td>
+<td class="tabdata">NO</td>
+</tr>
+<tr>
+<td class="tabhead" width="23%">Attribute Names</td>
+<td class="tabdata">AME_ID</td>
+</tr>
+</table>
+<br>
+<div class="caption2"><p>Index Properties</p></div>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabhead" width="20%">Tablespace</td>
+<td class="tabdata" width="80%">TBS_ACS_INDICES</td>
+</tr>
+</table>
+<br>
+<div class="itemEnd"><p>&nbsp;</p></div></div>
+<div id="Index_{B3643E95-04D2-4196-8E9A-7AB32BB1F0E2}" class="item">
+<a name = "Index_{B3643E95-04D2-4196-8E9A-7AB32BB1F0E2}"></a>
+<div class="caption1"><p>UQ_AEM_ID_X_ATU_ID_X_APM_ID_X_AME_ID_X_ADM_FECHA (ACS_DETALLE_MENSUAL)</p></div>
+<div class="caption2"><p>General Info</p></div>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabhead" width="23%">Caption</td>
+<td class="tabdata">UQ_AEM_ID_X_ATU_ID_X_APM_ID_X_AME_ID_X_ADM_FECHA</td>
+</tr>
+<tr>
+<td class="tabhead" width="23%">Entity Name</td>
+<td class="tabdata">ACS_DETALLE_MENSUAL</td>
+</tr>
+<tr>
+<td class="tabhead" width="23%">Unique</td>
+<td class="tabdata">YES</td>
+</tr>
+<tr>
+<td class="tabhead" width="23%">Attribute Names</td>
+<td class="tabdata">ATU_ID, APM_ID, AME_ID, AEM_ID, ADM_FECHA</td>
+</tr>
+</table>
+<br>
+<div class="caption2"><p>Index Properties</p></div>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabhead" width="20%">Tablespace</td>
+<td class="tabdata" width="80%">TBS_ACS_INDICES</td>
+</tr>
+</table>
+<br>
+<div class="itemEnd"><p>&nbsp;</p></div></div>
+<div id="Index_{B0541439-36D6-4E21-AB95-FF3C69B2D529}" class="item">
+<a name = "Index_{B0541439-36D6-4E21-AB95-FF3C69B2D529}"></a>
+<div class="caption1"><p>UQ_AES_ID_X_APM_ID_X_ATU_ID_X_ADS_DIA_SEMANA (ACS_DETALLE_SEMANAL)</p></div>
+<div class="caption2"><p>General Info</p></div>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabhead" width="23%">Caption</td>
+<td class="tabdata">UQ_AES_ID_X_APM_ID_X_ATU_ID_X_ADS_DIA_SEMANA</td>
+</tr>
+<tr>
+<td class="tabhead" width="23%">Entity Name</td>
+<td class="tabdata">ACS_DETALLE_SEMANAL</td>
+</tr>
+<tr>
+<td class="tabhead" width="23%">Unique</td>
+<td class="tabdata">YES</td>
+</tr>
+<tr>
+<td class="tabhead" width="23%">Attribute Names</td>
+<td class="tabdata">ATU_ID, APM_ID, AES_ID, ADS_DIA_SEMANA</td>
+</tr>
+</table>
+<br>
+<div class="caption2"><p>Index Properties</p></div>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabhead" width="20%">Tablespace</td>
+<td class="tabdata" width="80%">TBS_ACS_INDICES</td>
+</tr>
+</table>
+<br>
+<div class="itemEnd"><p>&nbsp;</p></div></div>
+<div id="Index_{35355E1B-2AB7-4679-9FCD-577093C004D3}" class="item">
+<a name = "Index_{35355E1B-2AB7-4679-9FCD-577093C004D3}"></a>
+<div class="caption1"><p>UQ_AUS_ID_X_ATD_ID (ACS_DOCUMENTO_USUARIO)</p></div>
+<div class="caption2"><p>General Info</p></div>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabhead" width="23%">Caption</td>
+<td class="tabdata">UQ_AUS_ID_X_ATD_ID</td>
+</tr>
+<tr>
+<td class="tabhead" width="23%">Entity Name</td>
+<td class="tabdata">ACS_DOCUMENTO_USUARIO</td>
+</tr>
+<tr>
+<td class="tabhead" width="23%">Unique</td>
+<td class="tabdata">YES</td>
+</tr>
+<tr>
+<td class="tabhead" width="23%">Attribute Names</td>
+<td class="tabdata">AUS_ID, ATD_ID</td>
+</tr>
+</table>
+<br>
+<div class="caption2"><p>Index Properties</p></div>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabhead" width="20%">Tablespace</td>
+<td class="tabdata" width="80%">TBS_ACS_INDICES</td>
+</tr>
+</table>
+<br>
+<div class="itemEnd"><p>&nbsp;</p></div></div>
+<div id="Index_{35FD6ACA-4DD7-4406-93D0-C58417801BAC}" class="item">
+<a name = "Index_{35FD6ACA-4DD7-4406-93D0-C58417801BAC}"></a>
+<div class="caption1"><p>UQ_APR_PAN_TIU (ACS_PERMISO)</p></div>
+<div class="caption2"><p>General Info</p></div>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabhead" width="23%">Caption</td>
+<td class="tabdata">UQ_APR_PAN_TIU</td>
+</tr>
+<tr>
+<td class="tabhead" width="23%">Entity Name</td>
+<td class="tabdata">ACS_PERMISO</td>
+</tr>
+<tr>
+<td class="tabhead" width="23%">Unique</td>
+<td class="tabdata">YES</td>
+</tr>
+<tr>
+<td class="tabhead" width="23%">Attribute Names</td>
+<td class="tabdata">APR_PANTALLA, APR_TIPO_USUARIO</td>
+</tr>
+</table>
+<br>
+<div class="caption2"><p>Index Properties</p></div>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabhead" width="20%">Tablespace</td>
+<td class="tabdata" width="80%">TBS_ACS_INDICES</td>
+</tr>
+</table>
+<br>
+<div class="itemEnd"><p>&nbsp;</p></div></div>
+<div id="Index_{4A786789-50C8-4408-A10A-A1B4C0BCEB5D}" class="item">
+<a name = "Index_{4A786789-50C8-4408-A10A-A1B4C0BCEB5D}"></a>
+<div class="caption1"><p>IDX_APE_NOMBRE (ACS_PERSONA)</p></div>
+<div class="caption2"><p>General Info</p></div>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabhead" width="23%">Caption</td>
+<td class="tabdata">IDX_APE_NOMBRE</td>
+</tr>
+<tr>
+<td class="tabhead" width="23%">Entity Name</td>
+<td class="tabdata">ACS_PERSONA</td>
+</tr>
+<tr>
+<td class="tabhead" width="23%">Unique</td>
+<td class="tabdata">NO</td>
+</tr>
+<tr>
+<td class="tabhead" width="23%">Attribute Names</td>
+<td class="tabdata">APE_NOMBRE, APE_P_APELLIDO, APE_S_APELLIDO</td>
+</tr>
+</table>
+<br>
+<div class="caption2"><p>Index Properties</p></div>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabhead" width="20%">Tablespace</td>
+<td class="tabdata" width="80%">TBS_ACS_INDICES</td>
+</tr>
+</table>
+<br>
+<div class="itemEnd"><p>&nbsp;</p></div></div>
+<div id="Index_{F872ADA8-791B-4089-A937-50E4C484B12F}" class="item">
+<a name = "Index_{F872ADA8-791B-4089-A937-50E4C484B12F}"></a>
+<div class="caption1"><p>UQ_APE_CEDULA (ACS_PERSONA)</p></div>
+<div class="caption2"><p>General Info</p></div>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabhead" width="23%">Caption</td>
+<td class="tabdata">UQ_APE_CEDULA</td>
+</tr>
+<tr>
+<td class="tabhead" width="23%">Entity Name</td>
+<td class="tabdata">ACS_PERSONA</td>
+</tr>
+<tr>
+<td class="tabhead" width="23%">Unique</td>
+<td class="tabdata">YES</td>
+</tr>
+<tr>
+<td class="tabhead" width="23%">Attribute Names</td>
+<td class="tabdata">APE_CEDULA</td>
+</tr>
+</table>
+<br>
+<div class="caption2"><p>Index Properties</p></div>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabhead" width="20%">Tablespace</td>
+<td class="tabdata" width="80%">TBS_ACS_INDICES</td>
+</tr>
+</table>
+<br>
+<div class="itemEnd"><p>&nbsp;</p></div></div>
+<div id="Index_{5C66C198-9736-4563-9E5A-F0B4DECC1247}" class="item">
+<a name = "Index_{5C66C198-9736-4563-9E5A-F0B4DECC1247}"></a>
+<div class="caption1"><p>UQ_APE_EMAIL (ACS_PERSONA)</p></div>
+<div class="caption2"><p>General Info</p></div>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabhead" width="23%">Caption</td>
+<td class="tabdata">UQ_APE_EMAIL</td>
+</tr>
+<tr>
+<td class="tabhead" width="23%">Entity Name</td>
+<td class="tabdata">ACS_PERSONA</td>
+</tr>
+<tr>
+<td class="tabhead" width="23%">Unique</td>
+<td class="tabdata">YES</td>
+</tr>
+<tr>
+<td class="tabhead" width="23%">Attribute Names</td>
+<td class="tabdata">APE_EMAIL</td>
+</tr>
+</table>
+<br>
+<div class="caption2"><p>Index Properties</p></div>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabhead" width="20%">Tablespace</td>
+<td class="tabdata" width="80%">TBS_ACS_INDICES</td>
+</tr>
+</table>
+<br>
+<div class="itemEnd"><p>&nbsp;</p></div></div>
+<div id="Index_{E54E1F5F-231D-4533-B89A-D42996876918}" class="item">
+<a name = "Index_{E54E1F5F-231D-4533-B89A-D42996876918}"></a>
+<div class="caption1"><p>IDX_ATU_ID_X_APM_ID (ACS_PRECIOXTURNO)</p></div>
+<div class="caption2"><p>General Info</p></div>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabhead" width="23%">Caption</td>
+<td class="tabdata">IDX_ATU_ID_X_APM_ID</td>
+</tr>
+<tr>
+<td class="tabhead" width="23%">Entity Name</td>
+<td class="tabdata">ACS_PRECIOXTURNO</td>
+</tr>
+<tr>
+<td class="tabhead" width="23%">Unique</td>
+<td class="tabdata">NO</td>
+</tr>
+<tr>
+<td class="tabhead" width="23%">Attribute Names</td>
+<td class="tabdata">APM_ID, ATU_ID</td>
+</tr>
+</table>
+<br>
+<div class="caption2"><p>Index Properties</p></div>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabhead" width="20%">Tablespace</td>
+<td class="tabdata" width="80%">TBS_ACS_INDICES</td>
+</tr>
+</table>
+<br>
+<div class="itemEnd"><p>&nbsp;</p></div></div>
+<div id="Index_{A5D1AD00-2D41-4943-9693-11D6B4B89524}" class="item">
+<a name = "Index_{A5D1AD00-2D41-4943-9693-11D6B4B89524}"></a>
+<div class="caption1"><p>IDX_ACM_ID (ACS_PROC_APLICADO)</p></div>
+<div class="caption2"><p>General Info</p></div>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabhead" width="23%">Caption</td>
+<td class="tabdata">IDX_ACM_ID</td>
+</tr>
+<tr>
+<td class="tabhead" width="23%">Entity Name</td>
+<td class="tabdata">ACS_PROC_APLICADO</td>
+</tr>
+<tr>
+<td class="tabhead" width="23%">Unique</td>
+<td class="tabdata">NO</td>
+</tr>
+<tr>
+<td class="tabhead" width="23%">Attribute Names</td>
+<td class="tabdata">ACM_ID</td>
+</tr>
+</table>
+<br>
+<div class="caption2"><p>Index Properties</p></div>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabhead" width="20%">Tablespace</td>
+<td class="tabdata" width="80%">TBS_ACS_INDICES</td>
+</tr>
+</table>
+<br>
+<div class="itemEnd"><p>&nbsp;</p></div></div>
+<div id="Index_{A61C32AC-F2F4-469A-8C3C-AFC630EE2A00}" class="item">
+<a name = "Index_{A61C32AC-F2F4-469A-8C3C-AFC630EE2A00}"></a>
+<div class="caption1"><p>IDX_AME_ID (APA) (ACS_PROC_APLICADO)</p></div>
+<div class="caption2"><p>General Info</p></div>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabhead" width="23%">Caption</td>
+<td class="tabdata">IDX_AME_ID (APA)</td>
+</tr>
+<tr>
+<td class="tabhead" width="23%">Entity Name</td>
+<td class="tabdata">ACS_PROC_APLICADO</td>
+</tr>
+<tr>
+<td class="tabhead" width="23%">Unique</td>
+<td class="tabdata">NO</td>
+</tr>
+<tr>
+<td class="tabhead" width="23%">Attribute Names</td>
+<td class="tabdata">AME_ID</td>
+</tr>
+</table>
+<br>
+<div class="caption2"><p>Index Properties</p></div>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabhead" width="20%">Tablespace</td>
+<td class="tabdata" width="80%">TBS_ACS_INDICES</td>
+</tr>
+</table>
+<br>
+<div class="itemEnd"><p>&nbsp;</p></div></div>
+<div id="Index_{51F2265F-B1A1-4E86-A062-55AB9AA0153C}" class="item">
+<a name = "Index_{51F2265F-B1A1-4E86-A062-55AB9AA0153C}"></a>
+<div class="caption1"><p>IDX_AME_ID_X_ACM_ID (ACS_PROC_APLICADO)</p></div>
+<div class="caption2"><p>General Info</p></div>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabhead" width="23%">Caption</td>
+<td class="tabdata">IDX_AME_ID_X_ACM_ID</td>
+</tr>
+<tr>
+<td class="tabhead" width="23%">Entity Name</td>
+<td class="tabdata">ACS_PROC_APLICADO</td>
+</tr>
+<tr>
+<td class="tabhead" width="23%">Unique</td>
+<td class="tabdata">NO</td>
+</tr>
+<tr>
+<td class="tabhead" width="23%">Attribute Names</td>
+<td class="tabdata">AME_ID, ACM_ID</td>
+</tr>
+</table>
+<br>
+<div class="caption2"><p>Index Properties</p></div>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabhead" width="20%">Tablespace</td>
+<td class="tabdata" width="80%">TBS_ACS_INDICES</td>
+</tr>
+</table>
+<br>
+<div class="itemEnd"><p>&nbsp;</p></div></div>
+<div id="Index_{A3CF2A4F-5837-4617-8AC1-B7ECD54F6A98}" class="item">
+<a name = "Index_{A3CF2A4F-5837-4617-8AC1-B7ECD54F6A98}"></a>
+<div class="caption1"><p>UQ_ATD_TIPO_U_X_ATD_DOCU_R (ACS_TIPO_DOCUMENTO)</p></div>
+<div class="caption2"><p>General Info</p></div>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabhead" width="23%">Caption</td>
+<td class="tabdata">UQ_ATD_TIPO_U_X_ATD_DOR</td>
+</tr>
+<tr>
+<td class="tabhead" width="23%">Entity Name</td>
+<td class="tabdata">ACS_TIPO_DOCUMENTO</td>
+</tr>
+<tr>
+<td class="tabhead" width="23%">Unique</td>
+<td class="tabdata">YES</td>
+</tr>
+<tr>
+<td class="tabhead" width="23%">Attribute Names</td>
+<td class="tabdata">ATD_TIPO_USUARIO, ATD_DOCUMENTO_REQUERIDO</td>
+</tr>
+</table>
+<br>
+<div class="caption2"><p>Index Properties</p></div>
+<table class="tabformat" border="0" cellpadding="2" cellspacing="1" width="100%">
+<tr>
+<td class="tabhead" width="20%">Tablespace</td>
+<td class="tabdata" width="80%">TBS_ACS_INDICES</td>
+</tr>
+</table>
+<br>
+<div class="itemEnd"><p>&nbsp;</p></div></div>
+</div><div id="footer"><div class="pageFooter">Copyright &copy; Sitename 2005</div><div class="footerEnd"><p></p></div></div></div></div></body></html>
