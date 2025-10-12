@@ -34,9 +34,14 @@ Instalar UTL_MAIL si no está instalado (ejecutar desde SQL*Plus como sysdba)
 @C:\Oracle19c\RDBMS\ADMIN\prvtmail.plb
 ```
 
-```bash
-SQL> @$ORACLE_HOME/javavm/install/initjvm.sql
-SQL> @$ORACLE_HOME/rdbms/admin/initplsj.sql
+verificar que esten disponibles:
+
+```sql
+-- Verifica si el paquete UTL_MAIL está disponible
+SELECT object_name, status
+FROM all_objects
+WHERE object_type = 'PACKAGE';
+  -- AND object_name IN ('UTL_MAIL', 'UTL_SMTP');
 ```
 
 referencia: <https://oracle-base.com/articles/misc/email-from-oracle-plsql>
