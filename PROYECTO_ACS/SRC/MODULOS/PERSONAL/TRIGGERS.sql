@@ -44,3 +44,9 @@ FOR EACH ROW
 BEGIN
    :NEW.ADO_FECHA_ACTUALIZACION := SYSDATE;
 END;
+
+/* 
+TODO un trigger que actualice el ultimo acceso del usuario en  planillas, escalas o procedimiento
+si hace algun movieminto ahi se actualiza la fecha de ultimo acceso en usuario
+en total son 3 triggers, uno para cada tabla
+*/
