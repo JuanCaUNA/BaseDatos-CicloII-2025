@@ -1,52 +1,52 @@
-CREATE OR REPLACE TRIGGER TRG_HIST_PROCEDIMIENTO
+﻿CREATE OR REPLACE TRIGGER TRG_HIST_PROCEDIMIENTO
 AFTER UPDATE OF APD_COSTO, APD_PAGO, APD_ESTADO ON ACS_PROCEDIMIENTO
 FOR EACH ROW
 DECLARE
-    -- Helpers para comparaciones NULL-safe
-    FUNCTION num_changed(o NUMBER, n NUMBER) RETURN BOOLEAN IS
+    -- HELPERS PARA COMPARACIONES NULL-SAFE
+    FUNCTION NUM_CHANGED(O NUMBER, N NUMBER) RETURN BOOLEAN IS
     BEGIN
-        IF o IS NULL AND n IS NULL THEN
+        IF O IS NULL AND N IS NULL THEN
             RETURN FALSE;
-        ELSIF o IS NULL AND n IS NOT NULL THEN
+        ELSIF O IS NULL AND N IS NOT NULL THEN
             RETURN TRUE;
-        ELSIF o IS NOT NULL AND n IS NULL THEN
+        ELSIF O IS NOT NULL AND N IS NULL THEN
             RETURN TRUE;
         ELSE
-            RETURN (o != n);
+            RETURN (O != N);
         END IF;
     END;
 
-    FUNCTION str_changed(o VARCHAR2, n VARCHAR2) RETURN BOOLEAN IS
+    FUNCTION STR_CHANGED(O VARCHAR2, N VARCHAR2) RETURN BOOLEAN IS
     BEGIN
-        IF o IS NULL AND n IS NULL THEN
+        IF O IS NULL AND N IS NULL THEN
             RETURN FALSE;
-        ELSIF o IS NULL AND n IS NOT NULL THEN
+        ELSIF O IS NULL AND N IS NOT NULL THEN
             RETURN TRUE;
-        ELSIF o IS NOT NULL AND n IS NULL THEN
+        ELSIF O IS NOT NULL AND N IS NULL THEN
             RETURN TRUE;
         ELSE
-            RETURN NOT (o = n);
+            RETURN NOT (O = N);
         END IF;
     END;
 BEGIN
-    -- Solo actúa si hubo cambio real en costo, pago o estado
-    IF num_changed(:OLD.APD_COSTO, :NEW.APD_COSTO)
-       OR num_changed(:OLD.APD_PAGO,  :NEW.APD_PAGO)
-       OR str_changed(:OLD.APD_ESTADO, :NEW.APD_ESTADO) THEN
+    -- SOLO ACTÚA SI HUBO CAMBIO REAL EN COSTO, PAGO O ESTADO
+    IF NUM_CHANGED(:OLD.APD_COSTO, :NEW.APD_COSTO)
+       OR NUM_CHANGED(:OLD.APD_PAGO,  :NEW.APD_PAGO)
+       OR STR_CHANGED(:OLD.APD_ESTADO, :NEW.APD_ESTADO) THEN
 
-        -- Cierra historial abierto (si existe)
-        UPDATE ACS_HISTORIAL_PROCEDIMIENTO h
-        SET h.AHP_FECHA_FIN = SYSTIMESTAMP
-        WHERE h.APD_ID = :OLD.APD_ID
-          AND h.AHP_FECHA_FIN IS NULL
+        -- CIERRA HISTORIAL ABIERTO (SI EXISTE)
+        UPDATE ACS_HISTORIAL_PROCEDIMIENTO H
+        SET H.AHP_FECHA_FIN = SYSTIMESTAMP
+        WHERE H.APD_ID = :OLD.APD_ID
+          AND H.AHP_FECHA_FIN IS NULL
           AND EXISTS (
               SELECT 1
-              FROM ACS_HISTORIAL_PROCEDIMIENTO hh
-              WHERE hh.APD_ID = :OLD.APD_ID
-                AND hh.AHP_FECHA_FIN IS NULL
+              FROM ACS_HISTORIAL_PROCEDIMIENTO HH
+              WHERE HH.APD_ID = :OLD.APD_ID
+                AND HH.AHP_FECHA_FIN IS NULL
           );
 
-        -- Inserta nuevo registro de historial
+        -- INSERTA NUEVO REGISTRO DE HISTORIAL
         INSERT INTO ACS_HISTORIAL_PROCEDIMIENTO (
             AHP_NOMBRE,
             AHP_DESCRIPCION,
@@ -69,8 +69,8 @@ BEGIN
     END IF;
 EXCEPTION
     WHEN OTHERS THEN
-        -- Fallar claramente para evitar inconsistencia silenciosa
-        RAISE_APPLICATION_ERROR(-20030, 'TRG_HIST_PROCEDIMIENTO error: ' || SQLERRM);
+        -- FALLAR CLARAMENTE PARA EVITAR INCONSISTENCIA SILENCIOSA
+        RAISE_APPLICATION_ERROR(-20030, 'TRG_HIST_PROCEDIMIENTO ERROR: ' || SQLERRM);
 END;
 /
 
@@ -78,33 +78,33 @@ CREATE OR REPLACE TRIGGER TRG_PROC_APLICADO_VALID
 BEFORE INSERT OR UPDATE ON ACS_PROC_APLICADO
 FOR EACH ROW
 DECLARE
-    v_costo NUMBER;
-    v_pago  NUMBER;
+    V_COSTO NUMBER;
+    V_PAGO  NUMBER;
 BEGIN
-    -- Obtiene los valores de costo y pago solo si es un INSERT
+    -- OBTIENE LOS VALORES DE COSTO Y PAGO SOLO SI ES UN INSERT
     IF INSERTING THEN
         BEGIN
             SELECT APD_COSTO, APD_PAGO
-            INTO v_costo, v_pago
+            INTO V_COSTO, V_PAGO
             FROM ACS_PROCEDIMIENTO
             WHERE APD_ID = :NEW.APD_ID;
 
-            -- Asigna los valores por defecto si son NULL
-            :NEW.APA_COSTO := COALESCE(:NEW.APA_COSTO, v_costo);
-            :NEW.APA_PAGO := COALESCE(:NEW.APA_PAGO, v_pago);
+            -- ASIGNA LOS VALORES POR DEFECTO SI SON NULL
+            :NEW.APA_COSTO := COALESCE(:NEW.APA_COSTO, V_COSTO);
+            :NEW.APA_PAGO := COALESCE(:NEW.APA_PAGO, V_PAGO);
         EXCEPTION
             WHEN NO_DATA_FOUND THEN
-                RAISE_APPLICATION_ERROR(-20020, 'Procedimiento no encontrado.');
+                RAISE_APPLICATION_ERROR(-20020, 'PROCEDIMIENTO NO ENCONTRADO.');
         END;
     END IF;
 
-    -- Validaciones obligatorias
+    -- VALIDACIONES OBLIGATORIAS
     IF :NEW.APA_COSTO IS NULL OR :NEW.APA_COSTO < 0 THEN
-        RAISE_APPLICATION_ERROR(-20010, 'El costo aplicado no puede ser nulo ni negativo.');
+        RAISE_APPLICATION_ERROR(-20010, 'EL COSTO APLICADO NO PUEDE SER NULO NI NEGATIVO.');
     END IF;
 
     IF :NEW.APA_PAGO IS NULL OR :NEW.APA_PAGO < 0 THEN
-        RAISE_APPLICATION_ERROR(-20011, 'El pago al médico no puede ser nulo ni negativo.');
+        RAISE_APPLICATION_ERROR(-20011, 'EL PAGO AL MÉDICO NO PUEDE SER NULO NI NEGATIVO.');
     END IF;
 END;
 /
@@ -113,67 +113,67 @@ CREATE OR REPLACE TRIGGER TRG_UPDATE_ESTADO_ESCALA
 FOR UPDATE OF ADM_ESTADO_TURNO ON ACS_DETALLE_MENSUAL
 COMPOUND TRIGGER
 
-  TYPE t_num_tab IS TABLE OF NUMBER;
-  g_aem_ids t_num_tab := t_num_tab();
+  TYPE T_NUM_TAB IS TABLE OF NUMBER;
+  G_AEM_IDS T_NUM_TAB := T_NUM_TAB();
 
-  /* BEFORE STATEMENT (opcional) */
+  /* BEFORE STATEMENT (OPCIONAL) */
   BEFORE STATEMENT IS
   BEGIN
     NULL;
   END BEFORE STATEMENT;
 
-  /* AFTER EACH ROW: recolecta AEM_IDs únicos afectados */
+  /* AFTER EACH ROW: RECOLECTA AEM_IDS ÚNICOS AFECTADOS */
   AFTER EACH ROW IS
-    l_found BOOLEAN;
+    L_FOUND BOOLEAN;
   BEGIN
     IF :NEW.AEM_ID IS NOT NULL THEN
-      l_found := FALSE;
-      FOR i IN 1 .. g_aem_ids.COUNT LOOP
-        IF g_aem_ids(i) = :NEW.AEM_ID THEN
-          l_found := TRUE;
+      L_FOUND := FALSE;
+      FOR I IN 1 .. G_AEM_IDS.COUNT LOOP
+        IF G_AEM_IDS(I) = :NEW.AEM_ID THEN
+          L_FOUND := TRUE;
           EXIT;
         END IF;
       END LOOP;
 
-      IF NOT l_found THEN
-        g_aem_ids.EXTEND;
-        g_aem_ids(g_aem_ids.COUNT) := :NEW.AEM_ID;
+      IF NOT L_FOUND THEN
+        G_AEM_IDS.EXTEND;
+        G_AEM_IDS(G_AEM_IDS.COUNT) := :NEW.AEM_ID;
       END IF;
     END IF;
   END AFTER EACH ROW;
 
-  /* AFTER STATEMENT: procesa cada AEM_ID único (evita mutating table) */
+  /* AFTER STATEMENT: PROCESA CADA AEM_ID ÚNICO (EVITA MUTATING TABLE) */
   AFTER STATEMENT IS
-    v_total    NUMBER;
-    v_completo NUMBER;
+    V_TOTAL    NUMBER;
+    V_COMPLETO NUMBER;
   BEGIN
-    FOR idx IN 1 .. g_aem_ids.COUNT LOOP
+    FOR IDX IN 1 .. G_AEM_IDS.COUNT LOOP
       BEGIN
         SELECT COUNT(*),
                NVL(SUM(CASE WHEN NVL(ADM_ESTADO_TURNO,'') IN ('CUMPLIDO','REEMPLAZADO') THEN 1 ELSE 0 END), 0)
-        INTO v_total, v_completo
+        INTO V_TOTAL, V_COMPLETO
         FROM ACS_DETALLE_MENSUAL
-        WHERE AEM_ID = g_aem_ids(idx);
+        WHERE AEM_ID = G_AEM_IDS(IDX);
 
-        IF v_total > 0 AND v_total = v_completo THEN
-          -- Actualiza solo si realmente cambia el estado
+        IF V_TOTAL > 0 AND V_TOTAL = V_COMPLETO THEN
+          -- ACTUALIZA SOLO SI REALMENTE CAMBIA EL ESTADO
           UPDATE ACS_ESCALA_MENSUAL
           SET AEM_ESTADO = 'LISTA PARA PAGO'
-          WHERE AEM_ID = g_aem_ids(idx)
+          WHERE AEM_ID = G_AEM_IDS(IDX)
             AND NVL(AEM_ESTADO,'') <> 'LISTA PARA PAGO';
         END IF;
 
       EXCEPTION
         WHEN NO_DATA_FOUND THEN
-          NULL; -- no debería pasar
+          NULL; -- NO DEBERÍA PASAR
         WHEN OTHERS THEN
-          -- Log simple; no queremos dejar que la auditoría bloquee la operación
-          DBMS_OUTPUT.PUT_LINE('TRG_UPDATE_ESTADO_ESCALA error para AEM_ID=' || g_aem_ids(idx) || ': ' || SQLERRM);
+          -- LOG SIMPLE; NO QUEREMOS DEJAR QUE LA AUDITORÍA BLOQUEE LA OPERACIÓN
+          DBMS_OUTPUT.PUT_LINE('TRG_UPDATE_ESTADO_ESCALA ERROR PARA AEM_ID=' || G_AEM_IDS(IDX) || ': ' || SQLERRM);
       END;
     END LOOP;
 
-    -- limpia la colección (buena práctica)
-    g_aem_ids.DELETE;
+    -- LIMPIA LA COLECCIÓN (BUENA PRÁCTICA)
+    G_AEM_IDS.DELETE;
   END AFTER STATEMENT;
 
 END TRG_UPDATE_ESTADO_ESCALA;
@@ -183,12 +183,12 @@ CREATE OR REPLACE TRIGGER TRG_AUDIT_DETALLE_MENSUAL
 AFTER INSERT OR UPDATE OR DELETE ON ACS_DETALLE_MENSUAL
 FOR EACH ROW
 DECLARE
-    v_cambios VARCHAR2(1000);
+    V_CAMBIOS VARCHAR2(1000);
     
     PRAGMA AUTONOMOUS_TRANSACTION;
 BEGIN
     IF INSERTING THEN
-        v_cambios := 'INSERT';
+        V_CAMBIOS := 'INSERT';
         INSERT INTO ACS_AUDITORIA_DETALLE_MENSUAL(
             AUM_OBSERVACIONES,
             AUM_FECHA,
@@ -213,7 +213,7 @@ BEGIN
             :NEW.ADM_ESTADO,
             SYS_CONTEXT('USERENV','SESSION_USER'),
             'INSERT',
-            v_cambios,
+            V_CAMBIOS,
             :NEW.AEM_ID,
             :NEW.AME_ID,
             :NEW.APM_ID,
@@ -222,40 +222,40 @@ BEGIN
         );
 
     ELSIF UPDATING THEN
-        v_cambios := '';
+        V_CAMBIOS := '';
         
         IF NVL(:OLD.ADM_OBSERVACIONES,'') != NVL(:NEW.ADM_OBSERVACIONES,'') THEN
-            v_cambios := v_cambios || 'ADM_OBSERVACIONES,';
+            V_CAMBIOS := V_CAMBIOS || 'ADM_OBSERVACIONES,';
         END IF;
         IF NVL(:OLD.ADM_ESTADO_TURNO,'') != NVL(:NEW.ADM_ESTADO_TURNO,'') THEN
-            v_cambios := v_cambios || 'ADM_ESTADO_TURNO,';
+            V_CAMBIOS := V_CAMBIOS || 'ADM_ESTADO_TURNO,';
         END IF;
         IF NVL(:OLD.ADM_HR_INICIO,SYSTIMESTAMP) != NVL(:NEW.ADM_HR_INICIO,SYSTIMESTAMP) THEN
-            v_cambios := v_cambios || 'ADM_HR_INICIO,';
+            V_CAMBIOS := V_CAMBIOS || 'ADM_HR_INICIO,';
         END IF;
         IF NVL(:OLD.ADM_HR_FIN,SYSTIMESTAMP) != NVL(:NEW.ADM_HR_FIN,SYSTIMESTAMP) THEN
-            v_cambios := v_cambios || 'ADM_HR_FIN,';
+            V_CAMBIOS := V_CAMBIOS || 'ADM_HR_FIN,';
         END IF;
         IF NVL(:OLD.ADM_ESTADO,'') != NVL(:NEW.ADM_ESTADO,'') THEN
-            v_cambios := v_cambios || 'ADM_ESTADO,';
+            V_CAMBIOS := V_CAMBIOS || 'ADM_ESTADO,';
         END IF;
         IF NVL(:OLD.AEM_ID,0) != NVL(:NEW.AEM_ID,0) THEN
-            v_cambios := v_cambios || 'AEM_ID,';
+            V_CAMBIOS := V_CAMBIOS || 'AEM_ID,';
         END IF;
         IF NVL(:OLD.AME_ID,0) != NVL(:NEW.AME_ID,0) THEN
-            v_cambios := v_cambios || 'AME_ID,';
+            V_CAMBIOS := V_CAMBIOS || 'AME_ID,';
         END IF;
         IF NVL(:OLD.APM_ID,0) != NVL(:NEW.APM_ID,0) THEN
-            v_cambios := v_cambios || 'APM_ID,';
+            V_CAMBIOS := V_CAMBIOS || 'APM_ID,';
         END IF;
         IF NVL(:OLD.ATU_ID,0) != NVL(:NEW.ATU_ID,0) THEN
-            v_cambios := v_cambios || 'ATU_ID,';
+            V_CAMBIOS := V_CAMBIOS || 'ATU_ID,';
         END IF;
 
-        -- Solo inserta si hubo cambios
-        IF v_cambios IS NOT NULL AND v_cambios != '' THEN
-            -- Quita la coma final
-            v_cambios := RTRIM(v_cambios,',');
+        -- SOLO INSERTA SI HUBO CAMBIOS
+        IF V_CAMBIOS IS NOT NULL AND V_CAMBIOS != '' THEN
+            -- QUITA LA COMA FINAL
+            V_CAMBIOS := RTRIM(V_CAMBIOS,',');
 
             INSERT INTO ACS_AUDITORIA_DETALLE_MENSUAL(
                 AUM_OBSERVACIONES,
@@ -281,7 +281,7 @@ BEGIN
                 :NEW.ADM_ESTADO,
                 SYS_CONTEXT('USERENV','SESSION_USER'),
                 'UPDATE',
-                v_cambios,
+                V_CAMBIOS,
                 :NEW.AEM_ID,
                 :NEW.AME_ID,
                 :NEW.APM_ID,
@@ -291,7 +291,7 @@ BEGIN
         END IF;
 
     ELSIF DELETING THEN
-        v_cambios := 'DELETE';
+        V_CAMBIOS := 'DELETE';
         INSERT INTO ACS_AUDITORIA_DETALLE_MENSUAL(
             AUM_OBSERVACIONES,
             AUM_FECHA,
@@ -316,7 +316,7 @@ BEGIN
             :OLD.ADM_ESTADO,
             SYS_CONTEXT('USERENV','SESSION_USER'),
             'DELETE',
-            v_cambios,
+            V_CAMBIOS,
             :OLD.AEM_ID,
             :OLD.AME_ID,
             :OLD.APM_ID,
@@ -327,8 +327,8 @@ BEGIN
 
 EXCEPTION
     WHEN OTHERS THEN
-        -- No bloquea la operación principal
-        DBMS_OUTPUT.PUT_LINE('Error en auditoría detalle mensual: ' || SQLERRM);
+        -- NO BLOQUEA LA OPERACIÓN PRINCIPAL
+        DBMS_OUTPUT.PUT_LINE('ERROR EN AUDITORÍA DETALLE MENSUAL: ' || SQLERRM);
         NULL;
 END;
 /
