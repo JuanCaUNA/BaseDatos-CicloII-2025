@@ -1,0 +1,58 @@
+-- ========================================
+-- SCRIPT DE INICIALIZACIÓN PRIMARIA
+-- Base de datos: ORCL (Primary)
+-- Propósito: Configurar Data Guard
+-- ========================================
+
+-- Detener la base de datos
+SHUTDOWN IMMEDIATE;
+
+-- Iniciar en modo MOUNT para configurar ARCHIVELOG
+STARTUP MOUNT;
+
+-- Activar ARCHIVELOG mode
+ALTER DATABASE ARCHIVELOG;
+ALTER DATABASE FORCE LOGGING;
+
+-- Configurar parámetros para Data Guard
+ALTER SYSTEM SET DB_UNIQUE_NAME='ORCL' SCOPE=SPFILE;
+ALTER SYSTEM SET LOG_ARCHIVE_CONFIG='DG_CONFIG=(ORCL,STBY)' SCOPE=SPFILE;
+ALTER SYSTEM SET LOG_ARCHIVE_DEST_1='LOCATION=/opt/oracle/shared/archivelogs VALID_FOR=(ALL_LOGFILES,ALL_ROLES) DB_UNIQUE_NAME=ORCL' SCOPE=SPFILE;
+ALTER SYSTEM SET LOG_ARCHIVE_DEST_2='SERVICE=STBY LGWR ASYNC VALID_FOR=(ONLINE_LOGFILES,PRIMARY_ROLE) DB_UNIQUE_NAME=STBY' SCOPE=SPFILE;
+ALTER SYSTEM SET LOG_ARCHIVE_DEST_STATE_1=ENABLE SCOPE=SPFILE;
+ALTER SYSTEM SET LOG_ARCHIVE_DEST_STATE_2=DEFER SCOPE=SPFILE;
+ALTER SYSTEM SET LOG_ARCHIVE_FORMAT='arch_%t_%s_%r.arc' SCOPE=SPFILE;
+ALTER SYSTEM SET LOG_ARCHIVE_MAX_PROCESSES=5 SCOPE=SPFILE;
+ALTER SYSTEM SET STANDBY_FILE_MANAGEMENT=AUTO SCOPE=SPFILE;
+ALTER SYSTEM SET FAL_SERVER='STBY' SCOPE=SPFILE;
+ALTER SYSTEM SET FAL_CLIENT='ORCL' SCOPE=SPFILE;
+
+-- Configurar redo logs con tamaño adecuado (100MB para generar archivos cada ~50MB)
+ALTER SYSTEM SET LOG_BUFFER=33554432 SCOPE=SPFILE;
+
+-- Abrir la base de datos
+ALTER DATABASE OPEN;
+
+-- Crear redo logs adicionales para Data Guard
+ALTER DATABASE ADD LOGFILE GROUP 4 '/opt/oracle/oradata/ORCL/redo04.log' SIZE 100M;
+ALTER DATABASE ADD LOGFILE GROUP 5 '/opt/oracle/oradata/ORCL/redo05.log' SIZE 100M;
+ALTER DATABASE ADD LOGFILE GROUP 6 '/opt/oracle/oradata/ORCL/redo06.log' SIZE 100M;
+
+-- Forzar log switch para generar archivelogs
+ALTER SYSTEM SWITCH LOGFILE;
+ALTER SYSTEM SWITCH LOGFILE;
+ALTER SYSTEM SWITCH LOGFILE;
+
+-- Crear usuario de administración ACS
+CREATE USER acs_admin IDENTIFIED BY acs_admin;
+GRANT CONNECT, RESOURCE, DBA TO acs_admin;
+
+-- Verificar configuración
+SELECT name, log_mode, force_logging FROM v$database;
+SELECT dest_name, status, destination FROM v$archive_dest WHERE dest_name IN ('LOG_ARCHIVE_DEST_1','LOG_ARCHIVE_DEST_2');
+
+SPOOL /opt/oracle/shared/primary_config.log
+SELECT 'Primary Database Configuration Complete' AS status FROM dual;
+SPOOL OFF
+
+EXIT;

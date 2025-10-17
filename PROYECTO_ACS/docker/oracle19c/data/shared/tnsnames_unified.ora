@@ -1,0 +1,217 @@
+# =====================================================
+# tnsnames.ora Network Configuration File (UNIFICADO)
+# =====================================================
+# Ruta: C:\Instaladores\Oracle19c\WINDOWS.X64_193000_db_home\NETWORK\ADMIN\tnsnames.ora
+# Unificación de configuraciones locales + Data Guard
+# =====================================================
+
+# ------------------------------------------
+# CONFIGURACIONES LOCALES BÁSICAS
+# ------------------------------------------
+
+UNA =
+  (DESCRIPTION =
+    (ADDRESS = (PROTOCOL = TCP)(HOST = localhost)(PORT = 1521))
+    (CONNECT_DATA =
+      (SERVER = DEDICATED)
+      (SERVICE_NAME = UNA)
+    )
+  )
+
+ORCLPDB =
+  (DESCRIPTION =
+    (ADDRESS = (PROTOCOL = TCP)(HOST = localhost)(PORT = 1521))
+    (CONNECT_DATA =
+      (SERVER = DEDICATED)
+      (SERVICE_NAME = ORCLPDB)
+    )
+  )
+
+LISTENER_UNA =
+  (ADDRESS = (PROTOCOL = TCP)(HOST = localhost)(PORT = 1521))
+
+ORACLR_CONNECTION_DATA =
+  (DESCRIPTION =
+    (ADDRESS_LIST =
+      (ADDRESS = (PROTOCOL = IPC)(KEY = EXTPROC1521))
+    )
+    (CONNECT_DATA =
+      (SID = CLRExtProc)
+      (PRESENTATION = RO)
+    )
+  )
+
+# ------------------------------------------
+# DATA GUARD - CONEXIONES INTERNAS
+# ------------------------------------------
+
+ORCL =
+  (DESCRIPTION = 
+    (ADDRESS = (PROTOCOL = TCP)(HOST = oracle-primary)(PORT = 1521))
+    (CONNECT_DATA =
+      (SERVER = DEDICATED)
+      (SERVICE_NAME = ORCL)
+      (FAILOVER_MODE = 
+        (TYPE = SELECT)
+        (METHOD = BASIC)
+        (RETRIES = 3)
+        (DELAY = 5)
+      )
+    )
+  )
+
+STBY =
+  (DESCRIPTION = 
+    (ADDRESS = (PROTOCOL = TCP)(HOST = oracle-standby)(PORT = 1521))
+    (CONNECT_DATA =
+      (SERVER = DEDICATED)
+      (SERVICE_NAME = STBY)
+      (FAILOVER_MODE = 
+        (TYPE = SELECT)
+        (METHOD = BASIC)
+        (RETRIES = 3)
+        (DELAY = 5)
+      )
+    )
+  )
+
+# ------------------------------------------
+# DATA GUARD - CONEXIONES EXTERNAS (HOST)
+# ------------------------------------------
+
+ORCL_EXT =
+  (DESCRIPTION = 
+    (ADDRESS = (PROTOCOL = TCP)(HOST = localhost)(PORT = 1523))
+    (CONNECT_DATA =
+      (SERVER = DEDICATED)
+      (SERVICE_NAME = ORCL)
+    )
+  )
+
+STBY_EXT =
+  (DESCRIPTION = 
+    (ADDRESS = (PROTOCOL = TCP)(HOST = localhost)(PORT = 1524))
+    (CONNECT_DATA =
+      (SERVER = DEDICATED)
+      (SERVICE_NAME = STBY)
+    )
+  )
+
+# ------------------------------------------
+# CONEXIONES A PDB
+# ------------------------------------------
+
+ORCLPDB1 =
+  (DESCRIPTION = 
+    (ADDRESS = (PROTOCOL = TCP)(HOST = oracle-primary)(PORT = 1521))
+    (CONNECT_DATA =
+      (SERVER = DEDICATED)
+      (SERVICE_NAME = ORCLPDB1)
+    )
+  )
+
+ORCLPDB1_EXT =
+  (DESCRIPTION = 
+    (ADDRESS = (PROTOCOL = TCP)(HOST = localhost)(PORT = 1523))
+    (CONNECT_DATA =
+      (SERVER = DEDICATED)
+      (SERVICE_NAME = ORCLPDB1)
+    )
+  )
+
+# ------------------------------------------
+# CONFIGURACIONES DATA GUARD
+# ------------------------------------------
+
+PRIMARY_DG =
+  (DESCRIPTION_LIST =
+    (DESCRIPTION =
+      (ADDRESS = (PROTOCOL = TCP)(HOST = oracle-primary)(PORT = 1521))
+      (CONNECT_DATA =
+        (SERVER = DEDICATED)
+        (SERVICE_NAME = ORCL)
+        (INSTANCE_NAME = ORCL)
+      )
+    )
+  )
+
+STANDBY_DG =
+  (DESCRIPTION_LIST =
+    (DESCRIPTION =
+      (ADDRESS = (PROTOCOL = TCP)(HOST = oracle-standby)(PORT = 1521))
+      (CONNECT_DATA =
+        (SERVER = DEDICATED)
+        (SERVICE_NAME = STBY)
+        (INSTANCE_NAME = STBY)
+      )
+    )
+  )
+
+# ------------------------------------------
+# ALIAS DE COMPATIBILIDAD
+# ------------------------------------------
+
+PRIMARY = ORCL
+PRINCIPAL = ORCL
+STANDBY = STBY
+SECUNDARIA = STBY
+
+# ------------------------------------------
+# LOAD BALANCING / FAILOVER
+# ------------------------------------------
+
+DATAGUARD_CLUSTER =
+  (DESCRIPTION =
+    (ADDRESS_LIST =
+      (ADDRESS = (PROTOCOL = TCP)(HOST = oracle-primary)(PORT = 1521))
+      (ADDRESS = (PROTOCOL = TCP)(HOST = oracle-standby)(PORT = 1521))
+    )
+    (CONNECT_DATA =
+      (SERVER = DEDICATED)
+      (SERVICE_NAME = ORCL)
+      (FAILOVER_MODE = 
+        (TYPE = SELECT)
+        (METHOD = BASIC)
+        (RETRIES = 5)
+        (DELAY = 10)
+      )
+      (LOAD_BALANCE = ON)
+    )
+  )
+
+# ------------------------------------------
+# UTILIDADES / ADMINISTRACIÓN
+# ------------------------------------------
+
+RMAN_PRIMARY =
+  (DESCRIPTION = 
+    (ADDRESS = (PROTOCOL = TCP)(HOST = oracle-primary)(PORT = 1521))
+    (CONNECT_DATA =
+      (SERVER = DEDICATED)
+      (SERVICE_NAME = ORCL)
+      (INSTANCE_NAME = ORCL)
+    )
+  )
+
+DGMGRL_PRIMARY = ORCL
+DGMGRL_STANDBY = STBY
+
+# ------------------------------------------
+# NOTAS DE USO
+# ------------------------------------------
+# DESDE HOST WINDOWS:
+#   sqlplus sys/admin123@ORCL_EXT as sysdba
+#   sqlplus sys/admin123@STBY_EXT as sysdba
+#
+# DESDE CONTENEDORES:
+#   sqlplus sys/admin123@ORCL as sysdba
+#   sqlplus sys/admin123@STBY as sysdba
+#
+# PARA DATA GUARD:
+#   sqlplus sys/admin123@PRIMARY_DG as sysdba
+#   sqlplus sys/admin123@STANDBY_DG as sysdba
+#
+# PUERTOS:
+#   Primary: localhost:1523 -> oracle-primary:1521
+#   Standby: localhost:1524 -> oracle-standby:1521
+# ------------------------------------------
