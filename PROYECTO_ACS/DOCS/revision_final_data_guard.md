@@ -18,13 +18,13 @@ La implementación Oracle Data Guard cumple **completamente** con todos los requ
 ### ✅ **REQUISITO 2: Archivos cada 5 minutos o 50MB**
 - **Método 1**: Forzado cada 5 minutos via `ALTER SYSTEM SWITCH LOGFILE`
 - **Método 2**: Automático al llegar a 50MB (redo logs 100MB configurados)
-- **Script**: `dataguard_automation.ps1 -Action switch`
+- **Script**: `dataguard_complete.ps1 -Action switch`
 - **Programación**: Task Scheduler cada 5 minutos
 - **Formato**: `arch_%t_%s_%r.arc` en `/opt/oracle/shared/archivelogs/`
 
 ### ✅ **REQUISITO 3: Transferencia cada 10 minutos**
 - **Método**: Volumen compartido Docker + aplicación automática
-- **Script**: `dataguard_automation.ps1 -Action transfer`  
+- **Script**: `dataguard_complete.ps1 -Action transfer`  
 - **Proceso**: 
   1. Detecta archivelogs nuevos (últimos 15 min)
   2. Los aplica automáticamente en standby
@@ -66,13 +66,13 @@ La implementación Oracle Data Guard cumple **completamente** con todos los requ
 
 ### Monitoreo y Logs
 - **Directorio**: `C:\temp\dataguard_logs\`
-- **Log principal**: `dataguard_automation.log`
+- **Log principal**: `dataguard_complete.log`
 - **Timestamps**: Todas las operaciones registradas con hora exacta
 - **Niveles**: INFO, SUCCESS, WARNING, ERROR
 
 ### Scripts de Gestión
-1. **`dataguard_automation.ps1`**: Motor principal de automatización
-2. **`task_scheduler.ps1`**: Gestión de tareas programadas
+1. **`dataguard_complete.ps1`**: Motor principal de automatización
+2. **`task_scheduler_complete.ps1`**: Gestión de tareas programadas
 3. **`profesor_demo.ps1`**: Demostración para revisión
 4. **`check_status.ps1`**: Verificación rápida de estado
 5. **`monitor_oracle_setup.ps1`**: Monitoreo de instalación
@@ -127,22 +127,22 @@ docker-compose up -d
 .\scripts\automation\check_status.ps1
 
 # 3. Instalar tareas programadas (COMO ADMINISTRADOR)
-.\scripts\automation\task_scheduler.ps1 -Operation install
+.\scripts\automation\task_scheduler_complete.ps1 -Operation install
 
 # 4. Verificar instalación
-.\scripts\automation\task_scheduler.ps1 -Operation status
+.\scripts\automation\task_scheduler_complete.ps1 -Operation status
 ```
 
 ### Comandos de Mantenimiento
 ```powershell
 # Verificar estado general
-.\dataguard_automation.ps1 -Action status
+.\dataguard_complete.ps1 -Action status
 
 # Forzar ciclo completo manual
-.\dataguard_automation.ps1 -Action full-cycle
+.\dataguard_complete.ps1 -Action full-cycle
 
 # Ver logs recientes
-Get-Content C:\temp\dataguard_logs\dataguard_automation.log -Tail 20
+Get-Content C:\temp\dataguard_logs\dataguard_complete.log -Tail 20
 
 # Verificar tareas programadas
 Get-ScheduledTask | Where-Object {$_.TaskName -like "*DataGuard*"}

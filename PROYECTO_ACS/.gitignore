@@ -1,0 +1,5 @@
+# Ignore Oracle runtime data volumes and container outputs
+docker/oracle19c/data/
+
+# Ignore automation logs generated on demand
+docker/oracle19c/scripts/automation/*.log
