@@ -66,8 +66,8 @@ Oracle Data Guard es la solución empresarial de Oracle para alta disponibilidad
    - Logs de automatización
 
 4. **Scripts de Automatización**
-   - dataguard_automation.ps1: Script principal
-   - task_scheduler.ps1: Programador de tareas
+   - dataguard_complete.ps1: Script principal
+   - task_scheduler_complete.ps1: Programador de tareas
    - profesor_demo.ps1: Demostración para revisión
 
 #### Red y Comunicación
@@ -145,7 +145,7 @@ docker exec -it oracle_standby sqlplus sys/admin123@STBY as sysdba
 cd scripts\automation
 
 # Instalar tareas programadas (como Administrador)
-.\task_scheduler.ps1 -Operation install
+.\task_scheduler_complete.ps1 -Operation install
 ```
 
 ### Funcionalidades Implementadas
@@ -162,7 +162,7 @@ ALTER SYSTEM SET LOG_ARCHIVE_FORMAT='arch_%t_%s_%r.arc' SCOPE=SPFILE;
 ALTER SYSTEM SWITCH LOGFILE; -- Ejecutado cada 5 minutos por script
 ```
 
-**Script**: `dataguard_automation.ps1 -Action switch`  
+**Script**: `dataguard_complete.ps1 -Action switch`  
 **Programación**: Cada 5 minutos via Task Scheduler
 
 #### 2. Transferencia cada 10 minutos
@@ -174,7 +174,7 @@ Los archivelogs se transfieren automáticamente usando:
 - Script de transferencia y aplicación
 - Verificación de integridad
 
-**Script**: `dataguard_automation.ps1 -Action transfer`  
+**Script**: `dataguard_complete.ps1 -Action transfer`  
 **Programación**: Cada 10 minutos via Task Scheduler
 
 #### 3. Backup Diario Automatizado
@@ -187,7 +187,7 @@ Backup completo diario que incluye:
 - Control files
 - Transferencia automática al standby
 
-**Script**: `dataguard_automation.ps1 -Action backup`  
+**Script**: `dataguard_complete.ps1 -Action backup`  
 **Programación**: Diario a las 2:00 AM
 
 #### 4. Purga Automática (3 días)
@@ -199,7 +199,7 @@ Limpieza automática de:
 - Archivos físicos >3 días
 - Backups >7 días
 
-**Script**: `dataguard_automation.ps1 -Action purge`  
+**Script**: `dataguard_complete.ps1 -Action purge`  
 **Programación**: Diario a las 3:00 AM
 
 #### 5. Ejecución a Demanda del Profesor
@@ -223,38 +223,38 @@ Script especial que ejecuta:
 
 ```powershell
 # Forzar generación de archivelog
-.\dataguard_automation.ps1 -Action switch
+.\dataguard_complete.ps1 -Action switch
 
 # Transferir archivelogs
-.\dataguard_automation.ps1 -Action transfer
+.\dataguard_complete.ps1 -Action transfer
 
 # Realizar backup
-.\dataguard_automation.ps1 -Action backup
+.\dataguard_complete.ps1 -Action backup
 
 # Purgar archivos antiguos
-.\dataguard_automation.ps1 -Action purge
+.\dataguard_complete.ps1 -Action purge
 
 # Verificar estado
-.\dataguard_automation.ps1 -Action status
+.\dataguard_complete.ps1 -Action status
 
 # Ciclo completo
-.\dataguard_automation.ps1 -Action full-cycle
+.\dataguard_complete.ps1 -Action full-cycle
 ```
 
 #### Programador de Tareas
 
 ```powershell
 # Instalar todas las tareas (como Administrador)
-.\task_scheduler.ps1 -Operation install
+.\task_scheduler_complete.ps1 -Operation install
 
 # Ver estado de tareas
-.\task_scheduler.ps1 -Operation status
+.\task_scheduler_complete.ps1 -Operation status
 
 # Desinstalar tareas
-.\task_scheduler.ps1 -Operation uninstall
+.\task_scheduler_complete.ps1 -Operation uninstall
 
 # Ejecutar prueba
-.\task_scheduler.ps1 -Operation test
+.\task_scheduler_complete.ps1 -Operation test
 ```
 
 #### Script de Demostración para el Profesor
@@ -300,7 +300,7 @@ WHERE applied='YES';
 
 Los logs se guardan en: `C:\temp\dataguard_logs\`
 
-- `dataguard_automation.log`: Log principal de automatización
+- `dataguard_complete.log`: Log principal de automatización
 - Logs individuales por cada ejecución
 
 ### Solución de Problemas
@@ -361,7 +361,7 @@ docker volume prune
 docker-compose up -d
 
 # Reconfigurar
-.\scripts\automation\dataguard_automation.ps1 -Action full-cycle
+.\scripts\automation\dataguard_complete.ps1 -Action full-cycle
 ```
 
 **Recuperación Manual del Standby**
@@ -457,8 +457,8 @@ PROYECTO_ACS/docker/oracle19c/
 │   ├── primary/init_primary.sql
 │   ├── standby/init_standby.sql
 │   └── automation/
-│       ├── dataguard_automation.ps1
-│       ├── task_scheduler.ps1
+│       ├── dataguard_complete.ps1
+│       ├── task_scheduler_complete.ps1
 │       └── profesor_demo.ps1
 └── README.md
 ```
@@ -504,9 +504,9 @@ ALTER SYSTEM SWITCH LOGFILE;           # Forzar log switch
 ALTER SYSTEM ARCHIVE LOG CURRENT;      # Archivar log actual
 
 # Automatización
-.\dataguard_automation.ps1 -Action status     # Ver estado
+.\dataguard_complete.ps1 -Action status     # Ver estado
 .\profesor_demo.ps1                           # Demo completa
-.\task_scheduler.ps1 -Operation install       # Instalar tareas
+.\task_scheduler_complete.ps1 -Operation install       # Instalar tareas
 ```
 
 ---

@@ -11,7 +11,7 @@ param(
 
 # Configuración
 $SCRIPT_DIR = Split-Path -Parent $MyInvocation.MyCommand.Path
-$AUTOMATION_SCRIPT = "$SCRIPT_DIR\dataguard_automation.ps1"
+$AUTOMATION_SCRIPT = "$SCRIPT_DIR\dataguard_complete.ps1"
 $LOG_DIR = "C:\temp\dataguard_logs"
 
 # Crear directorio de logs
@@ -162,8 +162,8 @@ function Show-ImplementationSummary {
     Write-Host "• docker-compose.yml - Configuración de contenedores"
     Write-Host "• init_primary.sql - Configuración inicial primaria"
     Write-Host "• init_standby.sql - Configuración inicial standby"
-    Write-Host "• dataguard_automation.ps1 - Automatización principal"
-    Write-Host "• task_scheduler.ps1 - Programador de tareas"
+    Write-Host "• dataguard_complete.ps1 - Automatización principal"
+    Write-Host "• task_scheduler_complete.ps1 - Programador de tareas"
     Write-Host "• profesor_demo.ps1 - Este script de revisión"
     
     Write-Host "`nTAREAS PROGRAMADAS REQUERIDAS:" -ForegroundColor Yellow
@@ -196,7 +196,7 @@ function Show-LogFiles {
             }
             
             Write-Host "`nMostrar últimas 10 líneas del log principal:" -ForegroundColor Yellow
-            $mainLog = "$LOG_DIR\dataguard_automation.log"
+            $mainLog = "$LOG_DIR\dataguard_complete.log"
             if (Test-Path $mainLog) {
                 Get-Content $mainLog -Tail 10
             }
@@ -252,7 +252,7 @@ function Start-ProfessorDemo {
     Write-StatusMessage "La implementación Data Guard está operativa y cumple todos los requisitos especificados." "SUCCESS"
     
     Write-Host "`nPara programar las tareas automáticas, ejecutar como administrador:" -ForegroundColor Yellow
-    Write-Host ".\task_scheduler.ps1 -Operation install" -ForegroundColor Cyan
+    Write-Host ".\task_scheduler_complete.ps1 -Operation install" -ForegroundColor Cyan
 }
 
 # Ejecutar demostración

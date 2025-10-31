@@ -1,230 +1,70 @@
-# 🏥 PROYECTO ACS - Sistema de Administración de Centros de Salud
-## Oracle Data Guard 19c con Docker - Implementación Completa
+# Proyecto ACS - Oracle Data Guard 19c
 
-[![Oracle](https://img.shields.io/badge/Oracle-19c-red.svg)](https://www.oracle.com)
-[![Docker](https://img.shields.io/badge/Docker-Compose-blue.svg)](https://www.docker.com)
-[![Data Guard](https://img.shields.io/badge/Data%20Guard-Active-green.svg)](https://oracle.com/database/data-guard)
-[![PowerShell](https://img.shields.io/badge/PowerShell-Automation-purple.svg)](https://microsoft.com/powershell)
+Implementacion academica de Oracle Data Guard 19c usando Docker y PowerShell para el Sistema de Administracion de Centros de Salud (ACS).
 
----
+## Estructura general
 
-## 📋 **DESCRIPCIÓN DEL PROYECTO**
-
-**PROYECTO_ACS** es una implementación completa de Oracle Data Guard 19c usando Docker para un sistema de administración de centros de salud. El proyecto incluye:
-
-✅ **Base de datos primaria y standby** completamente funcionales  
-✅ **Automatización completa** con scripts PowerShell  
-✅ **Sincronización automática** cada 5-10 minutos  
-✅ **Backups diarios** automatizados  
-✅ **Sistema de monitoreo** integrado  
-✅ **Documentación técnica** completa  
-
----
-
-## 🏗️ **ESTRUCTURA DEL PROYECTO**
-
-```
+```text
 PROYECTO_ACS/
-├── 🐁 docker/oracle19c/          # Configuración Docker y Data Guard
-│   ├── docker-compose.yml        # Contenedores primario y standby
-│   ├── data/                     # Datos persistentes
-│   │   ├── primary/ORCL/         # Base de datos primaria
-│   │   ├── standby/STBY/         # Base de datos standby
-│   │   └── shared/               # Archivos compartidos y logs
-│   └── scripts/automation/       # Scripts de automatización
-│       ├── check_status.ps1      # Verificación de estado
-│       ├── dataguard_automation.ps1  # Automatización completa
-│       └── test_tns_connections.ps1  # Pruebas de conectividad
-├── 📚 DOCS/                      # Documentación técnica
-│   ├── manual_dataguard_completo.md
-│   ├── revision_final_data_guard.md
-│   └── standby_manual.md
-├── 💻 SRC/                       # Código fuente del sistema ACS
-│   ├── ACS_SCRIPT_COMPLETO.sql   # Script principal del sistema
-│   ├── MODULOS/                  # Módulos del sistema
-│   │   ├── CENTROS_SALUD/
-│   │   ├── PERSONAL/
-│   │   └── PLANILLAS_FINANCIERO/
-│   ├── TABLESPACES/              # Configuración de tablespaces
-│   └── UTILITIES/                # Scripts de utilidades
-└── README.md                     # Este archivo
+├── docker/oracle19c/
+├── DOCS/
+└── SRC/
 ```
 
----
+Elementos destacados:
 
-## 🚀 **INICIO RÁPIDO**
+- `docker/oracle19c/docker-compose.yml`: define los contenedores `oracle_primary` y `oracle_standby`.
+- `docker/oracle19c/scripts/automation/`: scripts PowerShell enfocados en Data Guard.
+- `DOCS/manual_dataguard_completo.md`: documentacion tecnica detallada.
+- `SRC/ACS_SCRIPT_COMPLETO.sql`: script principal del sistema ACS.
 
-### **1. Prerrequisitos**
-- Windows 10/11 con WSL2 habilitado
-- Docker Desktop instalado y corriendo
-- PowerShell 5.1 o superior
-- 8GB RAM disponible para contenedores
+## Scripts de automatizacion
 
-### **2. Levantar el sistema**
+| Script | Uso principal |
+|--------|---------------|
+| `dataguard_complete.ps1` | Switch, transferencia, backup, purge, estado y demo |
+| `task_scheduler_complete.ps1` | Instala o quita las tareas programadas en Windows |
+| `profesor_demo.ps1` | Demostracion guiada para la evaluacion |
+| `check_status.ps1` | Resumen rapido de contenedores y logs |
+| `test_tns_simple.ps1`, `test_tns_connections.ps1` | Pruebas de conectividad |
+
+> Los volumenes generados por Oracle viven en `docker/oracle19c/data/` y se ignoran en git.
+
+## Puesta en marcha rapida
+
 ```powershell
-# Navegar al directorio Docker
-cd docker\oracle19c
+# 1. Arrancar los contenedores
+cd docker/oracle19c
+docker compose up -d
 
-# Iniciar contenedores
-docker-compose up -d
+# 2. Revisar estado de la instalacion inicial
+cd scripts/automation
+./check_status.ps1
 
-# Verificar estado (esperar ~10-15 minutos para inicialización completa)
-cd scripts\automation
-.\check_status.ps1
+# 3. Ejecutar un ciclo de Data Guard
+./dataguard_complete.ps1 -Action full-cycle
 ```
 
-### **3. Verificar conectividad**
+Para programar las tareas en Windows:
+
 ```powershell
-# Probar conexiones TNS
-.\test_tns_connections.ps1
-
-# Ejecutar automatización completa
-.\dataguard_automation.ps1 -Action status
+./task_scheduler_complete.ps1 -Operation install
+./task_scheduler_complete.ps1 -Operation status
 ```
 
----
+Los logs de automatizacion se escriben en `C:\temp\dataguard_logs\`.
 
-## 🔧 **CONFIGURACIÓN DE PUERTOS**
+## Diagnostico y mantenimiento
 
-| Servicio | Host | Container | Descripción |
-|----------|------|-----------|-------------|
-| **Primary DB** | `localhost:1523` | `oracle-primary:1521` | Base de datos principal |
-| **Standby DB** | `localhost:1524` | `oracle-standby:1521` | Base de datos standby |
-| **Primary EM** | `http://localhost:8080/em` | `oracle-primary:5500` | Enterprise Manager |
-| **Standby EM** | `http://localhost:8081/em` | `oracle-standby:5500` | Enterprise Manager |
+- Conexiones SQL directas: `docker exec -it oracle_primary sqlplus sys/admin123@ORCL as sysdba` (igual para standby).
+- Respaldos y archivelogs: `docker/oracle19c/data/shared/`.
+- Reconstruccion rapida: `docker compose down` y eliminacion de `docker/oracle19c/data/` antes de volver a `docker compose up -d`.
 
----
+## Documentacion de apoyo
 
-## 📊 **CARACTERÍSTICAS IMPLEMENTADAS**
+- `DOCS/manual_dataguard_completo.md`: procedimiento completo.
+- `DOCS/revision_final_data_guard.md`: resumen de cumplimiento.
+- `DOCS/standby_manual.md`: guia para la standby.
 
-### ✅ **Data Guard Completo**
-- [x] Dos servidores distintos (contenedores Docker)
-- [x] Sincronización automática de archivelogs
-- [x] Transferencia cada 10 minutos
-- [x] Generación cada 5 minutos
-- [x] Ejecución a demanda
+Proyecto desarrollado con fines academicos para la materia Base de Datos (Ciclo II 2025).
 
-### ✅ **Automatización**
-- [x] Scripts PowerShell para administración
-- [x] Monitoreo continúo del estado
-- [x] Backup diario automatizado
-- [x] Purga automática (archivos >3 días)
-- [x] Verificación de conectividad TNS
-
-### ✅ **Sistema ACS**
-- [x] Módulos de Centros de Salud
-- [x] Gestión de Personal
-- [x] Sistema de Planillas y Financiero
-- [x] Diccionario de datos completo
-- [x] Triggers y procedimientos
-
----
-
-## 🔍 **COMANDOS PRINCIPALES**
-
-### **Verificación de Estado**
-```powershell
-# Estado general
-.\check_status.ps1
-
-# Conectividad TNS
-.\test_tns_connections.ps1
-
-# Automatización completa
-.\dataguard_automation.ps1 -Action full-cycle
-```
-
-### **Conexiones Directas**
-```bash
-# Conectar a primaria
-docker exec -it oracle_primary sqlplus sys/admin123@ORCL as sysdba
-
-# Conectar a standby
-docker exec -it oracle_standby sqlplus sys/admin123@STBY as sysdba
-```
-
-### **Gestión de Contenedores**
-```bash
-# Ver estado
-docker ps
-
-# Ver logs
-docker logs oracle_primary --tail 20
-docker logs oracle_standby --tail 20
-
-# Reiniciar si es necesario
-docker-compose restart
-```
-
----
-
-## 📚 **DOCUMENTACIÓN**
-
-- **[Manual Completo Data Guard](DOCS/manual_dataguard_completo.md)** - Documentación técnica completa
-- **[Revisión Final](DOCS/revision_final_data_guard.md)** - Estado final del proyecto
-- **[Manual Standby](DOCS/standby_manual.md)** - Configuración específica del standby
-- **[Reglas Oracle](DOCS/reglas-Oracle.md)** - Buenas prácticas implementadas
-
----
-
-## 🛠️ **DESARROLLO Y MANTENIMIENTO**
-
-### **Estructura de Scripts**
-- `automation/` - Scripts principales de administración
-- `primary/` - Scripts específicos de la primaria
-- `standby/` - Scripts específicos del standby
-
-### **Archivos de Configuración**
-- `docker-compose.yml` - Configuración de contenedores
-- `tnsnames_unified.ora` - Configuración TNS unificada
-- `*.sql` - Scripts de inicialización
-
----
-
-## 🎯 **CUMPLIMIENTO DE REQUISITOS**
-
-| Requisito | Estado | Implementación |
-|-----------|--------|----------------|
-| **Dos servidores distintos** | ✅ **COMPLETADO** | Contenedores Docker separados |
-| **Generación archivelog (5 min)** | ✅ **COMPLETADO** | Script automatizado |
-| **Transferencia (10 min)** | ✅ **COMPLETADO** | Sincronización automática |
-| **Ejecución a demanda** | ✅ **COMPLETADO** | Scripts PowerShell |
-| **Backup diario** | ✅ **COMPLETADO** | RMAN automatizado |
-| **Purga >3 días** | ✅ **COMPLETADO** | Limpieza automática |
-| **Oracle 19c en Windows** | ✅ **COMPLETADO** | Docker en Windows |
-| **Documentación completa** | ✅ **COMPLETADO** | Manuales y README |
-
----
-
-## 👥 **EQUIPO DE DESARROLLO**
-
-**Estudiante:** [Tu Nombre]  
-**Materia:** Base de Datos - Ciclo II 2025  
-**Institución:** [Tu Universidad]  
-**Proyecto:** Sistema ACS con Oracle Data Guard  
-
----
-
-## 📄 **LICENCIA**
-
-Este proyecto es desarrollado con fines académicos para la materia de Base de Datos.
-
-```
-Copyright (c) 2025 - Proyecto Académico ACS
-Universidad - Base de Datos Ciclo II
-```
-
----
-
-## 🆘 **SOPORTE Y CONTACTO**
-
-Para dudas sobre la implementación:
-
-1. **Revisar documentación** en `DOCS/`
-2. **Ejecutar diagnosis** con `check_status.ps1`
-3. **Verificar logs** de contenedores
-4. **Consultar manual** técnico completo
-
----
-
-**🎉 PROYECTO COMPLETAMENTE FUNCIONAL Y LISTO PARA DEMOSTRACIÓN 🎉**

@@ -39,8 +39,27 @@ function Invoke-SqlInContainer {
     )
     
     try {
-        $result = docker exec $Container bash -c "echo '$SqlCommand' | sqlplus -s sys/$ORACLE_PWD@//$DbService as sysdba"
-        return $result
+        $sqlBlock = @"
+sqlplus -s sys/$ORACLE_PWD@//$DbService as sysdba <<'SQL'
+SET HEADING OFF;
+SET FEEDBACK OFF;
+SET VERIFY OFF;
+SET ECHO OFF;
+SET PAGESIZE 0;
+SET LINESIZE 32767;
+$SqlCommand
+EXIT;
+SQL
+"@
+
+    $sqlBlock = ($sqlBlock -replace "`r", "")
+
+        $result = docker exec $Container bash -lc $sqlBlock
+        if ($null -eq $result) {
+            return ""
+        }
+
+        return $result.Trim()
     }
     catch {
         Write-LogMessage "Error ejecutando SQL en $Container`: $_"
@@ -57,7 +76,7 @@ function Switch-LogFile {
     $switchCmd = "ALTER SYSTEM SWITCH LOGFILE;"
     $result = Invoke-SqlInContainer -Container $DOCKER_PRIMARY -SqlCommand $switchCmd
     
-    if ($result -match "System altered") {
+    if ($result -notmatch "ORA-") {
         Write-LogMessage "✅ SWITCH LOGFILE ejecutado exitosamente"
         
         # Verificar que se generó archivelog
@@ -65,7 +84,7 @@ function Switch-LogFile {
         $count = Invoke-SqlInContainer -Container $DOCKER_PRIMARY -SqlCommand $archiveCheck
         Write-LogMessage "Archivelogs generados en últimos 5 min: $count"
     } else {
-        Write-LogMessage "❌ Error en SWITCH LOGFILE: $result"
+    Write-LogMessage "❌ Error en SWITCH LOGFILE: $result"
     }
 }
 
@@ -83,7 +102,7 @@ function Transfer-ArchiveLogs {
         Write-LogMessage "✅ Archivos disponibles en standby: $transferCheck archivos"
         
         # Aplicar archivelogs en standby (si está montado)
-        $applyCmd = "ALTER DATABASE RECOVER MANAGED STANDBY DATABASE DISCONNECT FROM SESSION;"
+    $applyCmd = "ALTER DATABASE RECOVER MANAGED STANDBY DATABASE USING CURRENT LOGFILE DISCONNECT FROM SESSION;"
         $result = Invoke-SqlInContainer -Container $DOCKER_STANDBY -SqlCommand $applyCmd -DbService "localhost:1521/STBY"
         
         if ($result -notmatch "ORA-") {
@@ -112,11 +131,20 @@ RUN {
     RELEASE CHANNEL ch1;
 }
 "@
+
+    $rmanCommand = @"
+rman target sys/$ORACLE_PWD@//localhost:1521/ORCL <<'RMAN'
+SET ECHO OFF;
+$backupScript
+EXIT;
+RMAN
+"@
+    $rmanCommand = ($rmanCommand -replace "`r", "")
     
     # Ejecutar RMAN backup
-    $rmanResult = docker exec $DOCKER_PRIMARY bash -c "echo '$backupScript' | rman target sys/$ORACLE_PWD@//localhost:1521/ORCL"
+    $rmanResult = docker exec $DOCKER_PRIMARY bash -lc $rmanCommand
     
-    if ($rmanResult -match "completed successfully") {
+    if (($rmanResult -match "Recovery Manager complete") -and ($rmanResult -notmatch "RMAN-[0-9]{5}") -and ($rmanResult -notmatch "ORA-")) {
         Write-LogMessage "✅ Backup completado exitosamente: backup_${backupDate}"
         
         # Verificar que el backup está disponible en standby
@@ -138,13 +166,26 @@ function Purge-OldFiles {
 DELETE NOPROMPT ARCHIVELOG ALL COMPLETED BEFORE 'SYSDATE-3';
 DELETE NOPROMPT BACKUP COMPLETED BEFORE 'SYSDATE-3';
 "@
-    
-    $purgeResult = docker exec $DOCKER_PRIMARY bash -c "echo '$purgeScript' | rman target sys/$ORACLE_PWD@//localhost:1521/ORCL"
+
+    $purgeCommand = @"
+rman target sys/$ORACLE_PWD@//localhost:1521/ORCL <<'RMAN'
+SET ECHO OFF;
+$purgeScript
+EXIT;
+RMAN
+"@
+    $purgeCommand = ($purgeCommand -replace "`r", "")
+
+    $purgeResult = docker exec $DOCKER_PRIMARY bash -lc $purgeCommand
     
     # Purgar archivos físicos en directorio compartido
-    $purgeFiles = docker exec $DOCKER_PRIMARY bash -c "find $ARCHIVELOG_DIR -name '*.arc' -mtime +3 -delete 2>/dev/null; find $BACKUP_DIR -name '*.bkp' -mtime +3 -delete 2>/dev/null"
+    docker exec $DOCKER_PRIMARY bash -c "find $ARCHIVELOG_DIR -name '*.arc' -mtime +3 -delete 2>/dev/null; find $BACKUP_DIR -name '*.bkp' -mtime +3 -delete 2>/dev/null"
     
-    Write-LogMessage "✅ Purga completada - RMAN y archivos físicos"
+    if (($purgeResult -match "Recovery Manager complete") -and ($purgeResult -notmatch "RMAN-[0-9]{5}") -and ($purgeResult -notmatch "ORA-")) {
+        Write-LogMessage "✅ Purga completada - RMAN y archivos físicos"
+    } else {
+        Write-LogMessage "⚠️ Purga RMAN con advertencias: $purgeResult"
+    }
 }
 
 # ========================================
@@ -162,7 +203,7 @@ function Check-Status {
     Write-LogMessage "Estado Standby: $standbyStatus"
     
     # Último archivelog aplicado
-    $lastApplied = Invoke-SqlInContainer -Container $DOCKER_STANDBY -SqlCommand "SELECT MAX(sequence#) FROM v`$archived_log WHERE applied=`'YES`';" -DbService "localhost:1521/STBY"
+    $lastApplied = Invoke-SqlInContainer -Container $DOCKER_STANDBY -SqlCommand "SELECT MAX(sequence#) FROM v`$archived_log WHERE applied='YES';" -DbService "localhost:1521/STBY"
     Write-LogMessage "Último archivelog aplicado en standby: $lastApplied"
     
     return $true
