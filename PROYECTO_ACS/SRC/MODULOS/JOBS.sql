@@ -1,19 +1,19 @@
 ﻿-- * JOBS GLOBAL
 
--- !Notas:
--- * Procedimeinto para enviar correo: 
---      ACS_PRC_CORREO_NOTIFICADOR (p_destinatario IN VARCHAR2, p_asunto IN VARCHAR2, p_mensaje IN VARCHAR2)
+/*
+!Notas:
+    * Procedimeinto para enviar correo: 
+        ACS_PRC_CORREO_NOTIFICADOR (p_destinatario IN VARCHAR2, p_asunto IN VARCHAR2, p_mensaje IN VARCHAR2)
 
--- * Funcion para obtener parametros: 
---      ACS_FUN_OBTENER_PARAMETRO (p_clave_parametro IN VARCHAR2) RETURN VARCHAR2
+    * Funcion para obtener parametros: 
+        ACS_FUN_OBTENER_PARAMETRO (p_clave_parametro IN VARCHAR2) RETURN VARCHAR2
 
--- * ABREVIATURA 
---      CHECK(revisar): CHK
---      V_ = VARIABLE. para asignar valores
---      R_ = RECORD. para recorrer cursores
---      C_ = CURSOR. para definir una consulta a la cual se va a recorrer
-
--- ! FIN notas.
+    * ABREVIATURA 
+        CHECK(revisar): CHK
+        V_ = VARIABLE. para asignar valores
+        R_ = RECORD. para recorrer cursores
+        C_ = CURSOR. para definir una consulta a la cual se va a recorrer
+*/
 
 CREATE OR REPLACE PACKAGE ACS_PKG_CHK_MONITOR AS
     PROCEDURE CHK_TABLESPACE;
@@ -24,7 +24,7 @@ END ACS_CHK_MONITOR;
 /
 
 CREATE OR REPLACE PACKAGE BODY ACS_CHK_MONITOR AS
--- ✓ Verificar el tamaño de los tablespace, el cual no debe de exceder en un 85% su tamaño entonces notificar al DBA, diario.
+-- ** ✓ Verificar el tamaño de los tablespace, el cual no debe de exceder en un 85% su tamaño entonces notificar al DBA, diario. **
     PROCEDURE CHK_TABLESPACE AS
     DECLARE
         CURSOR C_TABLESPACE_EXCEDIDOS IS
@@ -59,7 +59,7 @@ CREATE OR REPLACE PACKAGE BODY ACS_CHK_MONITOR AS
         END IF;
     END CHK_TABLESPACE;
 
--- ✓ Verifica si existen objetos inválidos entonces notificar al DBA, diario.
+-- ** ✓ Verifica si existen objetos inválidos entonces notificar al DBA, diario. ** 
     PROCEDURE CHK_OBJETOS_INVALIDOS AS
     DECLARE
         CURSOR C_OBJETOS_INVALIDOS IS
@@ -82,7 +82,7 @@ CREATE OR REPLACE PACKAGE BODY ACS_CHK_MONITOR AS
         END IF;
     END CHK_OBJETOS_INVALIDOS;
 
--- ✓ En ocasiones los índices se dañan, verificar entonces notificar al DBA, diario.
+-- ** ✓ En ocasiones los índices se dañan, verificar entonces notificar al DBA, diario. **
     PROCEDURE CHK_INDICES_CORRUPTOS AS
     DECLARE
         CURSOR C_INDICES_CORRUPTOS IS
@@ -104,7 +104,7 @@ CREATE OR REPLACE PACKAGE BODY ACS_CHK_MONITOR AS
         END IF;
     END CHK_INDICES_CORRUPTOS;
 
--- ✓ Procedimiento para ejecutar las verificaciones diarias
+-- ** ✓ Procedimiento para ejecutar las verificaciones diarias **
     PROCEDURE CHK_DIARIAS AS
     BEGIN
         BEGIN
