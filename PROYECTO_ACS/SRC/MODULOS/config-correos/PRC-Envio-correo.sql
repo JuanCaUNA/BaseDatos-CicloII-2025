@@ -16,7 +16,20 @@ IS
     P_SMTP_PORT NUMBER := TO_NUMBER(ACS_FN_OBTENER_PARAMETRO('SMTP_PORT'));
     P_REMITENTE ACS_PARAMETROS.APA_NOMBRE_PARAMETRO%TYPE := ACS_FN_OBTENER_PARAMETRO('SMTP_CORREO');
     P_CLAVE_SMTP ACS_CLAVE.ACL_NOMBRE_CLAVE%TYPE := ACS_FUN_OBTENER_CLAVE('SMTP_CLAVE');
+    -- VARIABLES
+    V_LISTA_DESTINATARIOS SYS.ODCIVARCHAR2LIST := SYS.ODCIVARCHAR2LIST();
 BEGIN
+    -- CONTEO
+    V_LISTA_DESTINATARIOS := SYS.ODCIVARCHAR2LIST();
+    FOR i IN 1 .. REGEXP_COUNT(P_DESTINATARIO, '[^,]+') LOOP
+        V_LISTA_DESTINATARIOS.EXTEND;
+        V_LISTA_DESTINATARIOS(i) := TRIM(REGEXP_SUBSTR(P_DESTINATARIO, '[^,]+', 1, i));
+    END LOOP;
+    -- CHECK
+    IF V_LISTA_DESTINATARIOS.COUNT = 0 THEN
+        RAISE_APPLICATION_ERROR(-20000, 'Debe indicar al menos un destinatario.');
+    END IF;
+
     -- CONECTAR CON Brevo, LOCAL SIN TLS
     MAIL_CONN := UTL_SMTP.OPEN_CONNECTION(P_SMTP_HOST, P_SMTP_PORT);
     
@@ -34,20 +47,29 @@ BEGIN
 
     -- DE: REMITENTE  A DESTINATARIO
     UTL_SMTP.MAIL(MAIL_CONN, P_REMITENTE);
-    UTL_SMTP.RCPT(MAIL_CONN, P_DESTINATARIO);
+    -- TO por cada destinatario
+    FOR i IN 1 .. V_LISTA_DESTINATARIOS.COUNT LOOP
+        UTL_SMTP.RCPT(MAIL_CONN, V_LISTA_DESTINATARIOS(i));
+    END LOOP;
 
     -- CONTENIDO DEL CORREO
     UTL_SMTP.OPEN_DATA(MAIL_CONN);
-    UTL_SMTP.WRITE_DATA(MAIL_CONN, 
+    
+    UTL_SMTP.WRITE_DATA(MAIL_CONN,
         'From: ' || P_REMITENTE || CRLF ||
         'To: ' || P_DESTINATARIO || CRLF ||
         'Subject: ' || P_ASUNTO || CRLF ||
+        'MIME-Version: 1.0' || CRLF ||
         'Content-Type: text/html; charset=UTF-8' || CRLF ||
+        'Content-Transfer-Encoding: 8bit' || CRLF ||
         CRLF ||
-        P_MENSAJE);
+        P_MENSAJE
+    );
+
     UTL_SMTP.CLOSE_DATA(MAIL_CONN);
     UTL_SMTP.QUIT(MAIL_CONN);
-    DBMS_OUTPUT.PUT_LINE('[OK] Correo enviado correctamente a ' || P_DESTINATARIO);
+
+    DBMS_OUTPUT.PUT_LINE('[OK] Correo(s) enviado correctamente');
 EXCEPTION
     WHEN OTHERS THEN
         BEGIN
@@ -62,3 +84,24 @@ EXCEPTION
         RAISE_APPLICATION_ERROR(-20001, '[ERROR] al enviar correo (ACS_PRC_CORREO_NOTIFICADOR): ' || SQLERRM);
 END;
 /
+
+---------------
+/*
+BEGIN
+ACS_PRC_CORREO_NOTIFICADOR(
+    P_DESTINATARIO => 'persona@dominio.com',
+    P_ASUNTO       => 'Prueba única',
+    P_MENSAJE      => '<h1>Hola</h1><p>Mensaje de prueba.</p>'
+);
+END;
+/
+
+BEGIN
+ACS_PRC_CORREO_NOTIFICADOR(
+    P_DESTINATARIO => 'uno@dominio.com,dos@dominio.com,tres@dominio.com',
+    P_ASUNTO       => 'Prueba múltiple',
+    P_MENSAJE      => '<p>Hola a todos.</p>'
+);
+END;
+/
+*/
