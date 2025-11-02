@@ -20,7 +20,7 @@ BEGIN
     v_mensaje := 'Estimado usuario, adjunto encontrará su comprobante de pago:' || CHR(10) || v_comprobante;
 
 
-    ENVIAR_CORREO_NOTIFICADOR(
+    ACS_PRC_CORREO_NOTIFICADOR(
         p_destinatario => p_usuario_email,
         p_asunto    => v_asunto,
         p_mensaje    => v_mensaje

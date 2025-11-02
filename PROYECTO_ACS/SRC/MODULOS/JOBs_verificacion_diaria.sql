@@ -45,7 +45,7 @@ CREATE OR REPLACE PACKAGE BODY ACS_CHK_MONITOR AS
             )
             WHERE (used_space / total_space) * 100 > 85;
 
-        P_CORREO_DBA IN ACS_PARAMETROS.APA_VALOR_PARAMETRO%TYPE;
+        P_CORREO_DBA ACS_PARAMETROS.APA_VALOR_PARAMETRO%TYPE;
 
         V_MENSAJE VARCHAR2(4000) := 'Los siguientes tablespaces han excedido el 85% de su capacidad:' || CHR(10);
         V_ASUNTO VARCHAR2(100) := 'Alerta de Tablespace Excedido';
