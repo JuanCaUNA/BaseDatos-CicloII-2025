@@ -8,9 +8,10 @@ CREATE OR REPLACE PROCEDURE enviar_comprobante_pago(
     v_comprobante VARCHAR2(4000);
 BEGIN
     -- Obtener los datos del comprobante
-    SELECT 'Comprobante de Pago #' || comprobante_id || 
-           ' - Monto: ' || monto || 
-           ' - Fecha: ' || TO_CHAR(fecha, 'DD/MM/YYYY')
+    SELECT 
+        'Comprobante de Pago #' || comprobante_id || 
+        ' - Monto: ' || monto || 
+        ' - Fecha: ' || TO_CHAR(fecha, 'DD/MM/YYYY')
     INTO v_comprobante
     FROM comprobantes
     WHERE comprobante_id = p_comprobante_id;
