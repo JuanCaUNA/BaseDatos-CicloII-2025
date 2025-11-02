@@ -31,17 +31,18 @@ CREATE TABLE ACS_PARAMETROS (
 );
 */
 -- !DATOS TABLA ACS_PARAMETROS
+/*
 INSERT INTO ACS_PARAMETROS VALUES ('CORREO_DBA', 'dba@acs.com', 'Correo del DBA', 'CORREO');
 
 INSERT INTO ACS_PARAMETROS VALUES ('SMTP_CORREO', 'juancarlos19defebrerohat@gmail.com', 'Correo para notificaciones automaticas', 'SMTP');
 INSERT INTO ACS_PARAMETROS VALUES ('SMTP_HOST', 'smtp-relay.brevo.com', 'Servidor para envio de correos', 'SMTP');
 INSERT INTO ACS_PARAMETROS VALUES ('SMTP_PORT', '587', 'Puerto del servidor SMTP', 'SMTP');
-INSERT INTO ACS_PARAMETROS VALUES ('SMPT_USUARIO', 'a1e38001@smtp-brevo.com', 'Usuario del servidor', 'SMPT');
-INSERT INTO ACS_PARAMETROS VALUES ('SMTP_CLAVE', 'bskiTLMr8wV26Rp', 'Clave servidor', 'SMPT');
-INSERT INTO ACS_PARAMETROS VALUES ('SMP_ACL_FILe', 'brevo_acl.xml', 'archivo acl', 'SMPT');
-INSERT INTO ACS_PARAMETROS VALUES ('', '', '', '');
+INSERT INTO ACS_PARAMETROS VALUES ('SMTP_USUARIO', 'a1e38001@smtp-brevo.com', 'Usuario del servidor', 'SMTP');
+INSERT INTO ACS_PARAMETROS VALUES ('SMTP_CLAVE', 'bskiTLMr8wV26Rp', 'Clave servidor', 'SMTP');
+INSERT INTO ACS_PARAMETROS VALUES ('SMP_ACL_FILe', 'brevo_acl.xml', 'archivo acl', 'SMTP');
 COMMIT;
 /
+*/
 
 -- ** Seccion: Configuracion ACL para envio de correos via SMTP **
 

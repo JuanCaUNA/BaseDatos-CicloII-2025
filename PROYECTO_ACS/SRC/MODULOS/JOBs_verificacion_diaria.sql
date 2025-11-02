@@ -10,6 +10,7 @@
 
     * ABREVIATURA 
         CHECK(revisar): CHK
+        P_ = PARAMETRO. para definir parámetros de entrada
         V_ = VARIABLE. para asignar valores
         R_ = RECORD. para recorrer cursores
         C_ = CURSOR. para definir una consulta a la cual se va a recorrer
@@ -43,7 +44,9 @@ CREATE OR REPLACE PACKAGE BODY ACS_CHK_MONITOR AS
                 GROUP BY df.tablespace_name
             )
             WHERE (used_space / total_space) * 100 > 85;
-        V_CORREO_DBA VARCHAR2(100);
+
+        P_CORREO_DBA IN ACS_PARAMETROS.APA_VALOR_PARAMETRO%TYPE;
+
         V_MENSAJE VARCHAR2(4000) := 'Los siguientes tablespaces han excedido el 85% de su capacidad:' || CHR(10);
         V_ASUNTO VARCHAR2(100) := 'Alerta de Tablespace Excedido';
         V_ENCONTRADOS BOOLEAN := FALSE;
@@ -54,8 +57,8 @@ CREATE OR REPLACE PACKAGE BODY ACS_CHK_MONITOR AS
         END LOOP;
 
         IF V_ENCONTRADOS THEN
-            V_CORREO_DBA := ACS_FUN_OBTENER_PARAMETRO('CORREO_DBA');
-            ACS_PRC_CORREO_NOTIFICADOR(V_CORREO_DBA, V_ASUNTO, V_MENSAJE);
+            P_CORREO_DBA := ACS_FUN_OBTENER_PARAMETRO('CORREO_DBA');
+            ACS_PRC_CORREO_NOTIFICADOR(P_CORREO_DBA, V_ASUNTO, V_MENSAJE);
         END IF;
     END CHK_TABLESPACE;
 
@@ -66,7 +69,9 @@ CREATE OR REPLACE PACKAGE BODY ACS_CHK_MONITOR AS
             SELECT owner, object_name, object_type
             FROM dba_objects
             WHERE status = 'INVALID';
-        V_CORREO_DBA VARCHAR2(100);
+
+        P_CORREO_DBA ACS_PARAMETROS.APA_VALOR_PARAMETRO%TYPE;
+
         V_MENSAJE VARCHAR2(4000) := 'Los siguientes objetos están inválidos:' || CHR(10);
         V_ASUNTO VARCHAR2(100) := 'Objetos Inválidos en la Base de Datos';
         V_ENCONTRADOS BOOLEAN := FALSE;
@@ -77,8 +82,8 @@ CREATE OR REPLACE PACKAGE BODY ACS_CHK_MONITOR AS
         END LOOP;
 
         IF V_ENCONTRADOS THEN
-            V_CORREO_DBA := ACS_FUN_OBTENER_PARAMETRO('CORREO_DBA');
-            ACS_PRC_CORREO_NOTIFICADOR(V_CORREO_DBA, V_ASUNTO, V_MENSAJE);
+            P_CORREO_DBA := ACS_FUN_OBTENER_PARAMETRO('CORREO_DBA');
+            ACS_PRC_CORREO_NOTIFICADOR(P_CORREO_DBA, V_ASUNTO, V_MENSAJE);
         END IF;
     END CHK_OBJETOS_INVALIDOS;
 
@@ -89,7 +94,9 @@ CREATE OR REPLACE PACKAGE BODY ACS_CHK_MONITOR AS
             SELECT owner, index_name, table_name
             FROM dba_indexes
             WHERE status = 'UNUSABLE';
-        V_CORREO_DBA VARCHAR2(100);
+
+        P_CORREO_DBA ACS_PARAMETROS.APA_VALOR_PARAMETRO%TYPE;
+
         V_MENSAJE VARCHAR2(4000) := 'Los siguientes índices están corruptos:' || CHR(10);
         V_ASUNTO VARCHAR2(100) := 'Índices Corruptos en la Base de Datos';
         V_ENCONTRADOS BOOLEAN := FALSE;
@@ -98,9 +105,10 @@ CREATE OR REPLACE PACKAGE BODY ACS_CHK_MONITOR AS
             V_ENCONTRADOS := TRUE;
             V_MENSAJE := V_MENSAJE || 'Owner: ' || R_INDICE.owner || ', Índice: ' || R_INDICE.index_name || ', Tabla: ' || R_INDICE.table_name || CHR(10);
         END LOOP;
+
         IF V_ENCONTRADOS THEN
-            V_CORREO_DBA := ACS_FUN_OBTENER_PARAMETRO('CORREO_DBA');
-            ACS_PRC_CORREO_NOTIFICADOR(V_CORREO_DBA, V_ASUNTO, V_MENSAJE);
+            P_CORREO_DBA := ACS_FUN_OBTENER_PARAMETRO('CORREO_DBA');
+            ACS_PRC_CORREO_NOTIFICADOR(P_CORREO_DBA, V_ASUNTO, V_MENSAJE);
         END IF;
     END CHK_INDICES_CORRUPTOS;
 
@@ -128,7 +136,6 @@ CREATE OR REPLACE PACKAGE BODY ACS_CHK_MONITOR AS
                 DBMS_OUTPUT.PUT_LINE('Error en CHK_INDICES_CORRUPTOS: ' || SQLERRM);
         END;
     END CHK_DIARIAS;
-
 END ACS_CHK_MONITOR;
 /
 

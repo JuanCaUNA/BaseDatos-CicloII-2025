@@ -4,7 +4,7 @@
 
 ## Conceptos
 
-SMPT (Simple Mail Transfer Protocol)
+SMTP (Simple Mail Transfer Protocol)
 CDB (Container Database): Base de datos principal que puede contener varios PDBs.
 PDB (Pluggable Database): Base de datos enchufable, aislada, que comparte recursos con el CDB.
 
@@ -25,7 +25,7 @@ sys/admin@ORCLPDB as sysdba
 sqlplus sys/admin@ORCLPDB as sysdba
 ```
 
-## Habilitar funciones de SMPT
+## Habilitar funciones de SMTP
 
 Instalar UTL_MAIL si no está instalado (ejecutar desde SQL*Plus como sysdba)
 
@@ -46,16 +46,16 @@ WHERE object_type = 'PACKAGE';
 
 referencia: <https://oracle-base.com/articles/misc/email-from-oracle-plsql>
 
-## Configurar Brevo (servidor SMPT)
+## Configurar Brevo (servidor SMTP)
 
 1. Inciar una cuenta de uso en brevo: <https://app.brevo.com/>
 2. Agregar un correo al perfil
-3. ir a configuraciones->SMTP y API y generar las crendenciales para el servidor SMPT
+3. ir a configuraciones->SMTP y API y generar las crendenciales para el servidor SMTP
 4. Guardar las credenciales
 
 ![alt text](image.png)
 
-## Configurar un servidor SMPT, en este caso Brevo, en la base de datos
+## Configurar un servidor SMTP, en este caso Brevo, en la base de datos
 
 * Oracle se conecta a `smtp-relay.brevo.com` puerto `587` **sin wallet**.
 * Configurar accesos al esa conexion en ese puerto
@@ -68,9 +68,9 @@ INSERT INTO ACS_PARAMETROS VALUES ('CORREO_DBA', 'dba@acs.com', 'Correo del DBA'
 INSERT INTO ACS_PARAMETROS VALUES ('SMTP_CORREO', 'juancarlos19defebrerohat@gmail.com', 'Correo para notificaciones automaticas', 'SMTP');
 INSERT INTO ACS_PARAMETROS VALUES ('SMTP_HOST', 'smtp-relay.brevo.com', 'Servidor para envio de correos', 'SMTP');
 INSERT INTO ACS_PARAMETROS VALUES ('SMTP_PORT', '587', 'Puerto del servidor SMTP', 'SMTP');
-INSERT INTO ACS_PARAMETROS VALUES ('SMPT_USUARIO', 'a1e38001@smtp-brevo.com', 'Usuario del servidor', 'SMPT');
-INSERT INTO ACS_PARAMETROS VALUES ('SMTP_CLAVE', 'bskiTLMr8wV26Rp', 'Clave servidor', 'SMPT');
-INSERT INTO ACS_PARAMETROS VALUES ('SMP_ACL_FILe', 'brevo_acl.xml', 'archivo acl', 'SMPT');
+INSERT INTO ACS_PARAMETROS VALUES ('SMTP_USUARIO', 'a1e38001@smtp-brevo.com', 'Usuario del servidor', 'SMTP');
+INSERT INTO ACS_PARAMETROS VALUES ('SMTP_CLAVE', 'bskiTLMr8wV26Rp', 'Clave servidor', 'SMTP');
+INSERT INTO ACS_PARAMETROS VALUES ('SMP_ACL_FILe', 'brevo_acl.xml', 'archivo acl', 'SMTP');
 INSERT INTO ACS_PARAMETROS VALUES ('', '', '', '');
 COMMIT;
 /
