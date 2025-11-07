@@ -22,16 +22,23 @@ CREATE OR REPLACE PROCEDURE ACS_PRC_GUARDAR_CLAVE(
 ) AS
     V_CLAVE_ENCRIPTADA ACS_CLAVE.ACL_CLAVE%TYPE;
     V_KEY_RAW RAW(100);
+    V_IV RAW(16);
+    V_CIPH_RAW RAW(4000);
 BEGIN
     -- Obtener la clave y convertirla a RAW
-    V_KEY_RAW := UTL_RAW.CAST_TO_RAW('MiClaveSuperSecreta');
+    V_KEY_RAW := UTL_RAW.CAST_TO_RAW('12345678901234567890123456789012'); -- 32 bytes (AES-256)
 
-    -- Encriptar la clave
-    V_CLAVE_ENCRIPTADA := DBMS_CRYPTO.ENCRYPT(
+    -- Generar IV de 16 bytes
+    V_IV := DBMS_CRYPTO.RANDOMBYTES(16);
+
+    -- Encriptar con AES-256-CBC + PKCS5 y prefijar IV
+    V_CIPH_RAW := DBMS_CRYPTO.ENCRYPT(
         SRC => UTL_RAW.CAST_TO_RAW(P_CLAVE),
-        TYP => DBMS_CRYPTO.AES256_CBC,
-        KEY => V_KEY_RAW
+        TYP => DBMS_CRYPTO.ENCRYPT_AES256 + DBMS_CRYPTO.CHAIN_CBC + DBMS_CRYPTO.PAD_PKCS5,
+        KEY => V_KEY_RAW,
+        IV  => V_IV
     );
+    V_CLAVE_ENCRIPTADA := V_IV || V_CIPH_RAW;
 
     -- Actualizar o Insertar
     MERGE INTO ACS_CLAVE t
@@ -51,28 +58,56 @@ END ACS_PRC_GUARDAR_CLAVE;
 
 -- * FUN obtener, desencriptar clave de ACS_CLAVE *
 CREATE OR REPLACE FUNCTION ACS_FUN_OBTENER_CLAVE(
-    P_NOMBRE_CLAVE IN ACS_CLAVE.ACL_NOMBRE_CLAVE%TYPE,
+    P_NOMBRE_CLAVE IN ACS_CLAVE.ACL_NOMBRE_CLAVE%TYPE
 ) RETURN VARCHAR2 IS
     V_CLAVE_ENCRIPTADA ACS_CLAVE.ACL_CLAVE%TYPE;
     V_CLAVE_DESENCRIPTADA VARCHAR2(100);
     V_KEY_RAW RAW(100);
+    V_IV RAW(16);
+    V_CIPH_RAW RAW(4000);
 BEGIN
     -- Obtener la clave y convertirla a RAW
-    V_KEY_RAW := UTL_RAW.CAST_TO_RAW('MiClaveSuperSecreta');
+    V_KEY_RAW := UTL_RAW.CAST_TO_RAW('12345678901234567890123456789012'); -- 32 bytes (AES-256)
 
     -- Recuperar la clave encriptada
     SELECT ACL_CLAVE INTO V_CLAVE_ENCRIPTADA
     FROM ACS_CLAVE
     WHERE ACL_NOMBRE_CLAVE = P_NOMBRE_CLAVE;
 
-    -- Desencriptar la clave
-    V_CLAVE_DESENCRIPTADA := UTL_RAW.CAST_TO_VARCHAR2(
-        DBMS_CRYPTO.DECRYPT(
-            SRC => V_CLAVE_ENCRIPTADA,
-            TYP => DBMS_CRYPTO.AES256_CBC,
-            KEY => V_KEY_RAW
-        )
-    );
+    -- Desencriptar la clave con formato nuevo (IV||CIPH). Si falla, probar compatibilidad.
+    BEGIN
+        IF LENGTH(V_CLAVE_ENCRIPTADA) > 16 THEN
+            V_IV := UTL_RAW.SUBSTR(V_CLAVE_ENCRIPTADA, 1, 16);
+            V_CIPH_RAW := UTL_RAW.SUBSTR(V_CLAVE_ENCRIPTADA, 17);
+            V_CLAVE_DESENCRIPTADA := UTL_RAW.CAST_TO_VARCHAR2(
+                DBMS_CRYPTO.DECRYPT(
+                    SRC => V_CIPH_RAW,
+                    TYP => DBMS_CRYPTO.ENCRYPT_AES256 + DBMS_CRYPTO.CHAIN_CBC + DBMS_CRYPTO.PAD_PKCS5,
+                    KEY => V_KEY_RAW,
+                    IV  => V_IV
+                )
+            );
+        ELSE
+            -- Intentar compatibilidad con legado DES sin IV
+            V_CLAVE_DESENCRIPTADA := UTL_RAW.CAST_TO_VARCHAR2(
+                DBMS_CRYPTO.DECRYPT(
+                    SRC => V_CLAVE_ENCRIPTADA,
+                    TYP => DBMS_CRYPTO.DES_CBC_PKCS5,
+                    KEY => SUBSTR(V_KEY_RAW, 1, 8)
+                )
+            );
+        END IF;
+    EXCEPTION
+        WHEN OTHERS THEN
+            -- Intentar último recurso: AES-256-CBC con IV cero (posible valor previo inseguro)
+            V_CLAVE_DESENCRIPTADA := UTL_RAW.CAST_TO_VARCHAR2(
+                DBMS_CRYPTO.DECRYPT(
+                    SRC => V_CLAVE_ENCRIPTADA,
+                    TYP => DBMS_CRYPTO.ENCRYPT_AES256 + DBMS_CRYPTO.CHAIN_CBC + DBMS_CRYPTO.PAD_PKCS5,
+                    KEY => V_KEY_RAW
+                )
+            );
+    END;
 
     RETURN V_CLAVE_DESENCRIPTADA;
 EXCEPTION
@@ -80,5 +115,5 @@ EXCEPTION
         RETURN NULL;
     WHEN OTHERS THEN
         RAISE_APPLICATION_ERROR(-20002, 'Error al obtener la clave: ' || SQLERRM);
-END ACS_PRC_OBTENER_CLAVE;
+END ACS_FUN_OBTENER_CLAVE;
 /
