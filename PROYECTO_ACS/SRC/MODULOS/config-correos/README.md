@@ -1,6 +1,9 @@
 # Orden
 
-1. Crear la tabla de parametros
-2. Guardar los datos en la tabla de parametros y claves
-3. Correr la configuraciones de smtp
-4. Generar el PRC para enviar correos
+Correr correos.sql. secciones:
+
+- Asignacion de permisos al usuario
+- Crear tablas parametros y clves, configurar metodos
+- asignar los datos de las tablas de paremetros y claves
+- Configurar ACL para envio de correos via SMTP
+- Crear procedimiento almacenado para envio de correos via SMTP, sin TLS (no ocupa wallet)
