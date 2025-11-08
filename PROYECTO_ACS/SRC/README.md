@@ -1,9 +1,15 @@
-# Proyecto-1 - Estructura de despliegue
+# Estructura de código
 
-Estructura de ejemplo para organizar scripts por módulos: `planillas_financiero`, `personal`, `medicos`, `tablespaces`, `utilities`.
+El repositorio agrupa el código SQL del proyecto en dos ejes principales:
 
-Orden recomendado de despliegue:
-1. `src/tablespaces` (si aplica)
-2. `src/common` (objetos compartidos)
-3. `src/<modulo>/procs` (procedimientos y packages)
-4. `src/<modulo>/trgs` (triggers)
+- `src/database/`: objetos compartidos a nivel global (script maestro, exportación del proyecto, definiciones de tablespaces, utilitarios y diccionario de datos).
+- `src/modules/<modulo>/`: componentes específicos por dominio funcional (`centros_salud`, `config_correos`, `financiero`, `general`, `personal`, `planillas`). Cada módulo conserva subcarpetas estandarizadas `procedures/`, `triggers/` y, cuando aplica, `tests/`.
+
+## Orden sugerido de despliegue
+
+1. `src/database/tablespaces` (creación de estructuras físicas).
+2. `src/database/acs_script_completo.sql` u objetos comunes requeridos por todos los módulos.
+3. `src/modules/<modulo>/procedures` para cargar lógica de negocio.
+4. `src/modules/<modulo>/triggers` y `src/modules/<modulo>/tests` para activar validaciones y verificaciones.
+
+> Ajusta el orden según dependencias particulares del módulo o del entorno en el que se despliega.

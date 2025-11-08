@@ -1,45 +1,9 @@
 # =====================================================
 # tnsnames.ora Network Configuration File (UNIFICADO)
 # =====================================================
-# Ruta: C:\Instaladores\Oracle19c\WINDOWS.X64_193000_db_home\NETWORK\ADMIN\tnsnames.ora
-# Unificación de configuraciones locales + Data Guard
+# Ruta de referencia dentro del repositorio: docker/oracle19c/config/tnsnames_unified.ora
+# Configuraciones orientadas al laboratorio Oracle Data Guard en Docker
 # =====================================================
-
-# ------------------------------------------
-# CONFIGURACIONES LOCALES BÁSICAS
-# ------------------------------------------
-
-UNA =
-  (DESCRIPTION =
-    (ADDRESS = (PROTOCOL = TCP)(HOST = localhost)(PORT = 1521))
-    (CONNECT_DATA =
-      (SERVER = DEDICATED)
-      (SERVICE_NAME = UNA)
-    )
-  )
-
-ORCLPDB =
-  (DESCRIPTION =
-    (ADDRESS = (PROTOCOL = TCP)(HOST = localhost)(PORT = 1521))
-    (CONNECT_DATA =
-      (SERVER = DEDICATED)
-      (SERVICE_NAME = ORCLPDB)
-    )
-  )
-
-LISTENER_UNA =
-  (ADDRESS = (PROTOCOL = TCP)(HOST = localhost)(PORT = 1521))
-
-ORACLR_CONNECTION_DATA =
-  (DESCRIPTION =
-    (ADDRESS_LIST =
-      (ADDRESS = (PROTOCOL = IPC)(KEY = EXTPROC1521))
-    )
-    (CONNECT_DATA =
-      (SID = CLRExtProc)
-      (PRESENTATION = RO)
-    )
-  )
 
 # ------------------------------------------
 # DATA GUARD - CONEXIONES INTERNAS

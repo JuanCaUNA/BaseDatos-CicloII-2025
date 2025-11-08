@@ -1,14 +1,15 @@
 # Oracle Data Guard 19c (Docker Stack)
 
-Laboratorio Docker con una base primaria y una standby Oracle 19c. Los contenedores comparten volumenes para datos, archivelogs y respaldos, mientras que la automatizacion vive en `scripts/automation`.
+Laboratorio Docker con una base primaria y una standby Oracle 19c. Los contenedores comparten volumenes para datos, archivelogs y respaldos, mientras que la automatizacion vive en `oracle19c/scripts/automation`.
 
 ## Componentes principales
 
 - `docker-compose.yml`: define los servicios `oracle_primary` y `oracle_standby` y la red `oracle-net`.
 - `data/`: volumenes de datos montados por Docker (ignorados en git).
   - `primary/`, `standby/`: oradata de cada instancia.
-  - `shared/`: archivelogs, backups y archivo `tnsnames_unified.ora` accesible para ambos contenedores.
-- `scripts/automation/`:
+  - `shared/`: archivelogs, backups y archivo `tnsnames_unified.ora` accesible para ambos contenedores (versión fuente en `oracle19c/config`).
+- `oracle19c/scripts/automation/`:
+  - `sync_environment.ps1`: prepara carpetas ignoradas por git y copia `tnsnames_unified.ora`.
   - `dataguard_complete.ps1`: punto de entrada unico para switch, transferencia, respaldos, purga, estado y demo.
   - `task_scheduler_complete.ps1`: instala o elimina las tareas programadas en Windows (PowerShell como administrador).
   - `profesor_demo.ps1`: recorrido guiado para demostrar la solucion.
@@ -26,14 +27,20 @@ Laboratorio Docker con una base primaria y una standby Oracle 19c. Los contenedo
 ## Inicio rapido
 
 ```powershell
-# 1. Arrancar contenedores
+# 0. Posicionarse en la carpeta del stack
+cd docker
+
+# 1. Preparar carpetas ignoradas y archivo TNS
+./oracle19c/scripts/automation/sync_environment.ps1
+
+# 2. Arrancar contenedores
 docker compose up -d
 
-# 2. Esperar a que Oracle inicialice (~10 min) y revisar estado
-cd scripts\automation
+# 3. Esperar a que Oracle inicialice (~10 min) y revisar estado
+cd oracle19c\scripts\automation
 ./check_status.ps1
 
-# 3. Ejecutar un ciclo completo de automatizacion
+# 4. Ejecutar un ciclo completo de automatizacion
 ./dataguard_complete.ps1 -Action full-cycle
 ```
 
@@ -80,4 +87,4 @@ Al volver a `docker compose up -d`, los contenedores se inicializaran desde cero
 
 ---
 
-Documentacion detallada: consulta `../../DOCS/manual_dataguard_completo.md`.
+Documentación detallada: consulta `../../docs/dataguard/manual_dataguard_completo.md`.
