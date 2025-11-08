@@ -5,6 +5,44 @@ Write-Host "=== MONITOR DE INSTALACIÓN ORACLE DATA GUARD ===" -ForegroundColor 
 Write-Host "Fecha: $(Get-Date)" -ForegroundColor Yellow
 Write-Host ""
 
+$ORACLE_PWD = "admin123"
+
+function Invoke-ContainerSql {
+    param(
+        [string]$Container,
+        [string]$SqlCommand,
+        [string]$DbService
+    )
+
+    $sqlBlock = @"
+sqlplus -s sys/$ORACLE_PWD@//$DbService as sysdba <<'SQL'
+SET HEADING OFF;
+SET FEEDBACK OFF;
+SET VERIFY OFF;
+SET ECHO OFF;
+SET PAGESIZE 0;
+SET LINESIZE 32767;
+$SqlCommand
+EXIT;
+SQL
+"@
+
+    $sqlBlock = ($sqlBlock -replace "`r", "")
+
+    try {
+        $result = docker exec $Container bash -lc $sqlBlock
+        if ($null -eq $result) {
+            return $null
+        }
+
+        return $result.Trim()
+    }
+    catch {
+        Write-Host ("Error ejecutando SQL en {0}: {1}" -f $Container, $_) -ForegroundColor Red
+        return $null
+    }
+}
+
 # Función para verificar estado de contenedores
 function Test-ContainerStatus {
     Write-Host "=== ESTADO DE CONTENEDORES ===" -ForegroundColor Green
@@ -46,10 +84,10 @@ function Test-DatabaseConnection {
     
     Write-Host "=== PRUEBA DE CONEXIÓN: $ContainerName ===" -ForegroundColor Green
     
-    $testSql = "SELECT 'DB_READY' as status FROM dual;"
-    $result = docker exec $ContainerName sqlplus -S sys/admin123@$ConnectionString as sysdba <<< "$testSql EXIT;" 2>$null
-    
-    if ($result -match "DB_READY") {
+    $testSql = "SELECT 'DB_READY' AS status FROM dual;"
+    $result = Invoke-ContainerSql -Container $ContainerName -SqlCommand $testSql -DbService "localhost:1521/$ConnectionString"
+
+    if ($result -and ($result -match "DB_READY")) {
         Write-Host "✅ Base de datos $ContainerName está lista y responde" -ForegroundColor Green
         return $true
     }
@@ -93,10 +131,10 @@ do {
         Write-Host "2. Instalar tareas programadas"
         Write-Host "3. Ejecutar demostración"
         Write-Host ""
-    Write-Host "Comandos sugeridos:" -ForegroundColor Yellow
-    Write-Host "cd scripts\automation"
-    Write-Host ".\dataguard_complete.ps1 -Action status"
-    Write-Host ".\task_scheduler_complete.ps1 -Operation install"
+        Write-Host "Comandos sugeridos:" -ForegroundColor Yellow
+    Write-Host "cd docker\oracle19c\scripts\automation"
+        Write-Host ".\dataguard_complete.ps1 -Action status"
+        Write-Host ".\task_scheduler_complete.ps1 -Operation install"
         break
     }
     
