@@ -1,21 +1,26 @@
--- =============================================
--- Procedimiento: PRC_Marcar_Detalle_Notificado
--- Marca un detalle de planilla como notificado
--- =============================================
 CREATE OR REPLACE PROCEDURE PRC_Marcar_Detalle_Notificado(
-	p_detalle_id IN NUMBER,
-	p_tipo IN VARCHAR2 -- 'MEDICO' o 'ADMIN'
+  p_detalle_id IN NUMBER
 ) AS
 BEGIN
-	IF p_tipo = 'MEDICO' THEN
-		UPDATE ACS_DETALLE_PLANILLA_MEDICO SET DPM_ESTADO = 'NOTIFICADO' WHERE DPM_ID = p_detalle_id;
-	ELSIF p_tipo = 'ADMIN' THEN
-		UPDATE ACS_DETALLE_PLANILLA_ADMIN SET DPA_ESTADO = 'NOTIFICADO' WHERE DPA_ID = p_detalle_id;
-	END IF;
-	COMMIT;
+  -- Verificar existencia
+  IF NOT EXISTS (
+    SELECT 1 FROM ACS_DETALLE_PLANILLA WHERE ADP_ID = p_detalle_id
+  ) THEN
+    RAISE_APPLICATION_ERROR(-20020, 'No existe el detalle de planilla especificado.');
+  END IF;
+
+  -- Marcar como notificado
+  UPDATE ACS_DETALLE_PLANILLA
+  SET ADP_EMAIL_ENV = 1,
+      ADP_FECHA_NOTIFICACION = SYSTIMESTAMP,
+      ADP_FECHA_ACTUALIZACION = SYSTIMESTAMP
+  WHERE ADP_ID = p_detalle_id;
+
+  COMMIT;
+  DBMS_OUTPUT.PUT_LINE('📨 Detalle ' || p_detalle_id || ' marcado como notificado.');
 EXCEPTION
-	WHEN OTHERS THEN
-		ROLLBACK;
-		RAISE;
-END PRC_Marcar_Detalle_Notificado;
+  WHEN OTHERS THEN
+    ROLLBACK;
+    RAISE_APPLICATION_ERROR(-20021, 'Error al marcar detalle como notificado: ' || SQLERRM);
+END;
 /
