@@ -8,21 +8,10 @@
         - YA CONFIGURADO PARA LOS SIGUIENTES PARAMETROS
 
     * VARIABLE:
-        - USUARIO_PARA_CORREOS: SYS
+        - USUARIO_PARA_CORREOS: JUAN
 */
 
--- CREAR ROL ENVIO DE CORREOS
-CREATE ROLE ACS_ROL_ENVIO_CORREOS;
--- ASIGNAR PRIVILEGIOS NECESARIOS AL ROL
-GRANT EXECUTE ON UTL_SMTP TO ACS_ROL_ENVIO_CORREOS;                 -- PARA ENVIO DE CORREOS
-GRANT EXECUTE ON UTL_TCP TO ACS_ROL_ENVIO_CORREOS;                  -- PARA CONEXIONES TCP
-GRANT EXECUTE ON DBMS_CRYPTO TO ACS_ROL_ENVIO_CORREOS;              -- PARA ENCRIPTACION/DESENCRIPTACION
-GRANT EXECUTE ON DBMS_NETWORK_ACL_ADMIN TO ACS_ROL_ENVIO_CORREOS;   -- PARA GESTION DE ACLS, HACE QUE EL ROL PUEDA CONFIGURAR PERMISOS DE RED
--- ASIGNAR ROL AL USUARIO QUE ENVIA CORREOS
-GRANT ACS_ROL_ENVIO_CORREOS TO SYS;
-/
-
--- ------------------------------------------------------------
+--------------------------------------------------------
 -- ** SECCIÓN: TABLAS, FUNCIONES, PROCEDIMIENTOS Y PARÁMETROS **
 
 -- ! GESTION DE PARÁMETROS
@@ -70,7 +59,7 @@ USING (
             'Correo del DBA' APA_DESCRIPCION,
             'CORREO_DBA' APA_TIPO_PARAMETRO FROM DUAL UNION ALL
     -- Configuracion SMTP
-    SELECT 'SMTP_USE_TLS', 'N', 'Indica si se usa STARTTLS (Y/N)', 'SMTP' FROM DUAL UNION ALL
+    SELECT 'SMTP_USE_TLS', 'N', 'Indica si se usa STARTTLS (Y/N), N no usa wallet', 'SMTP' FROM DUAL UNION ALL
     SELECT 'SMTP_ACL_FILE', 'brevo_acl.xml', 'Archivo ACL para SMTP', 'SMTP' FROM DUAL UNION ALL
     SELECT 'SMTP_HOST', 'smtp-relay.brevo.com', 'Servidor para envio de correos', 'SMTP' FROM DUAL UNION ALL
     SELECT 'SMTP_PORT', '587', 'Puerto del servidor SMTP', 'SMTP' FROM DUAL UNION ALL
@@ -220,7 +209,7 @@ END;
 */
 
 DECLARE
-    V_ACL_FILE VARCHAR2(100) := ACS_FUN_OBTENER_PARAMETRO('SMP_ACL_FILE');
+    V_ACL_FILE VARCHAR2(100) := ACS_FUN_OBTENER_PARAMETRO('SMTP_ACL_FILE');
 BEGIN
     -- * PASO 1: LIMPIAR ACLS ANTERIORES *
     DBMS_NETWORK_ACL_ADMIN.DROP_ACL(ACL => V_ACL_FILE);
@@ -244,7 +233,7 @@ BEGIN
     DBMS_NETWORK_ACL_ADMIN.CREATE_ACL(
         acl         => V_ACL_FILE,
         description => 'Acceso SMTP ' || V_HOST || ':' || V_PORT,
-        principal   => 'SYS',
+        principal   => 'JUAN',
         is_grant    => TRUE,
         privilege   => 'connect'
     );
@@ -252,7 +241,7 @@ BEGIN
 
     DBMS_NETWORK_ACL_ADMIN.ADD_PRIVILEGE(
         acl       => V_ACL_FILE,
-        principal => 'SYS',
+        principal => 'JUAN',
         is_grant  => TRUE,
         privilege => 'resolve'
     );
