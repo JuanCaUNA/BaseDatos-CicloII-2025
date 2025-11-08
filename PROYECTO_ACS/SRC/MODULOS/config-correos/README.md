@@ -2,7 +2,7 @@
 
 Correr correos.sql. secciones:
 
-en config-user.sql:
+en permisos_usuario.sql:
 
 - Asignacion de permisos al usuario, con un usuario con privilegios de sysdba,
 
