@@ -1,44 +1,4 @@
-/*
--- ! TABLA
-CREATE TABLE "ACS_PERSONA"(
-    "APE_ID" Number GENERATED ALWAYS AS IDENTITY(
-        START WITH 1
-        INCREMENT BY 1
-        NOMAXVALUE
-        NOMINVALUE
-        CACHE 20) NOT NULL,
-    "APE_CEDULA" Varchar2(20 ) NOT NULL,
-    "APE_NOMBRE" Varchar2(200 ) NOT NULL,
-    "APE_P_APELLIDO" Varchar2(100 ) NOT NULL,
-    "APE_S_APELLIDO" Varchar2(100 ),
-    "APE_FECHA_NACIMIENTO" Timestamp(6) NOT NULL,
-    "APE_SEXO" Varchar2(10 ),
-    "APE_ESTADO_CIVIL" Varchar2(15 ),
-    "APE_NACIONALIDAD" Varchar2(10 ),
-    "APE_TIPO_USUARIO" Varchar2(15 ) NOT NULL,
-    "APE_ESTADO_REGISTRO" Varchar2(10 ) NOT NULL,
-    "APE_EMAIL" Varchar2(255 ) NOT NULL,
-    "APE_TELEFONO" Varchar2(20 ),
-    "APE_RESIDENCIA" Varchar2(255 ),
-    "APE_DIRECION_CASA" Varchar2(255 ),
-    "APE_DIRECCION_TRABAJO" Varchar2(255 ),
-    "APE_FECHA_CREACION" Timestamp(6) DEFAULT SYSDATE NOT NULL,
-    "APE_FECHA_ACTUALIZACION" Timestamp(6) NOT NULL,
-    CONSTRAINT "CHK_APE_ESTADO_REGISTRO" CHECK (APE_ESTADO_REGISTRO IN ('PENDIENTE', 'APROBADO', 'RECHAZADO')),
-    CONSTRAINT "CHK_APE_SEXO" CHECK (APE_SEXO IN ('MASCULINO', 'FEMENINO')),
-    CONSTRAINT "CHK_APE_ESTADO_CIVIL" CHECK (APE_ESTADO_CIVIL IN ('SOLTERO', 'CASADO', 'DIVORCIADO', 'VIUDO', 'UNION LIBRE')),
-    CONSTRAINT "CHK_APE_NACIONALIDAD" CHECK (APE_NACIONALIDAD IN ('NACIONAL', 'EXTRANJERO')),
-    CONSTRAINT "CHK_APE_TIPO_USUARIO" CHECK (APE_TIPO_USUARIO in ('MEDICO', 'ADMINISTRATIVO'))
-)
-*/
-
--- ** Borrar registros de la tabla ACS_PERSONA **
-/*
-DELETE FROM ACS_PERSONA;
-COMMIT;
-*/
-
--- ** REGISTRAR DATOS
+-- ** REGISTRAR DATOS PERSONA **
 DECLARE
     V_LINE VARCHAR2(1000);
     V_PRIMERA_LINEA BOOLEAN := TRUE;
@@ -109,14 +69,479 @@ BEGIN
     ACS_PRC_ACTUALIZAR_ESTADO_PERSONA('CED890123', 'APROBADO');
 
     ACS_PRC_ACTUALIZAR_ESTADO_PERSONA('CED234567', 'RECHAZADO');
+    commit;
 END;
 /
 
--- ** CONSULTAS **
-select *
-from ACS_MV_SOLICITUDES_USUARIOS;
+-- ** REGISTRAR DATOS ACS_TIPO_DOCUMENTO **
+DECLARE
+    V_LINE VARCHAR2(1000);
+    V_PRIMERA_LINEA BOOLEAN := TRUE;
+    
+    CURSOR C_LINES IS
+        SELECT COLUMN_VALUE AS LINE
+        FROM TABLE(
+            SYS.ODCIVARCHAR2LIST(
+                'ATD_TIPO_USUARIO,ATD_DOCUMENTO_REQUERIDO',
+                'TODOS,Cedula de Identidad',
+                'TODOS,Certificado de Nacimiento',
+                'TODOS,Curriculum Vitae',
+                'MEDICO,Licencia Medica',
+                'MEDICO,Certificado de Especialidad',
+                'MEDICO,Titulo Universitario Medicina',
+                'ADMINISTRATIVO,Titulo Universitario',
+                'ADMINISTRATIVO,Certificados de Capacitacion'
+            )
+        );
+BEGIN
+    FOR R_LINE IN C_LINES LOOP
+        V_LINE := R_LINE.LINE;
+
+        IF V_PRIMERA_LINEA THEN
+            V_PRIMERA_LINEA := FALSE;
+            CONTINUE;
+        END IF;
+        
+        BEGIN
+            INSERT INTO ACS_TIPO_DOCUMENTO (ATD_TIPO_USUARIO, ATD_DOCUMENTO_REQUERIDO, ATD_ESTADO)
+            VALUES (
+                UTIL_GET_FIELD(V_LINE, 1),
+                UTIL_GET_FIELD(V_LINE, 2),
+                'ACTIVO'
+            );
+            COMMIT;
+        EXCEPTION
+            WHEN OTHERS THEN
+                DBMS_OUTPUT.PUT_LINE('[Error] insertar tipo documento: ' || SQLERRM);
+                ROLLBACK;
+        END;
+    END LOOP;
+    
+    DBMS_OUTPUT.PUT_LINE('[ok] Cargar datos ACS_TIPO_DOCUMENTO: Proceso completado.');
+END;
 /
 
-select *
-from ACS_PERSONA;
+-- ** REGISTRAR DATOS ACS_BANCO **
+DECLARE
+    V_LINE VARCHAR2(1000);
+    V_PRIMERA_LINEA BOOLEAN := TRUE;
+    
+    CURSOR C_LINES IS
+        SELECT COLUMN_VALUE AS LINE
+        FROM TABLE(
+            SYS.ODCIVARCHAR2LIST(
+                'ABA_NOMBRE,ABA_TELEFONO',
+                'Banco Nacional de Costa Rica,2212-2000',
+                'Banco de Costa Rica,2287-9000',
+                'Banco Davivienda,2220-2020',
+                'BAC Credomatic,2295-9595',
+                'Banco Popular,2202-2000',
+                'Scotiabank Costa Rica,2506-4000'
+            )
+        );
+BEGIN
+    FOR R_LINE IN C_LINES LOOP
+        V_LINE := R_LINE.LINE;
+
+        IF V_PRIMERA_LINEA THEN
+            V_PRIMERA_LINEA := FALSE;
+            CONTINUE;
+        END IF;
+        
+        BEGIN
+            INSERT INTO ACS_BANCO (ABA_NOMBRE, ABA_TELEFONO, ABA_ESTADO)
+            VALUES (
+                UTIL_GET_FIELD(V_LINE, 1),
+                UTIL_GET_FIELD(V_LINE, 2),
+                'ACTIVO'
+            );
+            COMMIT;
+        EXCEPTION
+            WHEN OTHERS THEN
+                DBMS_OUTPUT.PUT_LINE('[Error] insertar banco: ' || SQLERRM);
+                ROLLBACK;
+        END;
+    END LOOP;
+    
+    DBMS_OUTPUT.PUT_LINE('[ok] Cargar datos ACS_BANCO: Proceso completado.');
+END;
+/
+
+-- ** REGISTRAR DATOS ACS_CUENTA_BANCARIA **
+-- Para los usuarios aprobados: 118690700, CED345678, CED678901, CED890123
+DECLARE
+    V_LINE VARCHAR2(1000);
+    V_PRIMERA_LINEA BOOLEAN := TRUE;
+    V_AUS_ID NUMBER;
+    V_ABA_ID NUMBER;
+    
+    CURSOR C_LINES IS
+        SELECT COLUMN_VALUE AS LINE
+        FROM TABLE(
+            SYS.ODCIVARCHAR2LIST(
+                'APE_CEDULA,ACB_NUMERO_CUENTA,ACB_ES_PRINCIPAL,ACB_TIPO_CUENTA,ABA_NOMBRE',
+                '118690700,CR12015202001026284066,SI,AHORRO,Banco Nacional de Costa Rica',
+                '118690700,CR79010200009292817840,NO,CORRIENTE,Banco de Costa Rica',
+                'CED345678,CR45015202001034567890,SI,CORRIENTE,BAC Credomatic',
+                'CED345678,CR23010200009298765432,NO,AHORRO,Banco Davivienda',
+                'CED678901,CR67015202001045678901,SI,AHORRO,Banco Popular',
+                'CED890123,CR89010200009287654321,SI,CORRIENTE,Scotiabank Costa Rica'
+            )
+        );
+BEGIN
+    FOR R_LINE IN C_LINES LOOP
+        V_LINE := R_LINE.LINE;
+
+        IF V_PRIMERA_LINEA THEN
+            V_PRIMERA_LINEA := FALSE;
+            CONTINUE;
+        END IF;
+        
+        BEGIN
+            -- Obtener ID del usuario basado en la cedula
+            SELECT U.AUS_ID INTO V_AUS_ID
+            FROM ACS_USUARIO U
+            INNER JOIN ACS_PERSONA P ON U.APE_ID = P.APE_ID
+            WHERE P.APE_CEDULA = UTIL_GET_FIELD(V_LINE, 1);
+            
+            -- Obtener ID del banco
+            SELECT ABA_ID INTO V_ABA_ID
+            FROM ACS_BANCO
+            WHERE ABA_NOMBRE = UTIL_GET_FIELD(V_LINE, 5);
+            
+            INSERT INTO ACS_CUENTA_BANCARIA (
+                ACB_NUMERO_CUENTA, 
+                ACB_ES_PRINCIPAL, 
+                ACB_TIPO_CUENTA, 
+                ACB_ESTADO,
+                AUS_ID, 
+                ABA_ID
+            )
+            VALUES (
+                UTIL_GET_FIELD(V_LINE, 2),
+                UTIL_GET_FIELD(V_LINE, 3),
+                UTIL_GET_FIELD(V_LINE, 4),
+                'ACTIVO',
+                V_AUS_ID,
+                V_ABA_ID
+            );
+            COMMIT;
+        EXCEPTION
+            WHEN NO_DATA_FOUND THEN
+                DBMS_OUTPUT.PUT_LINE('[Error] No se encontro usuario o banco para cedula: ' || UTIL_GET_FIELD(V_LINE, 1));
+                ROLLBACK;
+            WHEN OTHERS THEN
+                DBMS_OUTPUT.PUT_LINE('[Error] insertar cuenta bancaria: ' || SQLERRM);
+                ROLLBACK;
+        END;
+    END LOOP;
+    
+    DBMS_OUTPUT.PUT_LINE('[ok] Cargar datos ACS_CUENTA_BANCARIA: Proceso completado.');
+END;
+/
+
+-- ** REGISTRAR DATOS ACS_DOCUMENTO_USUARIO **
+-- Para los usuarios aprobados: 118690700, CED345678, CED678901, CED890123
+DECLARE
+    V_LINE VARCHAR2(2000);
+    V_PRIMERA_LINEA BOOLEAN := TRUE;
+    V_AUS_ID NUMBER;
+    V_ATD_ID NUMBER;
+    
+    CURSOR C_LINES IS
+        SELECT COLUMN_VALUE AS LINE
+        FROM TABLE(
+            SYS.ODCIVARCHAR2LIST(
+                'APE_CEDULA,ATD_DOCUMENTO_REQUERIDO,ADU_URL,ADU_COMENTARIOS,ADU_ESTADO',
+                '118690700,Cedula de Identidad,https://docs.sistema.com/118690700_cedula.pdf,Cedula vigente,APROBADO',
+                '118690700,Licencia Medica,https://docs.sistema.com/118690700_licencia.pdf,Licencia medica vigente hasta 2027,APROBADO',
+                '118690700,Titulo Universitario Medicina,https://docs.sistema.com/118690700_titulo.pdf,Universidad de Costa Rica,APROBADO',
+                'CED345678,Cedula de Identidad,https://docs.sistema.com/CED345678_cedula.pdf,Cedula actualizada,APROBADO',
+                'CED345678,Licencia Medica,https://docs.sistema.com/CED345678_licencia.pdf,Licencia medica especialidad cardiologia,APROBADO',
+                'CED345678,Certificado de Especialidad,https://docs.sistema.com/CED345678_especialidad.pdf,Especialista en Cardiologia,APROBADO',
+                'CED678901,Cedula de Identidad,https://docs.sistema.com/CED678901_cedula.pdf,Documento en regla,APROBADO',
+                'CED678901,Titulo Universitario,https://docs.sistema.com/CED678901_titulo.pdf,Licenciatura en Administracion,APROBADO',
+                'CED678901,Certificados de Capacitacion,https://docs.sistema.com/CED678901_capacitacion.pdf,Cursos de gestion administrativa,APROBADO',
+                'CED890123,Cedula de Identidad,https://docs.sistema.com/CED890123_cedula.pdf,Cedula vigente,APROBADO',
+                'CED890123,Titulo Universitario,https://docs.sistema.com/CED890123_titulo.pdf,Contabilidad Publica,APROBADO',
+                'CED890123,Curriculum Vitae,https://docs.sistema.com/CED890123_cv.pdf,CV actualizado 2025,APROBADO'
+            )
+        );
+BEGIN
+    FOR R_LINE IN C_LINES LOOP
+        V_LINE := R_LINE.LINE;
+
+        IF V_PRIMERA_LINEA THEN
+            V_PRIMERA_LINEA := FALSE;
+            CONTINUE;
+        END IF;
+        
+        BEGIN
+            -- Obtener ID del usuario basado en la cedula
+            SELECT U.AUS_ID INTO V_AUS_ID
+            FROM ACS_USUARIO U
+            INNER JOIN ACS_PERSONA P ON U.APE_ID = P.APE_ID
+            WHERE P.APE_CEDULA = UTIL_GET_FIELD(V_LINE, 1);
+            
+            -- Obtener ID del tipo de documento
+            SELECT ATD_ID INTO V_ATD_ID
+            FROM ACS_TIPO_DOCUMENTO
+            WHERE ATD_DOCUMENTO_REQUERIDO = UTIL_GET_FIELD(V_LINE, 2)
+            AND ROWNUM = 1;
+            
+            INSERT INTO ACS_DOCUMENTO_USUARIO (
+                ADU_URL,
+                ADU_COMENTARIOS,
+                ADU_ESTADO,
+                ATD_ID,
+                AUS_ID
+            )
+            VALUES (
+                UTIL_GET_FIELD(V_LINE, 3),
+                UTIL_GET_FIELD(V_LINE, 4),
+                UTIL_GET_FIELD(V_LINE, 5),
+                V_ATD_ID,
+                V_AUS_ID
+            );
+            COMMIT;
+        EXCEPTION
+            WHEN NO_DATA_FOUND THEN
+                DBMS_OUTPUT.PUT_LINE('[Error] No se encontro usuario o tipo documento para: ' || UTIL_GET_FIELD(V_LINE, 1));
+                ROLLBACK;
+            WHEN OTHERS THEN
+                DBMS_OUTPUT.PUT_LINE('[Error] insertar documento usuario: ' || SQLERRM);
+                ROLLBACK;
+        END;
+    END LOOP;
+    
+    DBMS_OUTPUT.PUT_LINE('[ok] Cargar datos ACS_DOCUMENTO_USUARIO: Proceso completado.');
+END;
+/
+
+-- ** REGISTRAR DATOS ACS_PERMISO **
+DECLARE
+    V_LINE VARCHAR2(1000);
+    V_PRIMERA_LINEA BOOLEAN := TRUE;
+    
+    CURSOR C_LINES IS
+        SELECT COLUMN_VALUE AS LINE
+        FROM TABLE(
+            SYS.ODCIVARCHAR2LIST(
+                'APR_PANTALLA,APR_LEER,APR_CREAR,APR_EDITAR,APR_BORRAR',
+                'PERSONAS,1,1,1,1',
+                'USUARIOS,1,1,1,1',
+                'BANCOS,1,1,1,0',
+                'CUENTAS_BANCARIAS,1,1,1,0',
+                'DOCUMENTOS,1,1,1,1',
+                'PERFILES,1,1,1,0',
+                'PERMISOS,1,0,1,0',
+                'CENTROS_SALUD,1,1,1,0',
+                'ESCALAS_MEDICAS,1,1,1,1',
+                'PLANILLAS,1,1,1,0',
+                'REPORTES_FINANCIEROS,1,0,0,0',
+                'AUDITORIA,1,0,0,0'
+            )
+        );
+BEGIN
+    FOR R_LINE IN C_LINES LOOP
+        V_LINE := R_LINE.LINE;
+
+        IF V_PRIMERA_LINEA THEN
+            V_PRIMERA_LINEA := FALSE;
+            CONTINUE;
+        END IF;
+        
+        BEGIN
+            INSERT INTO ACS_PERMISO (
+                APR_PANTALLA,
+                APR_LEER,
+                APR_CREAR,
+                APR_EDITAR,
+                APR_BORRAR
+            )
+            VALUES (
+                UTIL_GET_FIELD(V_LINE, 1),
+                TO_NUMBER(UTIL_GET_FIELD(V_LINE, 2)),
+                TO_NUMBER(UTIL_GET_FIELD(V_LINE, 3)),
+                TO_NUMBER(UTIL_GET_FIELD(V_LINE, 4)),
+                TO_NUMBER(UTIL_GET_FIELD(V_LINE, 5))
+            );
+            COMMIT;
+        EXCEPTION
+            WHEN OTHERS THEN
+                DBMS_OUTPUT.PUT_LINE('[Error] insertar permiso: ' || SQLERRM);
+                ROLLBACK;
+        END;
+    END LOOP;
+    
+    DBMS_OUTPUT.PUT_LINE('[ok] Cargar datos ACS_PERMISO: Proceso completado.');
+END;
+/
+
+-- ** REGISTRAR DATOS ACS_PERFIL **
+DECLARE
+    V_LINE VARCHAR2(1000);
+    V_PRIMERA_LINEA BOOLEAN := TRUE;
+    
+    CURSOR C_LINES IS
+        SELECT COLUMN_VALUE AS LINE
+        FROM TABLE(
+            SYS.ODCIVARCHAR2LIST(
+                'APF_NOMBRE,APF_DESCRIPCION',
+                'SUPERUSUARIO,Acceso total al sistema con todos los permisos',
+                'MEDICO,Perfil para personal medico con acceso a escalas y pacientes',
+                'ADMINISTRATIVO,Perfil para personal administrativo con acceso a gestion general',
+                'CONTADOR,Perfil especializado en gestion financiera y planillas',
+                'RRHH,Perfil para recursos humanos con gestion de personal'
+            )
+        );
+BEGIN
+    FOR R_LINE IN C_LINES LOOP
+        V_LINE := R_LINE.LINE;
+
+        IF V_PRIMERA_LINEA THEN
+            V_PRIMERA_LINEA := FALSE;
+            CONTINUE;
+        END IF;
+        
+        BEGIN
+            INSERT INTO ACS_PERFIL (
+                APF_NOMBRE,
+                APF_DESCRIPCION,
+                APF_PADRE_ID
+            )
+            VALUES (
+                UTIL_GET_FIELD(V_LINE, 1),
+                UTIL_GET_FIELD(V_LINE, 2),
+                NULL
+            );
+            COMMIT;
+        EXCEPTION
+            WHEN OTHERS THEN
+                DBMS_OUTPUT.PUT_LINE('[Error] insertar perfil: ' || SQLERRM);
+                ROLLBACK;
+        END;
+    END LOOP;
+    
+    DBMS_OUTPUT.PUT_LINE('[ok] Cargar datos ACS_PERFIL: Proceso completado.');
+END;
+/
+
+-- ** REGISTRAR DATOS ACS_PERFIL_PERMISO **
+-- Vincular permisos a perfiles
+DECLARE
+    V_APF_ID NUMBER;
+    V_APR_ID NUMBER;
+BEGIN
+    -- SUPERUSUARIO - todos los permisos
+    SELECT APF_ID INTO V_APF_ID FROM ACS_PERFIL WHERE APF_NOMBRE = 'SUPERUSUARIO';
+    
+    FOR R IN (SELECT APR_ID FROM ACS_PERMISO) LOOP
+        INSERT INTO ACS_PERFIL_PERMISO (APR_ID, APF_ID)
+        VALUES (R.APR_ID, V_APF_ID);
+    END LOOP;
+    
+    -- MEDICO - permisos especificos
+    SELECT APF_ID INTO V_APF_ID FROM ACS_PERFIL WHERE APF_NOMBRE = 'MEDICO';
+    
+    FOR R IN (SELECT APR_ID FROM ACS_PERMISO 
+            WHERE APR_PANTALLA IN ('CENTROS_SALUD', 'ESCALAS_MEDICAS', 'DOCUMENTOS', 'CUENTAS_BANCARIAS')) LOOP
+        INSERT INTO ACS_PERFIL_PERMISO (APR_ID, APF_ID)
+        VALUES (R.APR_ID, V_APF_ID);
+    END LOOP;
+    
+    -- ADMINISTRATIVO - permisos de gestion general
+    SELECT APF_ID INTO V_APF_ID FROM ACS_PERFIL WHERE APF_NOMBRE = 'ADMINISTRATIVO';
+    
+    FOR R IN (SELECT APR_ID FROM ACS_PERMISO 
+            WHERE APR_PANTALLA IN ('PERSONAS', 'USUARIOS', 'BANCOS', 'DOCUMENTOS', 'REPORTES_FINANCIEROS')) LOOP
+        INSERT INTO ACS_PERFIL_PERMISO (APR_ID, APF_ID)
+        VALUES (R.APR_ID, V_APF_ID);
+    END LOOP;
+    
+    -- CONTADOR - permisos financieros
+    SELECT APF_ID INTO V_APF_ID FROM ACS_PERFIL WHERE APF_NOMBRE = 'CONTADOR';
+    
+    FOR R IN (SELECT APR_ID FROM ACS_PERMISO 
+            WHERE APR_PANTALLA IN ('PLANILLAS', 'REPORTES_FINANCIEROS', 'CUENTAS_BANCARIAS', 'AUDITORIA')) LOOP
+        INSERT INTO ACS_PERFIL_PERMISO (APR_ID, APF_ID)
+        VALUES (R.APR_ID, V_APF_ID);
+    END LOOP;
+    
+    -- RRHH - permisos de recursos humanos
+    SELECT APF_ID INTO V_APF_ID FROM ACS_PERFIL WHERE APF_NOMBRE = 'RRHH';
+    
+    FOR R IN (SELECT APR_ID FROM ACS_PERMISO 
+            WHERE APR_PANTALLA IN ('PERSONAS', 'USUARIOS', 'DOCUMENTOS', 'PERFILES', 'BANCOS', 'CUENTAS_BANCARIAS')) LOOP
+        INSERT INTO ACS_PERFIL_PERMISO (APR_ID, APF_ID)
+        VALUES (R.APR_ID, V_APF_ID);
+    END LOOP;
+    
+    COMMIT;
+    DBMS_OUTPUT.PUT_LINE('[ok] Cargar datos ACS_PERFIL_PERMISO: Proceso completado.');
+EXCEPTION
+    WHEN OTHERS THEN
+        DBMS_OUTPUT.PUT_LINE('[Error] insertar perfil_permiso: ' || SQLERRM);
+        ROLLBACK;
+END;
+/
+
+-- ** REGISTRAR DATOS ACS_USUARIO_PERFIL **
+-- Asignar perfiles a usuarios aprobados
+DECLARE
+    V_AUS_ID NUMBER;
+    V_APF_ID NUMBER;
+BEGIN
+    -- Usuario 118690700 (Juan Camacho) - MEDICO y SUPERUSUARIO
+    SELECT U.AUS_ID INTO V_AUS_ID
+    FROM ACS_USUARIO U
+    INNER JOIN ACS_PERSONA P ON U.APE_ID = P.APE_ID
+    WHERE P.APE_CEDULA = '118690700';
+    
+    SELECT APF_ID INTO V_APF_ID FROM ACS_PERFIL WHERE APF_NOMBRE = 'SUPERUSUARIO';
+    INSERT INTO ACS_USUARIO_PERFIL (APF_ID, AUS_ID) VALUES (V_APF_ID, V_AUS_ID);
+    
+    SELECT APF_ID INTO V_APF_ID FROM ACS_PERFIL WHERE APF_NOMBRE = 'MEDICO';
+    INSERT INTO ACS_USUARIO_PERFIL (APF_ID, AUS_ID) VALUES (V_APF_ID, V_AUS_ID);
+    
+    -- Usuario CED345678 (Carlos Ramirez) - MEDICO
+    SELECT U.AUS_ID INTO V_AUS_ID
+    FROM ACS_USUARIO U
+    INNER JOIN ACS_PERSONA P ON U.APE_ID = P.APE_ID
+    WHERE P.APE_CEDULA = 'CED345678';
+    
+    SELECT APF_ID INTO V_APF_ID FROM ACS_PERFIL WHERE APF_NOMBRE = 'MEDICO';
+    INSERT INTO ACS_USUARIO_PERFIL (APF_ID, AUS_ID) VALUES (V_APF_ID, V_AUS_ID);
+    
+    -- Usuario CED678901 (Laura Hernandez) - ADMINISTRATIVO y RRHH
+    SELECT U.AUS_ID INTO V_AUS_ID
+    FROM ACS_USUARIO U
+    INNER JOIN ACS_PERSONA P ON U.APE_ID = P.APE_ID
+    WHERE P.APE_CEDULA = 'CED678901';
+    
+    SELECT APF_ID INTO V_APF_ID FROM ACS_PERFIL WHERE APF_NOMBRE = 'ADMINISTRATIVO';
+    INSERT INTO ACS_USUARIO_PERFIL (APF_ID, AUS_ID) VALUES (V_APF_ID, V_AUS_ID);
+    
+    SELECT APF_ID INTO V_APF_ID FROM ACS_PERFIL WHERE APF_NOMBRE = 'RRHH';
+    INSERT INTO ACS_USUARIO_PERFIL (APF_ID, AUS_ID) VALUES (V_APF_ID, V_AUS_ID);
+    
+    -- Usuario CED890123 (Sofia Jimenez) - ADMINISTRATIVO y CONTADOR
+    SELECT U.AUS_ID INTO V_AUS_ID
+    FROM ACS_USUARIO U
+    INNER JOIN ACS_PERSONA P ON U.APE_ID = P.APE_ID
+    WHERE P.APE_CEDULA = 'CED890123';
+    
+    SELECT APF_ID INTO V_APF_ID FROM ACS_PERFIL WHERE APF_NOMBRE = 'ADMINISTRATIVO';
+    INSERT INTO ACS_USUARIO_PERFIL (APF_ID, AUS_ID) VALUES (V_APF_ID, V_AUS_ID);
+    
+    SELECT APF_ID INTO V_APF_ID FROM ACS_PERFIL WHERE APF_NOMBRE = 'CONTADOR';
+    INSERT INTO ACS_USUARIO_PERFIL (APF_ID, AUS_ID) VALUES (V_APF_ID, V_AUS_ID);
+    
+    COMMIT;
+    DBMS_OUTPUT.PUT_LINE('[ok] Cargar datos ACS_USUARIO_PERFIL: Proceso completado.');
+EXCEPTION
+    WHEN OTHERS THEN
+        DBMS_OUTPUT.PUT_LINE('[Error] insertar usuario_perfil: ' || SQLERRM);
+        ROLLBACK;
+END;
 /
