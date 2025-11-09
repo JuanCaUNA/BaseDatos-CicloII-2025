@@ -1,0 +1,6 @@
+-- permisos basicos y de crear directorios
+GRANT CONNECT TO JUAN;
+GRANT RESOURCE TO JUAN;
+/
+GRANT CREATE ANY DIRECTORY TO JUAN;
+/
