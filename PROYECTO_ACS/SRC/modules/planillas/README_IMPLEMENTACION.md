@@ -9,6 +9,7 @@ Este documento resume la implementación completa del **Sistema de Planillas con
 ## 📁 Archivos Creados
 
 ### 1. **Seed Data**
+
 📂 `SRC/modules/planillas/seed_data/`
 
 - **`seed_simple.sql`**: Carga inicial de movimientos automáticos
@@ -19,6 +20,7 @@ Este documento resume la implementación completa del **Sistema de Planillas con
   - ✅ 5 rangos salariales para renta según tabla Ministerio Hacienda CR 2024
 
 ### 2. **Función Helper**
+
 📂 `SRC/modules/planillas/procedures/`
 
 - **`fun_calcular_movimiento.sql`** (**VALID** ✅)
@@ -28,10 +30,13 @@ Este documento resume la implementación completa del **Sistema de Planillas con
   - Probada exitosamente con salarios de ₡800k, ₡1.2M, ₡3M
 
 ### 3. **Procedimientos de Generación de Planillas**
+
 📂 `SRC/modules/planillas/procedures/`
 
 #### **`prc_generar_planillas_medicos_v2.sql`** (**VALID** ✅)
+
 **Características implementadas:**
+
 - ✅ Calcula pago por TURNOS desde `ACS_DETALLE_MENSUAL`
   - Respeta `ATU_TIPO_PAGO`: 'HORAS' o 'TURNO'
   - Para HORAS: calcula horas trabajadas × tarifa horaria
@@ -47,7 +52,9 @@ Este documento resume la implementación completa del **Sistema de Planillas con
 - ✅ Actualiza encabezado de planilla con totales
 
 #### **`prc_generar_planillas_admin_v2.sql`** (**VALID** ✅)
+
 **Características implementadas:**
+
 - ✅ Usa salario base de ₡800,000 (TODO: obtener de configuración de usuario)
 - ✅ Aplica movimientos automáticos para administrativos:
   - CCSS (9%)
@@ -60,6 +67,7 @@ Este documento resume la implementación completa del **Sistema de Planillas con
 - ✅ Actualiza encabezado de planilla
 
 ### 4. **Scripts de Prueba**
+
 📂 `SRC/modules/planillas/tests/`
 
 - **`test_flujo_completo_planillas.sql`**
@@ -111,13 +119,13 @@ Este documento resume la implementación completa del **Sistema de Planillas con
 
 ### **Tablas Principales**
 
-| Tabla | Propósito | Campos Clave |
-|-------|-----------|--------------|
-| `ACS_TIPO_MOV` | Define movimientos automáticos | `ATM_COD`, `ATM_MODO`, `ATM_PORC`, `ATM_BASE`, `ATM_ES_AUTOMATICO` |
-| `ACS_TIPO_MOV_RANGO` | Rangos para cálculos progresivos | `ATM_ID`, `ATMR_RANGO_MIN`, `ATMR_RANGO_MAX`, `ATMR_PORCENTAJE` |
-| `ACS_MOVIMIENTO_PLANILLA` | Movimientos aplicados (auditoría) | `AMP_FUENTE`, `AMP_MONTO`, `AMP_CALC`, `APD_ID`, `ATM_ID` |
-| `ACS_PLANILLA` | Encabezado de planilla | `APL_MES`, `APL_ANIO`, `APL_TOT_BRUTO`, `APL_TOT_DED`, `APL_TOT_NETO` |
-| `ACS_DETALLE_PLANILLA` | Detalle por persona | `ADP_BRUTO`, `ADP_DED`, `APD_NETO`, `AUS_ID` |
+| Tabla                     | Propósito                         | Campos Clave                                                          |
+| ------------------------- | --------------------------------- | --------------------------------------------------------------------- |
+| `ACS_TIPO_MOV`            | Define movimientos automáticos    | `ATM_COD`, `ATM_MODO`, `ATM_PORC`, `ATM_BASE`, `ATM_ES_AUTOMATICO`    |
+| `ACS_TIPO_MOV_RANGO`      | Rangos para cálculos progresivos  | `ATM_ID`, `ATMR_RANGO_MIN`, `ATMR_RANGO_MAX`, `ATMR_PORCENTAJE`       |
+| `ACS_MOVIMIENTO_PLANILLA` | Movimientos aplicados (auditoría) | `AMP_FUENTE`, `AMP_MONTO`, `AMP_CALC`, `APD_ID`, `ATM_ID`             |
+| `ACS_PLANILLA`            | Encabezado de planilla            | `APL_MES`, `APL_ANIO`, `APL_TOT_BRUTO`, `APL_TOT_DED`, `APL_TOT_NETO` |
+| `ACS_DETALLE_PLANILLA`    | Detalle por persona               | `ADP_BRUTO`, `ADP_DED`, `APD_NETO`, `AUS_ID`                          |
 
 ---
 
@@ -130,6 +138,7 @@ Este documento resume la implementación completa del **Sistema de Planillas con
 ```
 
 Esto carga:
+
 - 4 movimientos automáticos (CCSS, RENTA, CAJA, BANCO_POPULAR)
 - 5 rangos progresivos para renta
 
@@ -142,9 +151,10 @@ Esto carga:
 ```
 
 Verificar que todos estén VALID:
+
 ```sql
-SELECT object_name, status 
-FROM user_objects 
+SELECT object_name, status
+FROM user_objects
 WHERE object_name IN ('FUN_CALCULAR_MOVIMIENTO', 'PRC_GENERAR_PLANILLAS_MEDICOS', 'PRC_GENERAR_PLANILLAS_ADMIN');
 ```
 
@@ -155,6 +165,7 @@ WHERE object_name IN ('FUN_CALCULAR_MOVIMIENTO', 'PRC_GENERAR_PLANILLAS_MEDICOS'
 ```
 
 **Output esperado:**
+
 - ✅ Prerequisitos verificados
 - ✅ Datos limpiados
 - ✅ Planillas generadas
@@ -165,7 +176,7 @@ WHERE object_name IN ('FUN_CALCULAR_MOVIMIENTO', 'PRC_GENERAR_PLANILLAS_MEDICOS'
 
 ```sql
 -- Ver movimientos aplicados en la última planilla
-SELECT 
+SELECT
     tm.ATM_COD,
     tm.ATM_NOMBRE,
     mp.AMP_MONTO,
@@ -184,17 +195,18 @@ ORDER BY tm.ATM_PRIORIDAD;
 
 ### **Caso: Administrativo con salario ₡1,200,000**
 
-| Movimiento | Base | Cálculo | Monto |
-|------------|------|---------|-------|
-| **Bruto** | - | Salario base | **₡1,200,000.00** |
-| CCSS | 9% sobre bruto | 1,200,000 × 0.09 | ₡108,000.00 |
-| Renta | Progresiva | Ver tabla abajo | ₡25,899.90 |
-| Caja | 2.5% sobre bruto | 1,200,000 × 0.025 | ₡30,000.00 |
-| Banco Popular | 1.5% sobre bruto | 1,200,000 × 0.015 | ₡18,000.00 |
-| **Deducciones** | - | Sum deducciones | **₡181,899.90** |
-| **Neto** | - | Bruto - Deducciones | **₡1,018,100.10** |
+| Movimiento      | Base             | Cálculo             | Monto             |
+| --------------- | ---------------- | ------------------- | ----------------- |
+| **Bruto**       | -                | Salario base        | **₡1,200,000.00** |
+| CCSS            | 9% sobre bruto   | 1,200,000 × 0.09    | ₡108,000.00       |
+| Renta           | Progresiva       | Ver tabla abajo     | ₡25,899.90        |
+| Caja            | 2.5% sobre bruto | 1,200,000 × 0.025   | ₡30,000.00        |
+| Banco Popular   | 1.5% sobre bruto | 1,200,000 × 0.015   | ₡18,000.00        |
+| **Deducciones** | -                | Sum deducciones     | **₡181,899.90**   |
+| **Neto**        | -                | Bruto - Deducciones | **₡1,018,100.10** |
 
 **Cálculo de Renta (progresiva):**
+
 - Tramo 1: ₡0 - ₡941,000 → 0% = ₡0
 - Tramo 2: ₡941,001 - ₡1,200,000 → 10% sobre ₡259,000 = ₡25,899.90
 - **Total Renta: ₡25,899.90**
@@ -204,20 +216,25 @@ ORDER BY tm.ATM_PRIORIDAD;
 ## 🎯 Puntos del Enunciado Implementados
 
 ### **Punto 3: Generación de Planillas de Médicos** (12%)
+
 ✅ **COMPLETADO**
+
 - Cálculo por horas o turno completo (`ATU_TIPO_PAGO`)
 - Inclusión de procedimientos aplicados
 - Aplicación automática de deducciones (CCSS, Renta, Banco)
 - Registro en `ACS_MOVIMIENTO_PLANILLA` para auditoría
 
 ### **Punto 4: Generación de Planillas de Administrativos** (12%)
+
 ✅ **COMPLETADO**
+
 - Uso de salario base
 - Movimientos automáticos: CCSS, Renta con rangos, Caja, Banco Popular
 - Manejo de rangos progresivos (tabla Hacienda CR)
 - Registro completo de movimientos
 
 ### **Extras Implementados:**
+
 - ✅ Función genérica `FUN_CALCULAR_MOVIMIENTO` para reutilización
 - ✅ Seed data completo con rangos reales de Costa Rica
 - ✅ Script de prueba end-to-end automatizado
@@ -229,14 +246,17 @@ ORDER BY tm.ATM_PRIORIDAD;
 ## 🚀 Próximos Pasos (Pendientes)
 
 1. **Salario Base Dinámico para Admins**
+
    - Actualmente usa ₡800k hardcoded
    - TODO: Agregar campo `AUS_SALARIO_BASE` en `ACS_USUARIO` o tabla auxiliar
 
 2. **Movimientos Manuales**
+
    - Crear procedimiento `PRC_APLICAR_MOVIMIENTO_MANUAL`
    - Parámetros: `p_adp_id`, `p_atm_id`, `p_monto`, `p_observacion`
 
 3. **Validación de Estado de Planilla**
+
    - Agregar check en procedimientos para evitar modificar planillas ya APLICADAS o NOTIFICADAS
 
 4. **Integración con Sistema de Correos**
@@ -249,6 +269,7 @@ ORDER BY tm.ATM_PRIORIDAD;
 ## 📞 Soporte
 
 Para dudas o problemas:
+
 1. Verificar estado de objetos: `SELECT * FROM user_errors WHERE name LIKE '%PLANILLA%';`
 2. Revisar output de prueba: `@test_flujo_completo_planillas.sql`
 3. Consultar movimientos aplicados: queries en sección "Validar Movimientos"
@@ -257,17 +278,18 @@ Para dudas o problemas:
 
 ## 📝 Changelog
 
-| Fecha | Cambio |
-|-------|--------|
+| Fecha      | Cambio                                                                       |
+| ---------- | ---------------------------------------------------------------------------- |
 | 2025-11-09 | ✅ Implementación completa: seed data, función helper, procedimientos, tests |
-| 2025-11-09 | ✅ Corrección de nombres de tablas (ACS_ESCALA_MENSUAL, ACS_PROC_APLICADO) |
-| 2025-11-09 | ✅ Todos los objetos compilados como VALID |
+| 2025-11-09 | ✅ Corrección de nombres de tablas (ACS_ESCALA_MENSUAL, ACS_PROC_APLICADO)   |
+| 2025-11-09 | ✅ Todos los objetos compilados como VALID                                   |
 
 ---
 
 **Estado del Sistema: ✅ OPERATIVO**
 
 Todos los componentes están compilados y probados. El sistema está listo para:
+
 - Generar planillas de médicos y administrativos
 - Aplicar movimientos automáticos con rangos progresivos
 - Registrar auditoría completa de cálculos
