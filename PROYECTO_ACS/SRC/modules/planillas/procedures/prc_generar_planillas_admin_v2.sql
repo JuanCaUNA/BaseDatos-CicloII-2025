@@ -41,11 +41,11 @@ BEGIN
     BEGIN
         SELECT ATP_ID INTO v_tipo_id
         FROM ACS_TIPO_PLANILLA
-        WHERE UPPER(ATP_APLICA_A) = 'ADMINISTRATIVOS' 
+        WHERE UPPER(ATP_APLICA_A) = 'ADMINISTRATIVO' 
           AND ATP_ESTADO = 'ACTIVO';
     EXCEPTION
         WHEN NO_DATA_FOUND THEN
-            RAISE_APPLICATION_ERROR(-20003, 'No existe tipo de planilla para ADMINISTRATIVOS');
+            RAISE_APPLICATION_ERROR(-20003, 'No existe tipo de planilla para ADMINISTRATIVO');
     END;
     
     -- 2️⃣ Crear encabezado de planilla
@@ -54,7 +54,7 @@ BEGIN
         APL_TOT_BRUTO, APL_TOT_DED, APL_TOT_NETO,
         APL_FECHA_CREACION, APL_FECHA_ACTUALIZACION, ATP_ID
     ) VALUES (
-        p_anio, p_mes, 'GENERADA', SYSTIMESTAMP,
+        p_anio, p_mes, 'CONSTRUCCION', SYSTIMESTAMP,
         0, 0, 0, SYSTIMESTAMP, SYSTIMESTAMP, v_tipo_id
     )
     RETURNING APL_ID INTO v_planilla_id;
