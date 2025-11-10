@@ -1,3 +1,4 @@
+-- Datos personal
 -- ** REGISTRAR DATOS PERSONA **
 DECLARE
     V_LINE VARCHAR2(1000);
