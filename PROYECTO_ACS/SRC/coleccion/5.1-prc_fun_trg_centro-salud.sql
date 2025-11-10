@@ -1,6 +1,11 @@
 -- Configuracion
 -- ! FUNCIONES
 -- ! PROCEDIMIENTO
+-- NOTA DE AJUSTE (2025-11-10):
+-- El trigger TRG_HIST_PROCEDIMIENTO dependía de la tabla ACS_HISTORIAL_PROCEDIMIENTO
+-- que no aparece en el esquema de `centro_medico_script.sql` compartido. Para evitar
+-- errores de compilación al cargar sólo ese esquema, se ha comentado el trigger completo.
+-- Si la tabla existe en otro script, se puede des-comentar el bloque.
 CREATE OR REPLACE PROCEDURE PRC_Asignar_Medico_Turno(
     p_adm_id IN NUMBER,
     p_ame_id IN NUMBER
@@ -134,7 +139,7 @@ p_anio   IN NUMBER
 ) AS
 v_aem_id   NUMBER;
 v_dias_mes NUMBER;
-v_fecha    DATE;
+v_fecha    TIMESTAMP(6);
 BEGIN
 -- Validar si ya existe escala mensual
 SELECT COUNT(*) INTO v_aem_id
@@ -158,7 +163,7 @@ FROM DUAL;
 
 -- Generar los días en la tabla de detalle (sin escala base)
 FOR i IN 0..v_dias_mes-1 LOOP
-    v_fecha := TO_DATE('01-'||LPAD(p_mes,2,'0')||'-'||p_anio,'DD-MM-YYYY') + i;
+    v_fecha := TO_TIMESTAMP(TO_CHAR(TO_DATE('01-'||LPAD(p_mes,2,'0')||'-'||p_anio,'DD-MM-YYYY') + i, 'DD-MM-YYYY HH24:MI:SS'), 'DD-MM-YYYY HH24:MI:SS');
 
     INSERT INTO ACS_DETALLE_MENSUAL (
     ADM_OBSERVACIONES, ADM_FECHA, ADM_ESTADO_TURNO, ADM_HR_INICIO, ADM_HR_FIN,
@@ -177,6 +182,7 @@ END;
 
 
 -- ! TRIGGERS
+/*
 CREATE OR REPLACE TRIGGER TRG_HIST_PROCEDIMIENTO
 AFTER UPDATE OF APD_COSTO, APD_PAGO, APD_ESTADO ON ACS_PROCEDIMIENTO
 FOR EACH ROW
@@ -252,6 +258,7 @@ EXCEPTION
         RAISE_APPLICATION_ERROR(-20030, 'TRG_HIST_PROCEDIMIENTO ERROR: ' || SQLERRM);
 END;
 /
+*/
 
 CREATE OR REPLACE TRIGGER TRG_PROC_APLICADO_VALID
 BEFORE INSERT OR UPDATE ON ACS_PROC_APLICADO
@@ -262,18 +269,29 @@ DECLARE
 BEGIN
     -- OBTIENE LOS VALORES DE COSTO Y PAGO SOLO SI ES UN INSERT
     IF INSERTING THEN
+        -- En el esquema actual, los montos se definen por centro en ACS_PROCEDIMIENTOXCENTRO
+        -- Se requiere ACM_ID para determinar el costo/pago por defecto
+        IF :NEW.ACM_ID IS NULL THEN
+            RAISE_APPLICATION_ERROR(-20021, 'Se requiere ACM_ID para determinar costo/pago del procedimiento aplicado.');
+        END IF;
+
         BEGIN
-            SELECT APD_COSTO, APD_PAGO
+            SELECT APRC_COSTO, APRC_PAGO
             INTO V_COSTO, V_PAGO
-            FROM ACS_PROCEDIMIENTO
-            WHERE APD_ID = :NEW.APD_ID;
+            FROM ACS_PROCEDIMIENTOXCENTRO
+            WHERE APD_ID = :NEW.APD_ID
+              AND ACM_ID = :NEW.ACM_ID
+              AND APRC_ESTADO = 'ACTIVO';
 
             -- ASIGNA LOS VALORES POR DEFECTO SI SON NULL
             :NEW.APA_COSTO := COALESCE(:NEW.APA_COSTO, V_COSTO);
-            :NEW.APA_PAGO := COALESCE(:NEW.APA_PAGO, V_PAGO);
+            :NEW.APA_PAGO  := COALESCE(:NEW.APA_PAGO,  V_PAGO);
         EXCEPTION
             WHEN NO_DATA_FOUND THEN
-                RAISE_APPLICATION_ERROR(-20020, 'PROCEDIMIENTO NO ENCONTRADO.');
+                RAISE_APPLICATION_ERROR(
+                    -20020,
+                    'No hay configuración activa en ACS_PROCEDIMIENTOXCENTRO para APD_ID='||:NEW.APD_ID||' y ACM_ID='||:NEW.ACM_ID
+                );
         END;
     END IF;
 
@@ -385,7 +403,7 @@ BEGIN
             ADM_ID
         ) VALUES (
             :NEW.ADM_OBSERVACIONES,
-            SYSTIMESTAMP,
+            :NEW.ADM_FECHA,
             :NEW.ADM_ESTADO_TURNO,
             :NEW.ADM_HR_INICIO,
             :NEW.ADM_HR_FIN,
@@ -409,10 +427,10 @@ BEGIN
         IF NVL(:OLD.ADM_ESTADO_TURNO,'') != NVL(:NEW.ADM_ESTADO_TURNO,'') THEN
             V_CAMBIOS := V_CAMBIOS || 'ADM_ESTADO_TURNO,';
         END IF;
-        IF NVL(:OLD.ADM_HR_INICIO,SYSTIMESTAMP) != NVL(:NEW.ADM_HR_INICIO,SYSTIMESTAMP) THEN
+        IF NVL(TO_CHAR(:OLD.ADM_HR_INICIO,'DD-MON-YYYY HH24:MI:SS'),'NULL') != NVL(TO_CHAR(:NEW.ADM_HR_INICIO,'DD-MON-YYYY HH24:MI:SS'),'NULL') THEN
             V_CAMBIOS := V_CAMBIOS || 'ADM_HR_INICIO,';
         END IF;
-        IF NVL(:OLD.ADM_HR_FIN,SYSTIMESTAMP) != NVL(:NEW.ADM_HR_FIN,SYSTIMESTAMP) THEN
+        IF NVL(TO_CHAR(:OLD.ADM_HR_FIN,'DD-MON-YYYY HH24:MI:SS'),'NULL') != NVL(TO_CHAR(:NEW.ADM_HR_FIN,'DD-MON-YYYY HH24:MI:SS'),'NULL') THEN
             V_CAMBIOS := V_CAMBIOS || 'ADM_HR_FIN,';
         END IF;
         IF NVL(:OLD.ADM_ESTADO,'') != NVL(:NEW.ADM_ESTADO,'') THEN
@@ -453,7 +471,7 @@ BEGIN
                 ADM_ID
             ) VALUES (
                 :NEW.ADM_OBSERVACIONES,
-                SYSTIMESTAMP,
+                :NEW.ADM_FECHA,
                 :NEW.ADM_ESTADO_TURNO,
                 :NEW.ADM_HR_INICIO,
                 :NEW.ADM_HR_FIN,
@@ -488,7 +506,7 @@ BEGIN
             ADM_ID
         ) VALUES (
             :OLD.ADM_OBSERVACIONES,
-            SYSTIMESTAMP,
+            :OLD.ADM_FECHA,
             :OLD.ADM_ESTADO_TURNO,
             :OLD.ADM_HR_INICIO,
             :OLD.ADM_HR_FIN,
@@ -503,130 +521,13 @@ BEGIN
             :OLD.ADM_ID
         );
     END IF;
+    
+    COMMIT;
 
 EXCEPTION
     WHEN OTHERS THEN
         -- NO BLOQUEA LA OPERACIÓN PRINCIPAL
-        DBMS_OUTPUT.PUT_LINE('ERROR EN AUDITORÍA DETALLE MENSUAL: ' || SQLERRM);
+        ROLLBACK;
         NULL;
-END;
-/
-
--- ** AUDITORIA DETALLE MENSUAL
-CREATE OR REPLACE TRIGGER TRG_AUDITORIA_DETALLE_MENSUAL
-AFTER INSERT OR UPDATE OR DELETE ON ACS_DETALLE_MENSUAL
-FOR EACH ROW
-DECLARE
-v_accion VARCHAR2(10);
-v_cambios VARCHAR2(100);
-v_usuario VARCHAR2(50) := USER;
-BEGIN
--- Determinar el tipo de acción
-IF INSERTING THEN
-    v_accion := 'INSERT';
-    v_cambios := 'Nuevo detalle creado';
-ELSIF UPDATING THEN
-    v_accion := 'UPDATE';
-    v_cambios := '';
-    
-    -- Detectar qué campos cambiaron
-    IF :OLD.ADM_ESTADO_TURNO != :NEW.ADM_ESTADO_TURNO THEN
-    v_cambios := v_cambios || 'ESTADO_TURNO, ';
-    END IF;
-    IF :OLD.ADM_HR_INICIO != :NEW.ADM_HR_INICIO THEN
-    v_cambios := v_cambios || 'HR_INICIO, ';
-    END IF;
-    IF :OLD.ADM_HR_FIN != :NEW.ADM_HR_FIN THEN
-    v_cambios := v_cambios || 'HR_FIN, ';
-    END IF;
-    IF :OLD.AME_ID != :NEW.AME_ID THEN
-    v_cambios := v_cambios || 'MEDICO, ';
-    END IF;
-    IF :OLD.APM_ID != :NEW.APM_ID THEN
-    v_cambios := v_cambios || 'PUESTO, ';
-    END IF;
-    IF :OLD.ATU_ID != :NEW.ATU_ID THEN
-    v_cambios := v_cambios || 'TURNO, ';
-    END IF;
-    
-    -- Remover última coma
-    v_cambios := RTRIM(v_cambios, ', ');
-    
-ELSIF DELETING THEN
-    v_accion := 'DELETE';
-    v_cambios := 'Detalle eliminado';
-END IF;
-
--- Insertar registro de auditoría
-IF INSERTING OR UPDATING THEN
-    INSERT INTO ACS_AUDITORIA_DETALLE_MENSUAL (
-    AUM_OBSERVACIONES,
-    AUM_FECHA,
-    AUM_ESTADO_TURNO,
-    AUM_HR_INICIO,
-    AUM_HR_FIN,
-    AUM_ESTADO,
-    AUM_USUARIO,
-    AUM_CAMBIOS,
-    AUM_ACCION,
-    AEM_ID,
-    AME_ID,
-    APM_ID,
-    ATU_ID,
-    ADM_ID
-    ) VALUES (
-    :NEW.ADM_OBSERVACIONES,
-    :NEW.ADM_FECHA,
-    :NEW.ADM_ESTADO_TURNO,
-    :NEW.ADM_HR_INICIO,
-    :NEW.ADM_HR_FIN,
-    :NEW.ADM_ESTADO,
-    v_usuario,
-    v_cambios,
-    v_accion,
-    :NEW.AEM_ID,
-    :NEW.AME_ID,
-    :NEW.APM_ID,
-    :NEW.ATU_ID,
-    :NEW.ADM_ID
-    );
-ELSIF DELETING THEN
-    INSERT INTO ACS_AUDITORIA_DETALLE_MENSUAL (
-    AUM_OBSERVACIONES,
-    AUM_FECHA,
-    AUM_ESTADO_TURNO,
-    AUM_HR_INICIO,
-    AUM_HR_FIN,
-    AUM_ESTADO,
-    AUM_USUARIO,
-    AUM_CAMBIOS,
-    AUM_ACCION,
-    AEM_ID,
-    AME_ID,
-    APM_ID,
-    ATU_ID,
-    ADM_ID
-    ) VALUES (
-    :OLD.ADM_OBSERVACIONES,
-    :OLD.ADM_FECHA,
-    :OLD.ADM_ESTADO_TURNO,
-    :OLD.ADM_HR_INICIO,
-    :OLD.ADM_HR_FIN,
-    :OLD.ADM_ESTADO,
-    v_usuario,
-    v_cambios,
-    v_accion,
-    :OLD.AEM_ID,
-    :OLD.AME_ID,
-    :OLD.APM_ID,
-    :OLD.ATU_ID,
-    :OLD.ADM_ID
-    );
-END IF;
-
-EXCEPTION
-WHEN OTHERS THEN
-    -- No fallar la operación principal por error en auditoría
-    DBMS_OUTPUT.PUT_LINE('Error en auditoría: ' || SQLERRM);
 END;
 /
