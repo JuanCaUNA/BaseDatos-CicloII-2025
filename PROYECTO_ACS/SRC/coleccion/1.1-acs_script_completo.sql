@@ -1,6 +1,6 @@
 ﻿/*
 Created: 21/08/2025
-Modified: 09/11/2025
+Modified: 11/11/2025
 Project: Administración de Centros de Salud ( ACS )
 Model: Oracle 19c
 Company: UNA
@@ -707,7 +707,7 @@ CREATE TABLE "ACS_PERSONA"(
   "APE_EMAIL" Varchar2(255 ) NOT NULL,
   "APE_TELEFONO" Varchar2(20 ),
   "APE_RESIDENCIA" Varchar2(255 ),
-  "APE_DIRECION_CASA" Varchar2(255 ),
+  "APE_DIRECCION_CASA" Varchar2(255 ),
   "APE_DIRECCION_TRABAJO" Varchar2(255 ),
   "APE_FECHA_CREACION" Timestamp(6) DEFAULT SYSDATE NOT NULL,
   "APE_FECHA_ACTUALIZACION" Timestamp(6) NOT NULL,
@@ -768,7 +768,7 @@ COMMENT ON COLUMN "ACS_PERSONA"."APE_TELEFONO" IS '+506 8888 8888'
 /
 COMMENT ON COLUMN "ACS_PERSONA"."APE_RESIDENCIA" IS 'Lugar donde vive'
 /
-COMMENT ON COLUMN "ACS_PERSONA"."APE_DIRECION_CASA" IS 'Direccion exacta donde vive'
+COMMENT ON COLUMN "ACS_PERSONA"."APE_DIRECCION_CASA" IS 'Direccion exacta donde vive'
 /
 COMMENT ON COLUMN "ACS_PERSONA"."APE_DIRECCION_TRABAJO" IS 'Direccion exacta del lugar de trabajo'
 /
