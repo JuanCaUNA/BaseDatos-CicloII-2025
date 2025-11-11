@@ -1,4 +1,3 @@
-
 -- ! funciones
 -- =============================================================================
 -- Función: FUN_CALCULAR_MOVIMIENTO
@@ -36,12 +35,13 @@ IS
     v_rango_max    NUMBER;
     v_rango_porc   NUMBER;
     v_tramo        NUMBER;
-    
 BEGIN
     -- Validar entrada
     IF p_base_calculo IS NULL OR p_base_calculo <= 0 THEN
         RETURN 0;
     END IF;
+
+    DBMS_OUTPUT.PUT_LINE('Calculando movimiento ATM_ID=' || p_atm_id || ' sobre base ' || p_base_calculo || ' (APD_ID=' || NVL(TO_CHAR(p_apd_id), 'NULL') || ')');
     
     -- 1️⃣ Obtener configuración del movimiento
     BEGIN
@@ -73,7 +73,7 @@ BEGIN
     -- CASO C: PORCENTAJE con RANGOS PROGRESIVOS (Renta)
     ELSIF v_modo = 'PORCENTAJE' AND v_tiene_rangos > 0 THEN
         v_acumulado := 0;
-        v_resto := p_base_calculo;
+        -- v_resto := p_base_calculo;
         
         -- Iterar por rangos en orden ascendente
         FOR rango IN (
@@ -132,103 +132,104 @@ END FUN_CALCULAR_MOVIMIENTO;
 -- =============================================================================
 -- PRUEBAS RÁPIDAS
 -- =============================================================================
-/**/
-SET SERVEROUTPUT ON;
 
-DECLARE
-    v_test_salario NUMBER;
-    v_ccss NUMBER;
-    v_renta NUMBER;
-    v_banco NUMBER;
-BEGIN
-    DBMS_OUTPUT.PUT_LINE('=================================');
-    DBMS_OUTPUT.PUT_LINE('PRUEBAS FUN_CALCULAR_MOVIMIENTO');
-    DBMS_OUTPUT.PUT_LINE('=================================');
-    DBMS_OUTPUT.PUT_LINE('');
+-- SET SERVEROUTPUT ON;
+
+-- DECLARE
+--     v_test_salario NUMBER;
+--     v_ccss NUMBER;
+--     v_renta NUMBER;
+--     v_banco NUMBER;
+-- BEGIN
+--     DBMS_OUTPUT.PUT_LINE('=================================');
+--     DBMS_OUTPUT.PUT_LINE('PRUEBAS FUN_CALCULAR_MOVIMIENTO');
+--     DBMS_OUTPUT.PUT_LINE('=================================');
+--     DBMS_OUTPUT.PUT_LINE('');
     
-    -- Test 1: Salario bajo (sin renta)
-    v_test_salario := 800000;
-    v_ccss := FUN_CALCULAR_MOVIMIENTO(1, v_test_salario); -- CCSS 9%
-    v_renta := FUN_CALCULAR_MOVIMIENTO(2, v_test_salario); -- Renta progresiva
-    v_banco := FUN_CALCULAR_MOVIMIENTO(4, v_test_salario); -- Banco 1.5%
+--     -- Test 1: Salario bajo (sin renta)
+--     v_test_salario := 800000;
+--     v_ccss := FUN_CALCULAR_MOVIMIENTO(1, v_test_salario); -- CCSS 9%
+--     v_renta := FUN_CALCULAR_MOVIMIENTO(2, v_test_salario); -- Renta progresiva
+--     v_banco := FUN_CALCULAR_MOVIMIENTO(4, v_test_salario); -- Banco 1.5%
     
-    DBMS_OUTPUT.PUT_LINE('📊 Salario: ₡' || TO_CHAR(v_test_salario, '999G999G999'));
-    DBMS_OUTPUT.PUT_LINE('   CCSS (9%): ₡' || TO_CHAR(v_ccss, '999G999G999.00'));
-    DBMS_OUTPUT.PUT_LINE('   Renta: ₡' || TO_CHAR(v_renta, '999G999G999.00') || ' (exento)');
-    DBMS_OUTPUT.PUT_LINE('   Banco (1.5%): ₡' || TO_CHAR(v_banco, '999G999G999.00'));
-    DBMS_OUTPUT.PUT_LINE('   Total deducciones: ₡' || TO_CHAR(v_ccss + v_renta + v_banco, '999G999G999.00'));
-    DBMS_OUTPUT.PUT_LINE('   Neto: ₡' || TO_CHAR(v_test_salario - (v_ccss + v_renta + v_banco), '999G999G999.00'));
-    DBMS_OUTPUT.PUT_LINE('');
+--     DBMS_OUTPUT.PUT_LINE('📊 Salario: ₡' || TO_CHAR(v_test_salario, '999G999G999'));
+--     DBMS_OUTPUT.PUT_LINE('   CCSS (9%): ₡' || TO_CHAR(v_ccss, '999G999G999.00'));
+--     DBMS_OUTPUT.PUT_LINE('   Renta: ₡' || TO_CHAR(v_renta, '999G999G999.00') || ' (exento)');
+--     DBMS_OUTPUT.PUT_LINE('   Banco (1.5%): ₡' || TO_CHAR(v_banco, '999G999G999.00'));
+--     DBMS_OUTPUT.PUT_LINE('   Total deducciones: ₡' || TO_CHAR(v_ccss + v_renta + v_banco, '999G999G999.00'));
+--     DBMS_OUTPUT.PUT_LINE('   Neto: ₡' || TO_CHAR(v_test_salario - (v_ccss + v_renta + v_banco), '999G999G999.00'));
+--     DBMS_OUTPUT.PUT_LINE('');
     
-    -- Test 2: Salario medio (con renta 10%)
-    v_test_salario := 1200000;
-    v_ccss := FUN_CALCULAR_MOVIMIENTO(1, v_test_salario);
-    v_renta := FUN_CALCULAR_MOVIMIENTO(2, v_test_salario);
-    v_banco := FUN_CALCULAR_MOVIMIENTO(4, v_test_salario);
+--     -- Test 2: Salario medio (con renta 10%)
+--     v_test_salario := 1200000;
+--     v_ccss := FUN_CALCULAR_MOVIMIENTO(1, v_test_salario);
+--     v_renta := FUN_CALCULAR_MOVIMIENTO(2, v_test_salario);
+--     v_banco := FUN_CALCULAR_MOVIMIENTO(4, v_test_salario);
     
-    DBMS_OUTPUT.PUT_LINE('📊 Salario: ₡' || TO_CHAR(v_test_salario, '999G999G999'));
-    DBMS_OUTPUT.PUT_LINE('   CCSS (9%): ₡' || TO_CHAR(v_ccss, '999G999G999.00'));
-    DBMS_OUTPUT.PUT_LINE('   Renta progresiva: ₡' || TO_CHAR(v_renta, '999G999G999.00'));
-    DBMS_OUTPUT.PUT_LINE('   Banco (1.5%): ₡' || TO_CHAR(v_banco, '999G999G999.00'));
-    DBMS_OUTPUT.PUT_LINE('   Total deducciones: ₡' || TO_CHAR(v_ccss + v_renta + v_banco, '999G999G999.00'));
-    DBMS_OUTPUT.PUT_LINE('   Neto: ₡' || TO_CHAR(v_test_salario - (v_ccss + v_renta + v_banco), '999G999G999.00'));
-    DBMS_OUTPUT.PUT_LINE('');
+--     DBMS_OUTPUT.PUT_LINE('📊 Salario: ₡' || TO_CHAR(v_test_salario, '999G999G999'));
+--     DBMS_OUTPUT.PUT_LINE('   CCSS (9%): ₡' || TO_CHAR(v_ccss, '999G999G999.00'));
+--     DBMS_OUTPUT.PUT_LINE('   Renta progresiva: ₡' || TO_CHAR(v_renta, '999G999G999.00'));
+--     DBMS_OUTPUT.PUT_LINE('   Banco (1.5%): ₡' || TO_CHAR(v_banco, '999G999G999.00'));
+--     DBMS_OUTPUT.PUT_LINE('   Total deducciones: ₡' || TO_CHAR(v_ccss + v_renta + v_banco, '999G999G999.00'));
+--     DBMS_OUTPUT.PUT_LINE('   Neto: ₡' || TO_CHAR(v_test_salario - (v_ccss + v_renta + v_banco), '999G999G999.00'));
+--     DBMS_OUTPUT.PUT_LINE('');
     
-    -- Test 3: Salario alto (múltiples rangos)
-    v_test_salario := 3000000;
-    v_ccss := FUN_CALCULAR_MOVIMIENTO(1, v_test_salario);
-    v_renta := FUN_CALCULAR_MOVIMIENTO(2, v_test_salario);
-    v_banco := FUN_CALCULAR_MOVIMIENTO(4, v_test_salario);
+--     -- Test 3: Salario alto (múltiples rangos)
+--     v_test_salario := 3000000;
+--     v_ccss := FUN_CALCULAR_MOVIMIENTO(1, v_test_salario);
+--     v_renta := FUN_CALCULAR_MOVIMIENTO(2, v_test_salario);
+--     v_banco := FUN_CALCULAR_MOVIMIENTO(4, v_test_salario);
     
-    DBMS_OUTPUT.PUT_LINE('📊 Salario: ₡' || TO_CHAR(v_test_salario, '999G999G999'));
-    DBMS_OUTPUT.PUT_LINE('   CCSS (9%): ₡' || TO_CHAR(v_ccss, '999G999G999.00'));
-    DBMS_OUTPUT.PUT_LINE('   Renta progresiva: ₡' || TO_CHAR(v_renta, '999G999G999.00'));
-    DBMS_OUTPUT.PUT_LINE('   Banco (1.5%): ₡' || TO_CHAR(v_banco, '999G999G999.00'));
-    DBMS_OUTPUT.PUT_LINE('   Total deducciones: ₡' || TO_CHAR(v_ccss + v_renta + v_banco, '999G999G999.00'));
-    DBMS_OUTPUT.PUT_LINE('   Neto: ₡' || TO_CHAR(v_test_salario - (v_ccss + v_renta + v_banco), '999G999G999.00'));
-    DBMS_OUTPUT.PUT_LINE('');
+--     DBMS_OUTPUT.PUT_LINE('📊 Salario: ₡' || TO_CHAR(v_test_salario, '999G999G999'));
+--     DBMS_OUTPUT.PUT_LINE('   CCSS (9%): ₡' || TO_CHAR(v_ccss, '999G999G999.00'));
+--     DBMS_OUTPUT.PUT_LINE('   Renta progresiva: ₡' || TO_CHAR(v_renta, '999G999G999.00'));
+--     DBMS_OUTPUT.PUT_LINE('   Banco (1.5%): ₡' || TO_CHAR(v_banco, '999G999G999.00'));
+--     DBMS_OUTPUT.PUT_LINE('   Total deducciones: ₡' || TO_CHAR(v_ccss + v_renta + v_banco, '999G999G999.00'));
+--     DBMS_OUTPUT.PUT_LINE('   Neto: ₡' || TO_CHAR(v_test_salario - (v_ccss + v_renta + v_banco), '999G999G999.00'));
+--     DBMS_OUTPUT.PUT_LINE('');
     
-    DBMS_OUTPUT.PUT_LINE('=================================');
-    DBMS_OUTPUT.PUT_LINE('✅ Función compilada y probada');
-    DBMS_OUTPUT.PUT_LINE('=================================');
-END;
-/
-/**/
+--     DBMS_OUTPUT.PUT_LINE('=================================');
+--     DBMS_OUTPUT.PUT_LINE('✅ Función compilada y probada');
+--     DBMS_OUTPUT.PUT_LINE('=================================');
+-- END;
+-- /
+
 
 -- ! procedimientos
 
 CREATE OR REPLACE PROCEDURE PRC_Aplicar_Planilla(
-p_planilla_id IN NUMBER
+    p_planilla_id IN NUMBER
 ) AS
+    v_existe NUMBER;
 BEGIN
--- 1️⃣ Verificar existencia de la planilla
-IF NOT EXISTS (
-    SELECT 1 FROM ACS_PLANILLA WHERE APL_ID = p_planilla_id
-) THEN
-    RAISE_APPLICATION_ERROR(-20010, 'No existe la planilla especificada.');
-END IF;
+    -- 1️⃣ Verificar existencia de la planilla
+    SELECT COUNT(*) INTO v_existe
+    FROM ACS_PLANILLA
+    WHERE APL_ID = p_planilla_id;
 
--- 2️⃣ Marcar todos los detalles como PROCESADOS
-UPDATE ACS_DETALLE_PLANILLA
-SET ADP_EMAIL_ENV = 1
-WHERE APL_ID = p_planilla_id;
+    IF v_existe = 0 THEN
+        RAISE_APPLICATION_ERROR(-20010, 'No existe la planilla especificada.');
+    END IF;
 
--- 3️⃣ Cambiar el estado de la planilla
-UPDATE ACS_PLANILLA
-SET APL_ESTADO = 'PROCESADA',
-    APL_FEC_PRO = SYSTIMESTAMP,
-    APL_FECHA_ACTUALIZACION = SYSTIMESTAMP
-WHERE APL_ID = p_planilla_id;
+    -- 2️⃣ Marcar todos los detalles como PROCESADOS
+    UPDATE ACS_DETALLE_PLANILLA
+    SET ADP_EMAIL_ENV = 1
+    WHERE APL_ID = p_planilla_id;
 
--- 4️⃣ (Opcional) disparar movimientos automáticos
--- ⚙️ Si tenés el trigger financiero TRG_AF_PLANILLA_PROCESADA_AU,
---     este bloque generará los asientos al confirmar la actualización.
-COMMIT;
-DBMS_OUTPUT.PUT_LINE('✅ Planilla ' || p_planilla_id || ' procesada correctamente.');
+    -- 3️⃣ Cambiar el estado de la planilla
+    UPDATE ACS_PLANILLA
+    SET APL_ESTADO = 'PROCESADA',
+        APL_FEC_PRO = SYSTIMESTAMP,
+        APL_FECHA_ACTUALIZACION = SYSTIMESTAMP
+    WHERE APL_ID = p_planilla_id;
+
+    -- 4️⃣ (Opcional) disparar movimientos automáticos
+    COMMIT;
+    DBMS_OUTPUT.PUT_LINE('✅ Planilla ' || p_planilla_id || ' procesada correctamente.');
 EXCEPTION
-WHEN OTHERS THEN
-    ROLLBACK;
-    RAISE_APPLICATION_ERROR(-20011, 'Error al procesar la planilla: ' || SQLERRM);
+    WHEN OTHERS THEN
+        ROLLBACK;
+        RAISE_APPLICATION_ERROR(-20011, 'Error al procesar la planilla: ' || SQLERRM);
 END;
 /
 
@@ -299,12 +300,11 @@ FOR r_detalle IN (
 
     -- Enviar correo (comentado hasta que exista el procedimiento de correo)
     BEGIN
-    -- TODO: Descomentar cuando ACS_PRC_CORREO_NOTIFICADOR esté disponible
-    -- ACS_PRC_CORREO_NOTIFICADOR(
-    --   p_destinatario => v_email,
-    --   p_asunto => 'Comprobante de Pago - Planilla ' || p_planilla_id,
-    --   p_mensaje => v_comprobante_html
-    -- );
+    ACS_PRC_CORREO_NOTIFICADOR(
+        p_destinatario => v_email,
+        p_asunto => 'Comprobante de Pago - Planilla ' || p_planilla_id,
+        p_mensaje => v_comprobante_html
+    );
     
     -- Por ahora solo marcamos como notificado (simula envío exitoso)
     UPDATE ACS_DETALLE_PLANILLA
@@ -547,7 +547,7 @@ EXCEPTION
 END PRC_GENERAR_PLANILLAS_ADMIN;
 /
 
-SHOW ERRORS;
+-- SHOW ERRORS;
 
 -- =============================================================================
 -- Procedimiento: PRC_GENERAR_PLANILLAS_MEDICOS (Versión 2 - COMPLETA)
@@ -781,29 +781,32 @@ EXCEPTION
 END PRC_GENERAR_PLANILLAS_MEDICOS;
 /
 
-SHOW ERRORS;
+-- SHOW ERRORS;
 
 CREATE OR REPLACE PROCEDURE PRC_Marcar_Detalle_Notificado(
 p_detalle_id IN NUMBER
 ) AS
+    V_EXISTENTES NUMBER;
 BEGIN
--- Verificar existencia
-IF NOT EXISTS (
-    SELECT 1 FROM ACS_DETALLE_PLANILLA WHERE ADP_ID = p_detalle_id
-) THEN
-    RAISE_APPLICATION_ERROR(-20020, 'No existe el detalle de planilla especificado.');
-END IF;
+    -- Verificar existencia
+    SELECT COUNT(*) INTO V_EXISTENTES
+    FROM ACS_DETALLE_PLANILLA
+    WHERE ADP_ID = p_detalle_id;
+    IF V_EXISTENTES = 0 THEN
+        RAISE_APPLICATION_ERROR(-20020, 'No existe el detalle de planilla especificado.');
+    END IF;
 
--- Marcar como notificado
-UPDATE ACS_DETALLE_PLANILLA
-SET ADP_EMAIL_ENV = 1,
-    ADP_FECHA_NOTIFICACION = SYSTIMESTAMP,
-    ADP_FECHA_ACTUALIZACION = SYSTIMESTAMP
-WHERE ADP_ID = p_detalle_id;
 
-COMMIT;
-DBMS_OUTPUT.PUT_LINE('📨 Detalle ' || p_detalle_id || ' marcado como notificado.');
-EXCEPTION
+    -- Marcar como notificado
+    UPDATE ACS_DETALLE_PLANILLA
+    SET ADP_EMAIL_ENV = 1,
+        ADP_FECHA_NOTIFICACION = SYSTIMESTAMP,
+        ADP_FECHA_ACTUALIZACION = SYSTIMESTAMP
+    WHERE ADP_ID = p_detalle_id;
+
+    COMMIT;
+    DBMS_OUTPUT.PUT_LINE('📨 Detalle ' || p_detalle_id || ' marcado como notificado.');
+    EXCEPTION
 WHEN OTHERS THEN
     ROLLBACK;
     RAISE_APPLICATION_ERROR(-20021, 'Error al marcar detalle como notificado: ' || SQLERRM);
@@ -812,42 +815,41 @@ END;
 
 -- ! Triggers
 
-
 CREATE OR REPLACE TRIGGER TRG_VALIDA_USUARIO_PLANILLA
 BEFORE INSERT OR UPDATE ON ACS_DETALLE_PLANILLA
 FOR EACH ROW
 DECLARE
-V_APLICA_A VARCHAR2(20);
-V_ES_MEDICO NUMBER;
-V_ES_ADMIN  NUMBER;
+    V_APLICA_A VARCHAR2(20);
+    V_ES_MEDICO NUMBER;
+    V_ES_ADMIN  NUMBER;
 BEGIN
-SELECT TP.ATP_APLICA_A
-    INTO V_APLICA_A
-    FROM ACS_PLANILLA P
-    JOIN ACS_TIPO_PLANILLA TP ON TP.ATP_ID = P.ATP_ID
-WHERE P.APL_ID = :NEW.APL_ID;
+    SELECT TP.ATP_APLICA_A
+        INTO V_APLICA_A
+        FROM ACS_PLANILLA P
+        JOIN ACS_TIPO_PLANILLA TP ON TP.ATP_ID = P.ATP_ID
+    WHERE P.APL_ID = :NEW.APL_ID;
 
-SELECT COUNT(*) INTO V_ES_MEDICO FROM ACS_MEDICO         WHERE AUS_ID = :NEW.AUS_ID;
-SELECT COUNT(*) INTO V_ES_ADMIN  FROM ACS_ADMINISTRATIVO WHERE AUS_ID = :NEW.AUS_ID;
+    SELECT COUNT(*) INTO V_ES_MEDICO FROM ACS_MEDICO         WHERE AUS_ID = :NEW.AUS_ID;
+    SELECT COUNT(*) INTO V_ES_ADMIN  FROM ACS_ADMINISTRATIVO WHERE AUS_ID = :NEW.AUS_ID;
 
-IF V_APLICA_A = 'MEDICO' THEN
-    IF V_ES_MEDICO = 0 THEN
-    RAISE_APPLICATION_ERROR(-20001,'EL USUARIO NO ESTÁ REGISTRADO COMO MÉDICO PARA ESTA PLANILLA');
+    IF V_APLICA_A = 'MEDICO' THEN
+        IF V_ES_MEDICO = 0 THEN
+        RAISE_APPLICATION_ERROR(-20001,'EL USUARIO NO ESTÁ REGISTRADO COMO MÉDICO PARA ESTA PLANILLA');
+        END IF;
+        :NEW.ADP_TIPO_PERSONA := 'MEDICO';
+    ELSIF V_APLICA_A = 'ADMINISTRATIVO' THEN
+        IF V_ES_ADMIN = 0 THEN
+        RAISE_APPLICATION_ERROR(-20002,'EL USUARIO NO ESTÁ REGISTRADO COMO ADMINISTRATIVO PARA ESTA PLANILLA');
+        END IF;
+        :NEW.ADP_TIPO_PERSONA := 'ADMINISTRATIVO';
+    ELSE
+        IF (V_ES_MEDICO + V_ES_ADMIN) = 0 THEN
+        RAISE_APPLICATION_ERROR(-20003,'EL USUARIO NO ESTÁ REGISTRADO NI COMO MÉDICO NI COMO ADMINISTRATIVO');
+        END IF;
+        IF :NEW.ADP_TIPO_PERSONA IS NULL THEN
+        :NEW.ADP_TIPO_PERSONA := CASE WHEN V_ES_MEDICO=1 THEN 'MEDICO' ELSE 'ADMINISTRATIVO' END;
+        END IF;
     END IF;
-    :NEW.ADP_TIPO_PERSONA := 'MEDICO';
-ELSIF V_APLICA_A = 'ADMINISTRATIVO' THEN
-    IF V_ES_ADMIN = 0 THEN
-    RAISE_APPLICATION_ERROR(-20002,'EL USUARIO NO ESTÁ REGISTRADO COMO ADMINISTRATIVO PARA ESTA PLANILLA');
-    END IF;
-    :NEW.ADP_TIPO_PERSONA := 'ADMINISTRATIVO';
-ELSE
-    IF (V_ES_MEDICO + V_ES_ADMIN) = 0 THEN
-    RAISE_APPLICATION_ERROR(-20003,'EL USUARIO NO ESTÁ REGISTRADO NI COMO MÉDICO NI COMO ADMINISTRATIVO');
-    END IF;
-    IF :NEW.ADP_TIPO_PERSONA IS NULL THEN
-    :NEW.ADP_TIPO_PERSONA := CASE WHEN V_ES_MEDICO=1 THEN 'MEDICO' ELSE 'ADMINISTRATIVO' END;
-    END IF;
-END IF;
 END;
 /
 
@@ -856,20 +858,20 @@ CREATE OR REPLACE TRIGGER TRG_VALIDA_MOVIMIENTO_APLICA_A
 BEFORE INSERT OR UPDATE ON ACS_MOVIMIENTO_PLANILLA
 FOR EACH ROW
 DECLARE
-V_TIPO_PERSONA  VARCHAR2(20);
-V_APLICA_A_MOV  VARCHAR2(20);
+    V_TIPO_PERSONA  VARCHAR2(20);
+    V_APLICA_A_MOV  VARCHAR2(20);
 BEGIN
-SELECT ADP_TIPO_PERSONA INTO V_TIPO_PERSONA
-FROM ACS_DETALLE_PLANILLA
-WHERE ADP_ID = :NEW.ADP_ID;
+    SELECT ADP_TIPO_PERSONA INTO V_TIPO_PERSONA
+    FROM ACS_DETALLE_PLANILLA
+    WHERE ADP_ID = :NEW.ADP_ID;
 
-SELECT ATM_APLICA_A INTO V_APLICA_A_MOV
-FROM ACS_TIPO_MOVIMIENTO
-WHERE ATM_ID = :NEW.ATM_ID;
+    SELECT ATM_APLICA_A INTO V_APLICA_A_MOV
+    FROM ACS_TIPO_MOVIMIENTO
+    WHERE ATM_ID = :NEW.ATM_ID;
 
-IF V_APLICA_A_MOV <> 'AMBOS' AND V_APLICA_A_MOV <> V_TIPO_PERSONA THEN
-    RAISE_APPLICATION_ERROR(-20004,'EL MOVIMIENTO NO APLICA AL TIPO DE PERSONA DEL DETALLE');
-END IF;
+    IF V_APLICA_A_MOV <> 'AMBOS' AND V_APLICA_A_MOV <> V_TIPO_PERSONA THEN
+        RAISE_APPLICATION_ERROR(-20004,'EL MOVIMIENTO NO APLICA AL TIPO DE PERSONA DEL DETALLE');
+    END IF;
 END;
 /
 
@@ -879,8 +881,8 @@ CREATE OR REPLACE TRIGGER TRG_TURNO_PLANILLA_BI
 BEFORE INSERT ON ACS_TURNO_PLANILLA
 FOR EACH ROW
 BEGIN
-:NEW.PROCESADO := 1;
-:NEW.PROCESADO_EN := SYSTIMESTAMP;
+    :NEW.PROCESADO := 1;
+    :NEW.PROCESADO_EN := SYSTIMESTAMP;
 END;
 /
 
@@ -888,8 +890,8 @@ CREATE OR REPLACE TRIGGER TRG_PROC_PLANILLA_BI
 BEFORE INSERT ON ACS_PROCEDIMIENTO_PLANILLA
 FOR EACH ROW
 BEGIN
-:NEW.PROCESADO := 1;
-:NEW.PROCESADO_EN := SYSTIMESTAMP;
+    :NEW.PROCESADO := 1;
+    :NEW.PROCESADO_EN := SYSTIMESTAMP;
 END;
 /
 
@@ -898,10 +900,10 @@ CREATE OR REPLACE TRIGGER TRG_ENVIO_COMPROBANTE_AI
 AFTER INSERT ON ACS_ENVIO_COMP
 FOR EACH ROW
 BEGIN
-UPDATE ACS_DETALLE_PLANILLA
-    SET ADP_EMAIL_ENVIADO = 1,
-        ADP_NOTIFICADO_EN = :NEW.AEC_FECHA
-WHERE ADP_ID = :NEW.ADP_ID;
+    UPDATE ACS_DETALLE_PLANILLA
+        SET ADP_EMAIL_ENVIADO = 1,
+            ADP_NOTIFICADO_EN = :NEW.AEC_FECHA
+    WHERE ADP_ID = :NEW.ADP_ID;
 END;
 /
 
