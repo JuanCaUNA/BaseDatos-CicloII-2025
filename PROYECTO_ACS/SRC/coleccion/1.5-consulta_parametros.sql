@@ -1,0 +1,7 @@
+select *
+FROM ACS_PARAMETROS;
+/
+
+SELECT *
+FROM ACS_CLAVE;
+/
