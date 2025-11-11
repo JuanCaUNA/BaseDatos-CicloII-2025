@@ -161,10 +161,3 @@ BEGIN
 END;
 /
 
--- Probar el job manualmente
-/*
-BEGIN
-    DBMS_SCHEDULER.RUN_JOB('ACS_CHK_JOB_DIARIO');
-END;
-/
-*/
