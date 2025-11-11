@@ -185,9 +185,8 @@ COMPOUND TRIGGER
                 END IF;
                 
             ELSIF G_PERSONAS_TO_PROCESS(I).APE_ESTADO_REGISTRO = 'RECHAZADO' THEN
-                -- Eliminar la persona rechazada
-                DELETE FROM ACS_PERSONA 
-                WHERE APE_ID = G_PERSONAS_TO_PROCESS(I).APE_ID;
+                -- UN JOB DIARIO BORRARÁ ESTOS REGISTROS, SOLO IMPRIMIR MENSAJE
+                DBMS_OUTPUT.PUT_LINE('[INFO] La persona con APE_ID=' || G_PERSONAS_TO_PROCESS(I).APE_ID || ' ha sido rechazada. Será eliminada por el job diario.');
             END IF;
         END LOOP;
         
@@ -214,5 +213,25 @@ BEFORE UPDATE ON ACS_DOCUMENTO_USUARIO
 FOR EACH ROW
 BEGIN
 :NEW.ADU_FECHA_ACTUALIZACION := SYSDATE;
+END;
+/
+
+-- ! JOBS
+-- JOB: Ejecuta el procedimiento para borrar usuarios rechazados cada día
+BEGIN
+    DBMS_SCHEDULER.CREATE_JOB (
+        job_name        => 'JOB_BORRAR_PERSONAS_RECHAZADAS',
+        job_type        => 'PLSQL_BLOCK',
+        job_action      => '
+            BEGIN
+                FOR r IN (SELECT APE_ID FROM ACS_PERSONA WHERE APE_ESTADO_REGISTRO = ''RECHAZADO'') LOOP
+                    ACS_PRC_BORRAR_PERSONA_RECHAZADA(r.APE_ID);
+                END LOOP;
+            END;
+        ',
+        start_date      => SYSDATE,
+        repeat_interval => 'FREQ=DAILY; BYHOUR=2', -- Ejecuta cada día a las 2am
+        enabled         => TRUE
+    );
 END;
 /
