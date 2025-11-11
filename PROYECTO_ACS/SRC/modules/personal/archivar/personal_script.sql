@@ -66,7 +66,7 @@ create table ACS_PERSONA
   ape_email               VARCHAR2(255) not null,
   ape_telefono            VARCHAR2(20),
   ape_residencia          VARCHAR2(255),
-  ape_direcion_casa       VARCHAR2(255),
+  APE_DIRECCION_CASA       VARCHAR2(255),
   ape_direccion_trabajo   VARCHAR2(255),
   ape_fecha_creacion      TIMESTAMP(6) default SYSDATE not null,
   ape_fecha_actualizacion TIMESTAMP(6) not null
@@ -98,7 +98,7 @@ comment on column ACS_PERSONA.ape_telefono
   is '+506 8888 8888';
 comment on column ACS_PERSONA.ape_residencia
   is 'Lugar donde vive';
-comment on column ACS_PERSONA.ape_direcion_casa
+comment on column ACS_PERSONA.APE_DIRECCION_CASA
   is 'Direccion exacta donde vive';
 comment on column ACS_PERSONA.ape_direccion_trabajo
   is 'Direccion exacta del lugar de trabajo';
