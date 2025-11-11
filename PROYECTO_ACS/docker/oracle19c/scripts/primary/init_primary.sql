@@ -1,97 +1,184 @@
--- ========================================
--- SCRIPT DE INICIALIZACIÓN PRIMARIA
+-- ===============================================================================
+-- ORACLE DATA GUARD - CONFIGURACIÓN PRIMARY CON RMAN
 -- Base de datos: ORCL (Primary)
--- Propósito: Configurar Data Guard
--- ========================================
--- GUÍA PARA QUIEN NO ESPECIALISTA:
--- * Este script se ejecuta solo cuando el contenedor "oracle_primary" inicia.
--- * No necesitas ejecutar comandos manuales; solo revisa los mensajes que aparecen.
--- * Cada "PROMPT" describe en español simple qué está ocurriendo.
--- * Si algo falla, el contenedor se detiene y el mensaje de error queda en /opt/oracle/shared/primary_config.log.
--- * Al final debe verse "FINAL DEL SCRIPT DEL PRIMARIO (todo listo)". Si no aparece, revisa el log mencionado.
+-- Propósito: Preparar Primary para duplicación activa (RMAN DUPLICATE FROM ACTIVE DATABASE)
+-- ===============================================================================
 
--- Configuración de SQL*Plus para mostrar todo y detenerse si ocurre algún error.
-SET TERMOUT ON;
-SET ECHO ON;
-SET FEEDBACK ON;
-SET VERIFY OFF;
-SET PAGESIZE 200;
-SET LINESIZE 200;
-SET SERVEROUTPUT ON;
-WHENEVER SQLERROR EXIT SQL.SQLCODE;
+SET TERMOUT ON
+SET ECHO ON
+SET FEEDBACK ON
+SET VERIFY OFF
+SET PAGESIZE 200
+SET LINESIZE 200
+SET SERVEROUTPUT ON
+WHENEVER SQLERROR EXIT SQL.SQLCODE
 
--- Guardamos un registro legible en el área compartida para consultas posteriores.
 SPOOL /opt/oracle/shared/primary_config.log
-PROMPT === INICIO DEL SCRIPT DEL PRIMARIO ===
-SELECT TO_CHAR(SYSDATE,'YYYY-MM-DD HH24:MI:SS') AS start_time FROM dual;
 
-PROMPT [PRIMARY][Paso 1/11] Deteniendo cualquier instancia previa...
+HOST rm -f /opt/oracle/shared/state/primary_ready.ok
+
+PROMPT =============================================================================== 
+PROMPT ORACLE DATA GUARD - CONFIGURACIÓN PRIMARY CON RMAN
+PROMPT Preparando la base de datos ORCL para duplicación activa
+PROMPT =============================================================================== 
+
+-- Paso 0. Validar prerequisitos locales (password file, red, listener)
+HOST bash /opt/oracle/scripts/setup/helpers/ensure_password_file.sh
+HOST bash /opt/oracle/scripts/setup/helpers/create_tnsnames.sh
+HOST bash /opt/oracle/scripts/setup/helpers/ensure_listener.sh
+
+-- Paso 1. Detener instancia previa si está activa
 SHUTDOWN IMMEDIATE;
 
-PROMPT [PRIMARY][Paso 2/11] Iniciando la base en modo especial para configuración...
+-- Paso 2. Iniciar en modo MOUNT
 STARTUP MOUNT;
 
-PROMPT [PRIMARY][Paso 3/11] Activando los modos necesarios para Data Guard (ARCHIVELOG y FORCE LOGGING)...
+-- Paso 3. Activar ARCHIVELOG y FORCE LOGGING
 ALTER DATABASE ARCHIVELOG;
 ALTER DATABASE FORCE LOGGING;
 
-PROMPT [PRIMARY][Paso 4/11] Ajustando parámetros que permiten enviar información al Standby...
+-- Paso 4. Configurar parámetros de Data Guard
 ALTER SYSTEM SET DB_UNIQUE_NAME='ORCL' SCOPE=SPFILE;
-ALTER SYSTEM SET LOG_ARCHIVE_CONFIG='DG_CONFIG=(ORCL,STBY)' SCOPE=SPFILE;
-ALTER SYSTEM SET LOG_ARCHIVE_DEST_1='LOCATION=/opt/oracle/shared/archivelogs VALID_FOR=(ALL_LOGFILES,ALL_ROLES) DB_UNIQUE_NAME=ORCL' SCOPE=SPFILE;
-ALTER SYSTEM SET LOG_ARCHIVE_DEST_2='SERVICE=STBY LGWR ASYNC VALID_FOR=(ONLINE_LOGFILES,PRIMARY_ROLE) DB_UNIQUE_NAME=STBY' SCOPE=SPFILE;
-ALTER SYSTEM SET LOG_ARCHIVE_DEST_STATE_1=ENABLE SCOPE=SPFILE;
-ALTER SYSTEM SET LOG_ARCHIVE_DEST_STATE_2=DEFER SCOPE=SPFILE;
+ALTER SYSTEM SET LOG_ARCHIVE_CONFIG='DG_CONFIG=(ORCL,STBY)' SCOPE=BOTH;
+ALTER SYSTEM SET LOG_ARCHIVE_DEST_1='LOCATION=/opt/oracle/shared/archivelogs VALID_FOR=(ALL_LOGFILES,ALL_ROLES) DB_UNIQUE_NAME=ORCL' SCOPE=BOTH;
+ALTER SYSTEM SET LOG_ARCHIVE_DEST_2='SERVICE=STBY LGWR ASYNC VALID_FOR=(ONLINE_LOGFILES,PRIMARY_ROLE) DB_UNIQUE_NAME=STBY' SCOPE=BOTH;
+ALTER SYSTEM SET LOG_ARCHIVE_DEST_STATE_1=ENABLE SCOPE=BOTH;
+ALTER SYSTEM SET LOG_ARCHIVE_DEST_STATE_2=DEFER SCOPE=BOTH;
 ALTER SYSTEM SET LOG_ARCHIVE_FORMAT='arch_%t_%s_%r.arc' SCOPE=SPFILE;
 ALTER SYSTEM SET LOG_ARCHIVE_MAX_PROCESSES=5 SCOPE=SPFILE;
 ALTER SYSTEM SET STANDBY_FILE_MANAGEMENT=AUTO SCOPE=SPFILE;
 ALTER SYSTEM SET FAL_SERVER='STBY' SCOPE=SPFILE;
 ALTER SYSTEM SET FAL_CLIENT='ORCL' SCOPE=SPFILE;
--- Ajuste del tamaño del buffer de redo logs para mejorar el envío.
+ALTER SYSTEM SET DB_FILE_NAME_CONVERT='/opt/oracle/oradata/STBY/','/opt/oracle/oradata/ORCL/' SCOPE=SPFILE;
+ALTER SYSTEM SET LOG_FILE_NAME_CONVERT='/opt/oracle/oradata/STBY/','/opt/oracle/oradata/ORCL/' SCOPE=SPFILE;
+ALTER SYSTEM SET DG_BROKER_START=TRUE SCOPE=BOTH;
+ALTER SYSTEM SET REMOTE_LOGIN_PASSWORDFILE='EXCLUSIVE' SCOPE=SPFILE;
 ALTER SYSTEM SET LOG_BUFFER=33554432 SCOPE=SPFILE;
+ALTER SYSTEM SET SERVICE_NAMES='ORCL' SCOPE=BOTH;
+ALTER SYSTEM SET INSTANCE_NAME='ORCL' SCOPE=SPFILE;
 
-PROMPT [PRIMARY][Paso 5/11] Abriendo la base para uso normal tras la configuración...
+-- Paso 5. Crear directorios
+HOST mkdir -p /opt/oracle/shared/archivelogs /opt/oracle/shared/backups /opt/oracle/shared/state /opt/oracle/shared/logs
+HOST chown -R oracle:oinstall /opt/oracle/shared/archivelogs /opt/oracle/shared/backups /opt/oracle/shared/state /opt/oracle/shared/logs
+HOST chmod -R 750 /opt/oracle/shared/archivelogs /opt/oracle/shared/backups /opt/oracle/shared/state /opt/oracle/shared/logs
+
+-- Paso 6. Abrir base de datos
 ALTER DATABASE OPEN;
 
-PROMPT [PRIMARY][Paso 6/11] Añadiendo grupos de redo logs para soportar mayor carga...
-ALTER DATABASE ADD LOGFILE GROUP 4 '/opt/oracle/oradata/ORCL/redo04.log' SIZE 100M;
-ALTER DATABASE ADD LOGFILE GROUP 5 '/opt/oracle/oradata/ORCL/redo05.log' SIZE 100M;
-ALTER DATABASE ADD LOGFILE GROUP 6 '/opt/oracle/oradata/ORCL/redo06.log' SIZE 100M;
+-- Paso 7. Ajustar grupos de redo y standby redo logs con tamaños consistentes
+DECLARE
+	l_max_mb        PLS_INTEGER;
+	l_log_count     PLS_INTEGER;
+	l_target_logs   PLS_INTEGER;
+	l_target_srl    PLS_INTEGER;
+	l_filename      VARCHAR2(512);
+BEGIN
+	SELECT CEIL(MAX(bytes) / 1024 / 1024), COUNT(*)
+		INTO l_max_mb, l_log_count
+		FROM v$log;
 
-PROMPT [PRIMARY][Paso 7/11] Creando archivos especiales para que el Standby reciba cambios en vivo...
-ALTER DATABASE ADD STANDBY LOGFILE THREAD 1 '/opt/oracle/oradata/ORCL/standby_redo01.log' SIZE 100M;
-ALTER DATABASE ADD STANDBY LOGFILE THREAD 1 '/opt/oracle/oradata/ORCL/standby_redo02.log' SIZE 100M;
-ALTER DATABASE ADD STANDBY LOGFILE THREAD 1 '/opt/oracle/oradata/ORCL/standby_redo03.log' SIZE 100M;
-ALTER DATABASE ADD STANDBY LOGFILE THREAD 1 '/opt/oracle/oradata/ORCL/standby_redo04.log' SIZE 100M;
+	l_target_logs := GREATEST(l_log_count, 4);
 
-PROMPT [PRIMARY][Paso 8/11] Generando archivos históricos iniciales (log switches)...
+	WHILE l_log_count < l_target_logs LOOP
+		l_filename := '/opt/oracle/oradata/ORCL/redo' || LPAD(l_log_count + 1, 2, '0') || '.log';
+		BEGIN
+			EXECUTE IMMEDIATE 'ALTER DATABASE ADD LOGFILE GROUP ' || (l_log_count + 1) ||
+				' ''' || l_filename || ''' SIZE ' || l_max_mb || 'M';
+			DBMS_OUTPUT.PUT_LINE('Redo log group ' || (l_log_count + 1) || ' creado (' || l_max_mb || ' MB).');
+			l_log_count := l_log_count + 1;
+		EXCEPTION
+			WHEN OTHERS THEN
+				IF SQLERRM LIKE '%already%' OR SQLERRM LIKE '%exist%' THEN
+					DBMS_OUTPUT.PUT_LINE('Redo log group ' || (l_log_count + 1) || ' ya presente.');
+					l_log_count := l_log_count + 1;
+				ELSE
+					RAISE;
+				END IF;
+		END;
+	END LOOP;
+
+	FOR rec IN (SELECT DISTINCT group# FROM v$standby_log) LOOP
+		BEGIN
+			EXECUTE IMMEDIATE 'ALTER DATABASE DROP STANDBY LOGFILE GROUP ' || rec.group#;
+			DBMS_OUTPUT.PUT_LINE('Standby redo log group ' || rec.group# || ' eliminado.');
+		EXCEPTION
+			WHEN OTHERS THEN
+				IF SQLERRM LIKE '%does not exist%' THEN
+					DBMS_OUTPUT.PUT_LINE('Standby redo log group ' || rec.group# || ' ya no existe.');
+				ELSE
+					RAISE;
+				END IF;
+		END;
+	END LOOP;
+END;
+/
+
+HOST rm -f /opt/oracle/oradata/ORCL/standby_redo*.log 2>/dev/null || true
+
+-- Paso 8. Crear standby redo logs dimensionados para LGWR/real-time apply
+DECLARE
+	l_max_mb     PLS_INTEGER;
+	l_log_count  PLS_INTEGER;
+	l_target_srl PLS_INTEGER;
+	l_filename   VARCHAR2(512);
+BEGIN
+	SELECT CEIL(MAX(bytes) / 1024 / 1024), COUNT(*)
+		INTO l_max_mb, l_log_count
+		FROM v$log;
+
+	l_target_srl := l_log_count + 1;
+
+	FOR idx IN 1 .. l_target_srl LOOP
+		l_filename := '/opt/oracle/oradata/ORCL/standby_redo' || LPAD(idx, 2, '0') || '.log';
+		BEGIN
+			EXECUTE IMMEDIATE 'ALTER DATABASE ADD STANDBY LOGFILE THREAD 1 ''' || l_filename || ''' SIZE ' || l_max_mb || 'M';
+			DBMS_OUTPUT.PUT_LINE('Standby redo log ' || l_filename || ' creado (' || l_max_mb || ' MB).');
+		EXCEPTION
+			WHEN OTHERS THEN
+				IF SQLERRM LIKE '%already%' OR SQLERRM LIKE '%exist%' THEN
+					DBMS_OUTPUT.PUT_LINE('Standby redo log ' || l_filename || ' ya presente.');
+				ELSE
+					RAISE;
+				END IF;
+		END;
+	END LOOP;
+END;
+/
+
+-- Paso 9. Generar archive logs iniciales
 ALTER SYSTEM SWITCH LOGFILE;
 ALTER SYSTEM SWITCH LOGFILE;
 ALTER SYSTEM SWITCH LOGFILE;
 
-PROMPT [PRIMARY][Paso 9/11] Creando el usuario administrador "acs_admin" para la aplicación...
+-- Paso 10. Crear usuario de aplicación (idempotente)
 ALTER SESSION SET CONTAINER = ORCLPDB1;
-CREATE USER acs_admin IDENTIFIED BY acs_admin;
-GRANT CONNECT, RESOURCE, DBA TO acs_admin;
+DECLARE
+	v_exists NUMBER;
+BEGIN
+	SELECT COUNT(*) INTO v_exists FROM dba_users WHERE username = 'ACS_ADMIN';
+	IF v_exists = 0 THEN
+		EXECUTE IMMEDIATE 'CREATE USER acs_admin IDENTIFIED BY acs_admin';
+	END IF;
+	EXECUTE IMMEDIATE 'GRANT CONNECT, RESOURCE, DBA TO acs_admin';
+END;
+/
 ALTER SESSION SET CONTAINER = CDB$ROOT;
 
-PROMPT [PRIMARY][Paso 10/11] Revisando que los parámetros quedaron activos...
-SELECT name, log_mode, force_logging FROM v$database;
+-- Paso 11. Validación
+SELECT name, log_mode, force_logging, database_role FROM v$database;
 SELECT dest_name, status, destination FROM v$archive_dest WHERE dest_name IN ('LOG_ARCHIVE_DEST_1','LOG_ARCHIVE_DEST_2');
+SELECT group#, thread#, bytes/1024/1024 AS size_mb, members, status FROM v$log ORDER BY group#;
+SELECT group#, thread#, bytes/1024/1024 AS size_mb FROM v$standby_log ORDER BY group#;
 
-PROMPT [PRIMARY][Paso 11/11] Creando el archivo que necesita el Standby para arrancar...
-ALTER DATABASE CREATE STANDBY CONTROLFILE AS '/opt/oracle/shared/standby_controlfile.ctl';
+PROMPT =============================================================================== 
+PROMPT PRIMARY CONFIGURADO EXITOSAMENTE
+PROMPT RMAN puede ahora duplicar esta base al Standby.
+PROMPT LOG_ARCHIVE_DEST_2 está en DEFER (se activará tras RMAN DUPLICATE)
+PROMPT =============================================================================== 
 
-PROMPT [PRIMARY] Activando el envío de información al servidor Standby...
-ALTER SYSTEM SET LOG_ARCHIVE_DEST_STATE_2=ENABLE SCOPE=BOTH;
+SELECT 'Finalización: ' || TO_CHAR(SYSDATE,'YYYY-MM-DD HH24:MI:SS') AS timestamp FROM dual;
 
-PROMPT [PRIMARY] Resumen final (archivos de control y destinos de envío):
-SELECT name FROM v$controlfile;
-SELECT dest_name, status, error FROM v$archive_dest_status WHERE dest_name IN ('LOG_ARCHIVE_DEST_1','LOG_ARCHIVE_DEST_2');
+HOST touch /opt/oracle/shared/state/primary_ready.ok
 
-PROMPT === FINAL DEL SCRIPT DEL PRIMARIO (todo listo) ===
-SELECT TO_CHAR(SYSDATE,'YYYY-MM-DD HH24:MI:SS') AS end_time FROM dual;
-SELECT 'Configuración del primario terminada. El controlfile para el Standby está en /opt/oracle/shared/standby_controlfile.ctl' AS status FROM dual;
 SPOOL OFF
-
 EXIT;

@@ -1,273 +1,207 @@
-# ========================================
-# DOCKER DATA GUARD - AUTOMATIZACIÓN COMPLETA
-# Adaptado para contenedores Docker Oracle 19c
-# ========================================
-
 param(
-    [Parameter(Mandatory=$true)]
-    [ValidateSet("switch", "transfer", "backup", "purge", "status", "full-cycle", "demo")]
-    [string]$Action
+    [Parameter(Mandatory = $true)]
+    [ValidateSet('status','switch','transfer','backup','purge','validate','switchover','failover','logs')]
+    [string]$Action,
+    [switch]$Force,
+    [int]$BackupLevel = 1,
+    [int]$TailLines = 80
 )
 
-# Configuración Docker
-$DOCKER_PRIMARY = "oracle_primary"
-$DOCKER_STANDBY = "oracle_standby" 
-$ORACLE_PWD = "admin123"
-$SHARED_DIR = "/opt/oracle/shared"
-$ARCHIVELOG_DIR = "$SHARED_DIR/archivelogs"
-$BACKUP_DIR = "$SHARED_DIR/backups"
-$LOG_DIR = "C:\temp\dataguard_logs"
+$ErrorActionPreference = 'Stop'
 
-# Crear directorios si no existen
-if (!(Test-Path $LOG_DIR)) {
-    New-Item -ItemType Directory -Path $LOG_DIR -Force
+$scriptRoot = $PSScriptRoot
+$primaryContainer = 'oracle_primary'
+$standbyContainer = 'oracle_standby'
+$logRoot = '/opt/oracle/shared/logs'
+$stateRoot = '/opt/oracle/shared/state'
+$backupRoot = '/opt/oracle/shared/backups'
+
+function Write-Heading {
+    param([string]$Text)
+    Write-Host '================================================================' -ForegroundColor Cyan
+    Write-Host ('  {0}' -f $Text) -ForegroundColor Cyan
+    Write-Host '================================================================' -ForegroundColor Cyan
 }
 
-function Write-LogMessage {
-    param([string]$Message)
-    $timestamp = Get-Date -Format "yyyy-MM-dd HH:mm:ss"
-    $logMessage = "$timestamp - $Message"
-    Write-Host $logMessage -ForegroundColor Green
-    Add-Content -Path "$LOG_DIR\dataguard_complete.log" -Value $logMessage
+function Run-InContainer {
+    param([string]$Container,[string]$Command)
+    $output = & docker exec $Container 'bash' '-lc' $Command 2>&1
+    $exitCode = $LASTEXITCODE
+    if ($exitCode -ne 0) {
+        throw "docker exec $Container '$Command' failed ($exitCode): $output"
+    }
+    return $output
 }
 
-function Invoke-SqlInContainer {
-    param(
-        [string]$Container,
-        [string]$SqlCommand,
-        [string]$DbService = "localhost:1521/ORCL"
-    )
-    
-    try {
-        $sqlBlock = @"
-sqlplus -s sys/$ORACLE_PWD@//$DbService as sysdba <<'SQL'
-SET HEADING OFF;
-SET FEEDBACK OFF;
-SET VERIFY OFF;
-SET ECHO OFF;
-SET PAGESIZE 0;
-SET LINESIZE 32767;
-$SqlCommand
+function Invoke-Sql {
+    param([string]$Container,[string]$Sql)
+    $sqlBlock = @"
+sqlplus -s / as sysdba <<'SQL'
+SET HEADING OFF
+SET FEEDBACK OFF
+SET VERIFY OFF
+SET PAGESIZE 0
+$Sql
 EXIT;
 SQL
 "@
+    $output = Run-InContainer -Container $Container -Command $sqlBlock
+    if ($null -eq $output) {
+        return ''
+    }
+    return $output.Trim()
+}
 
-    $sqlBlock = ($sqlBlock -replace "`r", "")
-
-        $result = docker exec $Container bash -lc $sqlBlock
-        if ($null -eq $result) {
-            return ""
+function Show-Log {
+    param([string]$Container,[string]$Path,[int]$Lines,[string]$Label)
+    Write-Host "`n[$Label]" -ForegroundColor Cyan
+    try {
+        $log = Run-InContainer -Container $Container -Command "tail -n $Lines $Path"
+        if ([string]::IsNullOrWhiteSpace($log)) {
+            Write-Host '  (sin datos)' -ForegroundColor DarkGray
+        } else {
+            $log -split "`n" | ForEach-Object { Write-Host ('  {0}' -f $_) -ForegroundColor Gray }
         }
-
-        return $result.Trim()
     }
     catch {
-        Write-LogMessage "Error ejecutando SQL en $Container`: $_"
-        return $null
+        Write-Host ('  No se pudo leer {0} ({1})' -f $Path, $_.Exception.Message) -ForegroundColor DarkYellow
     }
 }
 
-# ========================================
-# FUNCIÓN: SWITCH LOGFILE (Cada 5 minutos)
-# ========================================
-function Switch-LogFile {
-    Write-LogMessage "Ejecutando SWITCH LOGFILE en primaria..."
-    
-    $switchCmd = "ALTER SYSTEM SWITCH LOGFILE;"
-    $result = Invoke-SqlInContainer -Container $DOCKER_PRIMARY -SqlCommand $switchCmd
-    
-    if ($result -notmatch "ORA-") {
-        Write-LogMessage "✅ SWITCH LOGFILE ejecutado exitosamente"
-        
-        # Verificar que se generó archivelog
-        $archiveCheck = "SELECT COUNT(*) FROM v`$archived_log WHERE completion_time > SYSDATE - 1/288;"
-        $count = Invoke-SqlInContainer -Container $DOCKER_PRIMARY -SqlCommand $archiveCheck
-        Write-LogMessage "Archivelogs generados en últimos 5 min: $count"
-    } else {
-    Write-LogMessage "❌ Error en SWITCH LOGFILE: $result"
-    }
-}
+function Show-Status {
+    Write-Heading 'Estado Data Guard'
 
-# ========================================
-# FUNCIÓN: TRANSFERIR ARCHIVELOGS (Cada 10 minutos)
-# ========================================
-function Transfer-ArchiveLogs {
-    Write-LogMessage "Transfiriendo archivelogs al standby..."
-    
-    # En Docker, los archivos ya están compartidos via volumen
-    # Verificamos que el standby pueda ver los archivos
-    $transferCheck = docker exec $DOCKER_STANDBY bash -c "ls -la $ARCHIVELOG_DIR | wc -l"
-    
-    if ($transferCheck -gt 1) {
-        Write-LogMessage "✅ Archivos disponibles en standby: $transferCheck archivos"
-        
-        # Aplicar archivelogs en standby (si está montado)
-    $applyCmd = "ALTER DATABASE RECOVER MANAGED STANDBY DATABASE USING CURRENT LOGFILE DISCONNECT FROM SESSION;"
-        $result = Invoke-SqlInContainer -Container $DOCKER_STANDBY -SqlCommand $applyCmd -DbService "localhost:1521/STBY"
-        
-        if ($result -notmatch "ORA-") {
-            Write-LogMessage "✅ Aplicación de archivelogs iniciada"
-        } else {
-            Write-LogMessage "⚠️ Standby no listo para aplicar logs: $result"
+    $primaryRole = Invoke-Sql -Container $primaryContainer -Sql 'SELECT database_role FROM v$database;'
+    $primaryMode = Invoke-Sql -Container $primaryContainer -Sql 'SELECT open_mode FROM v$database;'
+    $primarySwitch = Invoke-Sql -Container $primaryContainer -Sql 'SELECT switchover_status FROM v$database;'
+    $primarySeq = [int](Invoke-Sql -Container $primaryContainer -Sql 'SELECT NVL(MAX(sequence#),0) FROM v$archived_log WHERE dest_id = 1;')
+
+    $standbyRole = Invoke-Sql -Container $standbyContainer -Sql 'SELECT database_role FROM v$database;'
+    $standbyMode = Invoke-Sql -Container $standbyContainer -Sql 'SELECT open_mode FROM v$database;'
+    $standbySwitch = Invoke-Sql -Container $standbyContainer -Sql 'SELECT switchover_status FROM v$database;'
+    $standbySeq = [int](Invoke-Sql -Container $standbyContainer -Sql 'SELECT NVL(MAX(sequence#),0) FROM v$archived_log WHERE applied = ''YES'';')
+    $mrpCount = [int](Invoke-Sql -Container $standbyContainer -Sql 'SELECT COUNT(*) FROM v$managed_standby WHERE process LIKE ''MRP%'';')
+    $transportLag = Invoke-Sql -Container $standbyContainer -Sql 'SELECT VALUE FROM v$dataguard_stats WHERE name = ''transport lag'';'
+    $applyLag = Invoke-Sql -Container $standbyContainer -Sql 'SELECT VALUE FROM v$dataguard_stats WHERE name = ''apply lag'';'
+
+    $seqLag = [math]::Abs($primarySeq - $standbySeq)
+
+    Write-Host "PRIMARY ($primaryContainer)" -ForegroundColor Green
+    Write-Host ('  role={0}' -f $primaryRole) -ForegroundColor Gray
+    Write-Host ('  open_mode={0}' -f $primaryMode) -ForegroundColor Gray
+    Write-Host ('  switchover_status={0}' -f $primarySwitch) -ForegroundColor Gray
+    Write-Host ('  max_sequence={0}' -f $primarySeq) -ForegroundColor Gray
+
+    Write-Host "STANDBY ($standbyContainer)" -ForegroundColor Green
+    Write-Host ('  role={0}' -f $standbyRole) -ForegroundColor Gray
+    Write-Host ('  open_mode={0}' -f $standbyMode) -ForegroundColor Gray
+    Write-Host ('  switchover_status={0}' -f $standbySwitch) -ForegroundColor Gray
+    Write-Host ('  max_applied_sequence={0}' -f $standbySeq) -ForegroundColor Gray
+    Write-Host ('  mrp_processes={0}' -f $mrpCount) -ForegroundColor Gray
+    Write-Host ('  transport_lag={0}' -f $transportLag) -ForegroundColor Gray
+    Write-Host ('  apply_lag={0}' -f $applyLag) -ForegroundColor Gray
+    Write-Host ('  sequence_diff={0}' -f $seqLag) -ForegroundColor Gray
+
+    try {
+        $stateData = Run-InContainer -Container $primaryContainer -Command "cat $stateRoot/archivelog_transfer.state"
+        if ($stateData) {
+            Write-Host 'archivelog_transfer.state' -ForegroundColor Green
+            $stateData -split "`n" | ForEach-Object { Write-Host ('  {0}' -f $_) -ForegroundColor Gray }
         }
-    } else {
-        Write-LogMessage "❌ No se encontraron archivos para transferir"
+    }
+    catch {
+        Write-Host 'No se encontro archivelog_transfer.state' -ForegroundColor DarkYellow
+    }
+
+    try {
+        $latestBackup = Run-InContainer -Container $primaryContainer -Command "ls -1t $backupRoot | head -n 1"
+        if ($latestBackup) {
+            Write-Host ('Ultimo backup: {0}' -f $latestBackup.Trim()) -ForegroundColor Green
+        }
+    }
+    catch {
+        Write-Host ('No se detectaron backups en {0}' -f $backupRoot) -ForegroundColor DarkYellow
     }
 }
 
-# ========================================
-# FUNCIÓN: BACKUP DIARIO
-# ========================================
-function Perform-Backup {
-    Write-LogMessage "Iniciando backup diario de la base de datos..."
-    
-    $backupDate = Get-Date -Format "yyyyMMdd_HHmmss"
-    $backupScript = @"
-RUN {
-    ALLOCATE CHANNEL ch1 TYPE DISK;
-    BACKUP DATABASE FORMAT '$BACKUP_DIR/backup_${backupDate}_%U.bkp';
-    BACKUP CURRENT CONTROLFILE FORMAT '$BACKUP_DIR/controlfile_${backupDate}.ctl';
-    BACKUP ARCHIVELOG ALL FORMAT '$BACKUP_DIR/archivelog_${backupDate}_%U.arc';
-    RELEASE CHANNEL ch1;
+function Execute-LogSwitch {
+    Write-Heading 'Switch Logfile'
+    $result = Invoke-Sql -Container $primaryContainer -Sql 'ALTER SYSTEM SWITCH LOGFILE;'
+    Write-Host ('Resultado: {0}' -f $result) -ForegroundColor Green
 }
-"@
 
-    $rmanCommand = @"
-rman target sys/$ORACLE_PWD@//localhost:1521/ORCL <<'RMAN'
-SET ECHO OFF;
-$backupScript
-EXIT;
-RMAN
-"@
-    $rmanCommand = ($rmanCommand -replace "`r", "")
-    
-    # Ejecutar RMAN backup
-    $rmanResult = docker exec $DOCKER_PRIMARY bash -lc $rmanCommand
-    
-    if (($rmanResult -match "Recovery Manager complete") -and ($rmanResult -notmatch "RMAN-[0-9]{5}") -and ($rmanResult -notmatch "ORA-")) {
-        Write-LogMessage "✅ Backup completado exitosamente: backup_${backupDate}"
-        
-        # Verificar que el backup está disponible en standby
-        $backupCheck = docker exec $DOCKER_STANDBY bash -c "ls -la $BACKUP_DIR/*${backupDate}* | wc -l"
-        Write-LogMessage "Archivos de backup en standby: $backupCheck"
-    } else {
-        Write-LogMessage "❌ Error en backup: $rmanResult"
+function Execute-Transfer {
+    Write-Heading 'Transferencia de Archivelogs'
+    $result = Run-InContainer -Container $primaryContainer -Command '/opt/oracle/scripts/automation/archivelog_transfer.sh --once'
+    Write-Host $result -ForegroundColor Gray
+    Show-Log -Container $primaryContainer -Path "$logRoot/archivelog_transfer.log" -Lines 10 -Label 'archivelog_transfer.log'
+}
+
+function Execute-Backup {
+    Write-Heading 'Backup RMAN'
+    $command = "BACKUP_LEVEL=$BackupLevel /opt/oracle/scripts/automation/backup_transfer.sh --once"
+    $result = Run-InContainer -Container $primaryContainer -Command $command
+    Write-Host $result -ForegroundColor Gray
+    Show-Log -Container $primaryContainer -Path "$logRoot/backup_transfer.log" -Lines 15 -Label 'backup_transfer.log'
+}
+
+function Execute-Purge {
+    Write-Heading 'Purga de Archivelogs'
+    $result = Run-InContainer -Container $standbyContainer -Command '/opt/oracle/scripts/automation/archivelog_purge.sh --once'
+    Write-Host $result -ForegroundColor Gray
+    Show-Log -Container $standbyContainer -Path "$logRoot/archivelog_purge.log" -Lines 10 -Label 'archivelog_purge.log'
+}
+
+function Execute-Validate {
+    Write-Heading 'Validacion Data Guard'
+    Run-InContainer -Container $primaryContainer -Command '/opt/oracle/scripts/automation/validate_dataguard.sh' | Out-Null
+    Show-Log -Container $primaryContainer -Path "$logRoot/validate_dataguard.log" -Lines 30 -Label 'validate_dataguard.log'
+}
+
+function Execute-Switchover {
+    Write-Heading 'Switchover'
+    if (-not $Force) {
+        $confirm = Read-Host 'Confirma switchover (yes/no)'
+        if ($confirm -ne 'yes') {
+            Write-Host 'Switchover cancelado.' -ForegroundColor Yellow
+            return
+        }
     }
+    $result = Run-InContainer -Container $primaryContainer -Command '/opt/oracle/scripts/automation/switchover.sh --auto-confirm'
+    Write-Host $result -ForegroundColor Gray
+    Show-Log -Container $primaryContainer -Path "$logRoot/switchover.log" -Lines 20 -Label 'switchover.log'
 }
 
-# ========================================
-# FUNCIÓN: PURGAR ARCHIVOS >3 DÍAS
-# ========================================
-function Purge-OldFiles {
-    Write-LogMessage "Purgando archivos antiguos (>3 días)..."
-    
-    # Purgar archivelogs usando RMAN
-    $purgeScript = @"
-DELETE NOPROMPT ARCHIVELOG ALL COMPLETED BEFORE 'SYSDATE-3';
-DELETE NOPROMPT BACKUP COMPLETED BEFORE 'SYSDATE-3';
-"@
-
-    $purgeCommand = @"
-rman target sys/$ORACLE_PWD@//localhost:1521/ORCL <<'RMAN'
-SET ECHO OFF;
-$purgeScript
-EXIT;
-RMAN
-"@
-    $purgeCommand = ($purgeCommand -replace "`r", "")
-
-    $purgeResult = docker exec $DOCKER_PRIMARY bash -lc $purgeCommand
-    
-    # Purgar archivos físicos en directorio compartido
-    docker exec $DOCKER_PRIMARY bash -c "find $ARCHIVELOG_DIR -name '*.arc' -mtime +3 -delete 2>/dev/null; find $BACKUP_DIR -name '*.bkp' -mtime +3 -delete 2>/dev/null"
-    
-    if (($purgeResult -match "Recovery Manager complete") -and ($purgeResult -notmatch "RMAN-[0-9]{5}") -and ($purgeResult -notmatch "ORA-")) {
-        Write-LogMessage "✅ Purga completada - RMAN y archivos físicos"
-    } else {
-        Write-LogMessage "⚠️ Purga RMAN con advertencias: $purgeResult"
+function Execute-Failover {
+    Write-Heading 'Failover'
+    if (-not $Force) {
+        Write-Host 'Debe especificar -Force para ejecutar failover.' -ForegroundColor Yellow
+        return
     }
+    $failoverScript = Join-Path $scriptRoot 'failover_dataguard.ps1'
+    if (-not (Test-Path $failoverScript)) {
+        throw 'No se encontro failover_dataguard.ps1'
+    }
+    & $failoverScript -Force
 }
 
-# ========================================
-# FUNCIÓN: VERIFICAR ESTADO
-# ========================================
-function Check-Status {
-    Write-LogMessage "Verificando estado del Data Guard..."
-    
-    # Estado primaria
-    $primaryStatus = Invoke-SqlInContainer -Container $DOCKER_PRIMARY -SqlCommand "SELECT database_role, log_mode FROM v`$database;"
-    Write-LogMessage "Estado Primaria: $primaryStatus"
-    
-    # Estado standby
-    $standbyStatus = Invoke-SqlInContainer -Container $DOCKER_STANDBY -SqlCommand "SELECT database_role FROM v`$database;" -DbService "localhost:1521/STBY"
-    Write-LogMessage "Estado Standby: $standbyStatus"
-    
-    # Último archivelog aplicado
-    $lastApplied = Invoke-SqlInContainer -Container $DOCKER_STANDBY -SqlCommand "SELECT MAX(sequence#) FROM v`$archived_log WHERE applied='YES';" -DbService "localhost:1521/STBY"
-    Write-LogMessage "Último archivelog aplicado en standby: $lastApplied"
-    
-    return $true
+function Show-Logs {
+    Write-Heading 'Logs de Automatizacion'
+    Show-Log -Container $primaryContainer -Path "$logRoot/archivelog_transfer.log" -Lines $TailLines -Label 'archivelog_transfer.log'
+    Show-Log -Container $standbyContainer -Path "$logRoot/archivelog_purge.log" -Lines $TailLines -Label 'archivelog_purge.log'
+    Show-Log -Container $primaryContainer -Path "$logRoot/backup_transfer.log" -Lines $TailLines -Label 'backup_transfer.log'
+    Show-Log -Container $primaryContainer -Path "$logRoot/switchover.log" -Lines $TailLines -Label 'switchover.log'
+    Show-Log -Container $standbyContainer -Path "$logRoot/rman_duplicate.log" -Lines $TailLines -Label 'rman_duplicate.log'
 }
-
-# ========================================
-# FUNCIÓN: CICLO COMPLETO (Para demostración)
-# ========================================
-function Run-FullCycle {
-    Write-LogMessage "=== INICIANDO CICLO COMPLETO DATA GUARD ==="
-    
-    Check-Status
-    Switch-LogFile
-    Start-Sleep -Seconds 30
-    Transfer-ArchiveLogs
-    Start-Sleep -Seconds 30
-    Perform-Backup
-    Start-Sleep -Seconds 30
-    Purge-OldFiles
-    Check-Status
-    
-    Write-LogMessage "=== CICLO COMPLETO FINALIZADO ==="
-}
-
-# ========================================
-# FUNCIÓN: DEMO PARA PROFESOR
-# ========================================
-function Run-Demo {
-    Write-LogMessage "=== DEMO PARA PROFESOR - DATA GUARD AUTOMATIZADO ==="
-    
-    Write-Host "`n🎯 DEMOSTRACIÓN EN TIEMPO REAL" -ForegroundColor Cyan
-    Write-Host "1. Verificando estado inicial..." -ForegroundColor Yellow
-    Check-Status
-    
-    Write-Host "`n2. Forzando generación de archivelog..." -ForegroundColor Yellow
-    Switch-LogFile
-    
-    Write-Host "`n3. Transfiriendo al standby..." -ForegroundColor Yellow
-    Transfer-ArchiveLogs
-    
-    Write-Host "`n4. Realizando backup..." -ForegroundColor Yellow
-    Perform-Backup
-    
-    Write-Host "`n5. Verificando estado final..." -ForegroundColor Yellow
-    Check-Status
-    
-    Write-Host "`n✅ DEMOSTRACIÓN COMPLETADA" -ForegroundColor Green
-    Write-LogMessage "=== DEMO COMPLETADA EXITOSAMENTE ==="
-}
-
-# ========================================
-# MAIN EXECUTION
-# ========================================
-Write-LogMessage "Iniciando automatización Data Guard - Acción: $Action"
 
 switch ($Action) {
-    "switch" { Switch-LogFile }
-    "transfer" { Transfer-ArchiveLogs }
-    "backup" { Perform-Backup }
-    "purge" { Purge-OldFiles }
-    "status" { Check-Status }
-    "full-cycle" { Run-FullCycle }
-    "demo" { Run-Demo }
-    default { Write-LogMessage "Acción no válida: $Action" }
+    'status'     { Show-Status }
+    'switch'     { Execute-LogSwitch }
+    'transfer'   { Execute-Transfer }
+    'backup'     { Execute-Backup }
+    'purge'      { Execute-Purge }
+    'validate'   { Execute-Validate }
+    'switchover' { Execute-Switchover }
+    'failover'   { Execute-Failover }
+    'logs'       { Show-Logs }
 }
-
-Write-LogMessage "Automatización completada - Acción: $Action"

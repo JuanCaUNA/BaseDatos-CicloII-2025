@@ -1,5 +1,8 @@
 # Ignore Oracle runtime data volumes and container outputs
 docker/data/
+docker/shared/
+docker/oradata_primary/
+docker/oradata_standby/
 
 # Ignore automation logs generated on demand
 docker/oracle19c/scripts/automation/*.log
