@@ -31,13 +31,13 @@ Elementos destacados:
 
 | Script | Uso principal |
 |--------|---------------|
-| `dataguard_complete.ps1` | Switch, transferencia, backup, purge, estado y demo |
-| `task_scheduler_complete.ps1` | Instala o quita las tareas programadas en Windows |
-| `profesor_demo.ps1` | Demostración guiada para la evaluación |
-| `check_status.ps1` | Resumen rápido de contenedores y logs |
+| `deploy_dataguard.ps1` | Provisiona la pareja primary/standby y verifica el duplicate |
+| `dataguard_complete.ps1` | CLI para estado, switch, transferencia, backup, purge, validate, switchover, failover y logs |
+| `failover_dataguard.ps1` | Failover asistido (uso manual en caso de desastre) |
+| `sync_environment.ps1` | Crea/actualiza la estructura local (shared, oradata, tnsnames) |
 | `test_tns_simple.ps1`, `test_tns_connections.ps1` | Pruebas de conectividad |
 
-> Los volúmenes generados por Oracle viven en `docker/data/` y se ignoran en git.
+> Los volúmenes generados por Oracle viven en `docker/shared/`, `docker/oradata_primary/` y `docker/oradata_standby/`, y se ignoran en git.
 
 ## Puesta en marcha rapida
 
@@ -46,31 +46,23 @@ Elementos destacados:
 cd docker
 ./oracle19c/scripts/automation/sync_environment.ps1
 
-# 2. Arrancar los contenedores
-docker compose up -d
+# 2. Desplegar y validar Data Guard
+./oracle19c/scripts/automation/deploy_dataguard.ps1
 
-# 3. Revisar estado de la instalación inicial
-cd oracle19c/scripts/automation
-./check_status.ps1
+# 3. Revisar el estado tras el despliegue
+./oracle19c/scripts/automation/dataguard_complete.ps1 -Action status
 
-# 4. Ejecutar un ciclo de Data Guard
-./dataguard_complete.ps1 -Action full-cycle
+# 4. Validar transportes y aplicacion
+./oracle19c/scripts/automation/dataguard_complete.ps1 -Action validate
 ```
 
-Para programar las tareas en Windows:
-
-```powershell
-./task_scheduler_complete.ps1 -Operation install
-./task_scheduler_complete.ps1 -Operation status
-```
-
-Los logs de automatización se escriben en `C:\temp\dataguard_logs\`.
+Los logs de automatización se escriben en `docker/shared/logs/` (se monta dentro de cada contenedor).
 
 ## Diagnostico y mantenimiento
 
 - Conexiones SQL directas: `docker exec -it oracle_primary sqlplus sys/admin123@ORCL as sysdba` (igual para standby).
-- Respaldos y archivelogs: `docker/data/shared/`.
-- Reconstrucción rápida: `docker compose down` y eliminación de `docker/data/` antes de volver a `docker compose up -d`.
+- Respaldos y archivelogs: `docker/shared/` (subcarpetas `backups`, `logs`, `state`).
+- Reconstrucción rápida: `docker compose down` y eliminación de `docker/shared/`, `docker/oradata_primary/` y `docker/oradata_standby/` antes de volver a `docker compose up -d`.
 
 ## Documentacion de apoyo
 
