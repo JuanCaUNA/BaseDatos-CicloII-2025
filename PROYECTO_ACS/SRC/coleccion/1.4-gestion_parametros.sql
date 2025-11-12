@@ -24,7 +24,7 @@ MERGE INTO ACS_PARAMETROS t
 USING (
     -- Parametro global
     SELECT  'CORREO_DBA' APA_NOMBRE_PARAMETRO, 
-            'juancarlos19defebrero@gmail.com' APA_VALOR_PARAMETRO,
+            'cbcarlosm@gmail.com' APA_VALOR_PARAMETRO,
             'Correo del DBA' APA_DESCRIPCION,
             'CORREO_DBA' APA_TIPO_PARAMETRO FROM DUAL UNION ALL
     -- Configuracion SMTP
