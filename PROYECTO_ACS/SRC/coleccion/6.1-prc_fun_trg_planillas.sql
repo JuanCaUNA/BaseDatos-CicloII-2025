@@ -301,7 +301,7 @@ FOR r_detalle IN (
     -- Enviar correo (comentado hasta que exista el procedimiento de correo)
     BEGIN
     ACS_PRC_CORREO_NOTIFICADOR(
-        p_destinatario => "frankodbz@gmail.com",
+        p_destinatario => 'frankodbz@gmail.com',
         p_asunto => 'Comprobante de Pago - Planilla ' || p_planilla_id,
         p_mensaje => v_comprobante_html
     );
