@@ -62,7 +62,7 @@ BEGIN
 END;
 /
 
--- DEFINICIÓN DEL JOB MENSUAL
+-- * DEFINICIÓN DEL JOB MENSUAL para verificacion de cuentas inactivas
 BEGIN
     -- Intento de eliminar el job si existe para recrearlo limpio
     BEGIN
