@@ -1,221 +1,96 @@
-# ===============================================================
-# ARCHIVO: docker-compose.yml
-# PROPÓSITO: Crear un entorno de base de datos Oracle 19c
-# con una instancia principal (primary) y una réplica (standby)
-# simulando una configuración de Data Guard o redundancia básica.
-# ===============================================================
+version: "3.9"
 
-# ---------------------------------------------------------------
-# SECCIÓN DE REDES
-# ---------------------------------------------------------------
-networks:
-  oracle-net:              # Nombre de la red que usaremos para conectar ambos contenedores Oracle
-    driver: bridge          # Usa el modo "bridge", que crea una red virtual interna en Docker
-                            # Este tipo de red permite que los contenedores se comuniquen
-                            # entre sí usando sus nombres de host (por ejemplo: oracle-primary)
-                            # sin exponer necesariamente todos sus puertos al exterior
-
-# ---------------------------------------------------------------
-# SECCIÓN DE SERVICIOS (cada servicio = un contenedor)
-# ---------------------------------------------------------------
 services:
-
-  # =============================================================
-  # SERVICIO 1: ORACLE PRIMARY (Base de datos principal)
-  # =============================================================
-  oracle-primary:
-    # -----------------------------------------------------------
-    # IMAGEN DEL CONTENEDOR
-    # -----------------------------------------------------------
+  oracle_primary:
     image: container-registry.oracle.com/database/enterprise:19.3.0.0
-      # Imagen oficial de Oracle Database 19c Enterprise Edition.
-      # Contiene el motor completo de Oracle ya preinstalado y listo para configurarse.
-
     platform: linux/amd64
-      # Especifica la arquitectura del sistema dentro del contenedor.
-      # Se usa para evitar errores en equipos con procesadores ARM (como algunos Mac M1/M2).
-      # linux/amd64 es la arquitectura estándar para la mayoría de PCs y servidores.
-
     container_name: oracle_primary
-      # Nombre que recibirá el contenedor dentro del sistema Docker.
-      # Permite referenciarlo fácilmente con comandos o desde otros contenedores.
-
     hostname: oracle-primary
-      # Nombre de host interno del contenedor dentro de la red Docker.
-      # Es útil para que otros contenedores (como el standby) puedan conectarse por nombre.
-
-    # -----------------------------------------------------------
-    # PUERTOS EXPUESTOS
-    # -----------------------------------------------------------
+    restart: unless-stopped
+    environment:
+      ORACLE_SID: ORCL
+      ORACLE_PDB: ORCLPDB1
+      ORACLE_PWD: admin123
+      ORACLE_CHARACTERSET: AL32UTF8
+      ORACLE_EDITION: enterprise
+      TNS_ADMIN: /opt/oracle/network/admin
+      ENABLE_ARCHIVELOG: "true"
+      PRIMARY_DB_HOST: oracle-primary
+      STANDBY_DB_HOST: oracle-standby
+      STANDBY_DB_PORT: "1521"
     ports:
       - "1523:1521"
-        # El puerto 1521 es el puerto estándar de Oracle Database (Listener).
-        # Aquí se mapea al puerto 1523 en tu máquina anfitriona (host).
-        # Significa: cuando te conectes a localhost:1523 -> entras al puerto 1521 del contenedor.
-
       - "8080:5500"
-        # El puerto 5500 pertenece a Oracle Enterprise Manager Express,
-        # una interfaz web para administrar la base de datos.
-        # Se accede desde tu navegador en: http://localhost:8080/em
-
-    # -----------------------------------------------------------
-    # VARIABLES DE ENTORNO
-    # -----------------------------------------------------------
-    environment:
-      - ORACLE_PWD=admin123
-        # Contraseña que se asignará a los usuarios administrativos de Oracle:
-        # SYS, SYSTEM, y PDBADMIN.
-        # Es necesaria para poder conectarse al sistema.
-
-      - ORACLE_SID=ORCL
-        # SID = System Identifier (Identificador del sistema de Oracle).
-        # Es el nombre de la instancia de base de datos principal.
-
-      - ORACLE_PDB=ORCLPDB1
-        # PDB = Pluggable Database.
-        # Oracle 19c usa un modelo multibase: una instancia puede tener varias PDB.
-        # Aquí se crea una base PDB llamada ORCLPDB1.
-
-      - ORACLE_CHARACTERSET=AL32UTF8
-        # Define el conjunto de caracteres de la base de datos (UTF-8 universal).
-        # Permite almacenar texto en casi cualquier idioma.
-
-      - ORACLE_EDITION=enterprise
-        # Indica la edición del motor de Oracle a usar.
-        # Las opciones son "enterprise" (completa) o "standard" (limitada).
-
-    # -----------------------------------------------------------
-    # VOLUMENES (almacenamiento persistente)
-    # -----------------------------------------------------------
     volumes:
-      - ./data/primary:/opt/oracle/oradata
-        # Mapea una carpeta local (./data/primary) a la ruta donde Oracle guarda sus datos.
-        # Así los archivos .dbf, logs, control files, etc. se guardan en tu disco local,
-        # y no se pierden si el contenedor se borra.
-
-      - ./oracle19c/scripts/primary:/opt/oracle/scripts/setup:ro
-        # Monta una carpeta con scripts personalizados para ejecutar al iniciar Oracle.
-        # Por ejemplo, crear usuarios, tablas, o configurar Data Guard.
-        # ":ro" significa "read-only", así que el contenedor no puede modificar los scripts.
-
-      - ./data/shared:/opt/oracle/shared
-        # Carpeta compartida entre el primary y el standby.
-        # Útil para sincronizar logs o archivos de configuración comunes.
-
-    # -----------------------------------------------------------
-    # REDES
-    # -----------------------------------------------------------
+      - "${ORADATA_PRIMARY:-oradata_primary_volume}:/opt/oracle/oradata"
+      - "${ORACLE_SHARED:-oracle_shared_volume}:/opt/oracle/shared"
+      - ./oracle19c/config:/opt/oracle/config:ro
+      - ./oracle19c/config/tnsnames_unified.ora:/opt/oracle/network/admin/tnsnames.ora
+      - ./oracle19c/scripts/common:/opt/oracle/scripts/common:ro
+      - "./oracle19c/scripts/automation:/opt/oracle/scripts/automation:ro"
+      - "./oracle19c/scripts/primary:/opt/oracle/scripts/setup:ro"
+      - "./oracle19c/scripts/startup:/opt/oracle/scripts/startup:ro"
     networks:
-      - oracle-net
-        # Conecta el contenedor a la red que definimos al principio.
-        # Permite que el standby pueda comunicarse con él mediante su hostname.
-
-    # -----------------------------------------------------------
-    # HEALTHCHECK (verificación de estado)
-    # -----------------------------------------------------------
+      - oracle_net
     healthcheck:
-      test: ["CMD-SHELL", "sqlplus -s sys/admin123@//localhost:1521/ORCL as sysdba <<< 'SELECT 1 FROM dual;' | grep -q '1'"]
-        # Ejecuta un comando dentro del contenedor para comprobar si Oracle está operativo.
-        # Usa SQL*Plus para conectarse como SYSDBA y ejecutar un "SELECT 1 FROM dual".
-        # Si devuelve un 1, significa que la base está lista.
-        # Si no responde, Docker marca el contenedor como "unhealthy".
-
+      test:
+        - CMD-SHELL
+        - bash -lc "source /opt/oracle/scripts/common/lib.sh >/dev/null 2>&1 && printf 'SELECT 1 FROM dual;\nEXIT;\n' | sqlplus -s / as sysdba | grep -q 1"
       interval: 30s
-        # Frecuencia con la que se hace la comprobación (cada 30 segundos).
-
       timeout: 10s
-        # Tiempo máximo que se espera por una respuesta antes de marcar fallo.
-
       retries: 5
-        # Cuántas veces debe fallar seguidas para que Docker considere el contenedor "no saludable".
+      start_period: 180s
 
-      start_period: 120s
-        # Tiempo que se espera al inicio (2 minutos) antes de empezar a hacer chequeos,
-        # ya que Oracle tarda en arrancar completamente.
-
-  # =============================================================
-  # SERVICIO 2: ORACLE STANDBY (Base de datos de respaldo)
-  # =============================================================
-  oracle-standby:
+  oracle_standby:
     image: container-registry.oracle.com/database/enterprise:19.3.0.0
-      # Usa la misma imagen de Oracle que el primary para tener la misma versión exacta.
-
     platform: linux/amd64
-      # Igual que el primary, fuerza la arquitectura AMD64.
-
     container_name: oracle_standby
-      # Nombre del contenedor standby dentro de Docker.
-
     hostname: oracle-standby
-      # Nombre del host dentro de la red, usado para que el primary lo reconozca.
-
-    # -----------------------------------------------------------
-    # PUERTOS EXPUESTOS
-    # -----------------------------------------------------------
+    restart: unless-stopped
+    environment:
+      ORACLE_SID: STBY
+      ORACLE_PDB: ORCLPDB1
+      ORACLE_PWD: admin123
+      ORACLE_CHARACTERSET: AL32UTF8
+      ORACLE_EDITION: enterprise
+      TNS_ADMIN: /opt/oracle/network/admin
+      PRIMARY_DB_HOST: oracle-primary
+      PRIMARY_DB_PORT: "1521"
+      LOCAL_LISTENER_HOST: oracle-standby
     ports:
       - "1524:1521"
-        # Puerto del listener del standby.
-        # Se expone como 1524 en tu máquina local (para no chocar con el 1523 del primary).
-
       - "8081:5500"
-        # Puerto del Enterprise Manager Express del standby.
-        # Se puede acceder en http://localhost:8081/em
-
-    # -----------------------------------------------------------
-    # VARIABLES DE ENTORNO
-    # -----------------------------------------------------------
-    environment:
-      - ORACLE_PWD=admin123
-        # Usa la misma contraseña que el primary para mantener consistencia.
-      - ORACLE_SID=STBY
-        # Nombre de la instancia standby (diferente del primary).
-      - ORACLE_PDB=ORCLPDB1
-        # Nombre de la base de datos pluggable (mismo nombre que en el primary).
-      - ORACLE_CHARACTERSET=AL32UTF8
-        # Mismo conjunto de caracteres que el primary.
-      - ORACLE_EDITION=enterprise
-        # Misma edición (Enterprise Edition).
-
-    # -----------------------------------------------------------
-    # VOLUMENES
-    # -----------------------------------------------------------
-    volumes:
-      - ./data/standby:/opt/oracle/oradata
-        # Carpeta donde se guardan los datos persistentes del standby.
-      - ./oracle19c/scripts/standby:/opt/oracle/scripts/setup:ro
-        # Scripts específicos de inicialización del standby.
-      - ./data/shared:/opt/oracle/shared
-        # Carpeta compartida con el primary.
-
-    # -----------------------------------------------------------
-    # RED
-    # -----------------------------------------------------------
-    networks:
-      - oracle-net
-        # Conecta el standby a la misma red que el primary para que puedan comunicarse.
-
-    # -----------------------------------------------------------
-    # DEPENDENCIA DEL PRIMARY
-    # -----------------------------------------------------------
     depends_on:
-      oracle-primary:
+      oracle_primary:
         condition: service_healthy
-          # Indica que este contenedor solo debe arrancar cuando el primary esté listo.
-          # Esto evita errores de conexión al intentar sincronizar demasiado pronto.
-
-    # -----------------------------------------------------------
-    # HEALTHCHECK DEL STANDBY
-    # -----------------------------------------------------------
+    volumes:
+      - "${ORADATA_STANDBY:-oradata_standby_volume}:/opt/oracle/oradata"
+      - "${ORACLE_SHARED:-oracle_shared_volume}:/opt/oracle/shared"
+      - ./oracle19c/config:/opt/oracle/config:ro
+      - ./oracle19c/config/tnsnames_unified.ora:/opt/oracle/network/admin/tnsnames.ora
+      - ./oracle19c/scripts/common:/opt/oracle/scripts/common:ro
+      - "./oracle19c/scripts/automation:/opt/oracle/scripts/automation:ro"
+      - "./oracle19c/scripts/standby:/opt/oracle/scripts/setup:ro"
+      - "./oracle19c/scripts/startup:/opt/oracle/scripts/startup:ro"
+    networks:
+      - oracle_net
     healthcheck:
-      test: ["CMD-SHELL", "sqlplus -s sys/admin123@//localhost:1521/STBY as sysdba <<< 'SELECT 1 FROM dual;' | grep -q '1'"]
-        # Igual que en el primary, prueba conexión SQL para asegurarse de que está operativo.
-
+      test:
+        - CMD-SHELL
+        - bash -lc "source /opt/oracle/scripts/common/lib.sh >/dev/null 2>&1 && printf 'SELECT 1 FROM dual;\nEXIT;\n' | sqlplus -s / as sysdba | grep -q 1"
       interval: 30s
-        # Verifica cada 30 segundos.
       timeout: 10s
-        # Espera máximo 10 segundos antes de marcar error.
       retries: 5
-        # Reintenta 5 veces antes de considerarlo fallido.
-      start_period: 180s
-        # Espera 3 minutos antes de comenzar las verificaciones,
-        # ya que el standby tarda más en iniciar debido a la sincronización inicial.
+      start_period: 240s
+
+networks:
+  oracle_net:
+    driver: bridge
+
+volumes:
+  oradata_primary_volume:
+    driver: local
+  oradata_standby_volume:
+    driver: local
+  oracle_shared_volume:
+    driver: local

@@ -44,6 +44,7 @@ BEGIN
                 || CHR(10);
         END IF;
     END LOOP;
+    DBMS_OUTPUT.PUT_LINE('[INFO] Total de cuentas inactivadas: ' || V_INACTIVADOS);
 
     IF V_INACTIVADOS > 0 THEN
         BEGIN
@@ -59,10 +60,16 @@ BEGIN
     END IF;
 
     COMMIT;
+    DBMS_OUTPUT.PUT_LINE('[OK] PROCESO DE INACTIVACIÓN DE CUENTAS FINALIZADO. Total inactivados: ' || V_INACTIVADOS);
+EXCEPTION
+    WHEN OTHERS THEN
+        ROLLBACK;
+        DBMS_OUTPUT.PUT_LINE('[ERROR] PROCESO DE INACTIVACIÓN DE CUENTAS FALLIDO: ' || SQLERRM);
+        RAISE;
 END;
 /
 
--- DEFINICIÓN DEL JOB MENSUAL
+-- * DEFINICIÓN DEL JOB MENSUAL para verificacion de cuentas inactivas
 BEGIN
     -- Intento de eliminar el job si existe para recrearlo limpio
     BEGIN
