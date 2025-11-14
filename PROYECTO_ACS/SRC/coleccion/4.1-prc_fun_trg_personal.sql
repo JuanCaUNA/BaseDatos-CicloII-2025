@@ -176,6 +176,17 @@ END;
 -- ! JOBS
 -- JOB: Ejecuta el procedimiento para borrar usuarios rechazados cada día
 BEGIN
+-- BORRAR SI YA EXISTE EL JOB
+    DBMS_SCHEDULER.DROP_JOB('JOB_BORRAR_PERSONAS_RECHAZADAS', TRUE);
+EXCEPTION
+    WHEN OTHERS THEN
+        IF SQLCODE != -27475 THEN
+            RAISE;
+        END IF;
+END;
+/
+
+BEGIN
     DBMS_SCHEDULER.CREATE_JOB (
         job_name        => 'JOB_BORRAR_PERSONAS_RECHAZADAS',
         job_type        => 'PLSQL_BLOCK',
