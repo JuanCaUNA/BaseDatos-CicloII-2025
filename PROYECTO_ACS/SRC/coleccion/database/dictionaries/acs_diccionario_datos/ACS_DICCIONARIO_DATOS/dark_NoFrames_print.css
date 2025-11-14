@@ -1,0 +1,291 @@
+@charset "utf-8";
+@import url(http://fonts.googleapis.com/css?family=Open+Sans+Condensed:300&subset=latin,latin-ext);
+/* --------------------------------------- */
+/* --------------- GENERAL --------------- */
+/* --------------------------------------- */
+
+body {
+    color: #000000;
+    font-family : Verdana, Geneva, Arial, Helvetica, sans-serif;
+    font-size : 10px ;
+    background : #fff;
+    visibility : visible;
+    margin: 0px;
+    padding: 0px;
+}
+
+.mainContainer{
+    padding: 0px;
+    margin: 0px;
+}
+
+
+.title2  {  
+    font-weight: normal;
+    color: #fff;
+    top: -50px;
+    left: 20px;
+    font-size: 24px;
+    padding: 18px 14px 15px 14px;
+}
+
+.title1  {
+    display: none;
+    background: url(logo.png) top left no-repeat transparent;
+    width: 250px;
+    min-height: 30px;    
+
+
+}
+
+.titleimage{
+    display: none;
+}
+
+.headerEnd {
+    display: none;
+}
+
+.headerEnd p{
+    display: none;	
+}
+
+/* --------------------------------------- */
+/* ----------- TOP NAVIGATION------------- */
+/* --------------------------------------- */
+
+#navTop {	
+    display: none;
+}
+
+
+#navTopEnd {
+    display: none;
+
+}
+
+
+
+/* --------------------------------------- */
+/* -------------- LEFT FRAME ------------- */
+/* --------------------------------------- */
+
+#bookmark {
+    display: none;
+
+}
+
+
+.separator  {
+    display: none;
+}
+
+/* --------------------------------------- */
+/* -------------- CONTENT ------------- */
+/* --------------------------------------- */
+
+#content{
+
+
+}
+
+#contentFullPage{   
+    display: block;
+}
+
+.item {
+
+    padding: 0px;   
+    border-radius: 0px;
+    padding: 0px 0px;
+    margin-bottom: 20px;
+    border: 0px solid #0085C3;
+    background: #fff;
+    display: block;
+    width: fit-content;
+    height: max-content;
+    border-bottom: 1px solid #ccc;
+
+}
+
+.item br {
+    display: initial;
+}
+
+.itemHidden {
+    margin: 0px 0px 0px 0px;
+    padding: 0px;
+    display: none;
+}
+
+.itemEnd{
+    margin: 0px 0px 0px 0px;
+    padding: 0px 0px 0px 0px;     
+}
+
+.itemEnd p{
+    display: none;
+}
+
+.item img
+{
+    margin: 10px 0px;
+    background: white;
+    padding: 10px 0px;
+    border-radius: 5px;
+}
+
+.caption1, h5 {
+    color: #333;
+    font-family : 'Open Sans', Verdana, Geneva, Arial, Helvetica, sans-serif;
+    font-size: 18px;
+    margin: 15px 0px 5px 0px;
+    font-weight: normal;
+    background: url("a_red.png") 0px 3px no-repeat;
+    padding-left: 25px;
+
+}
+
+.caption1 p {
+    margin-top: 10px;
+    padding: 5px 0px;
+    display: inline;
+}
+
+.caption2 {
+    color: #fff;
+    font-family : Verdana, Geneva, Arial, Helvetica, sans-serif;
+    font-size : 10pt;
+    font-weight : normal;
+    margin-left : 0px;
+    margin-right : 0px;
+    padding-left : 0px;
+    padding-right : 0px;
+    visibility : visible;   
+    background: linear-gradient(#A0C5F1, #6FA9EA, #6FA9EA, #6FA9EA);
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+
+}
+
+.caption2 p {
+    margin: 0px;
+    padding: 4px 12px 4px 12px;   
+    color: #fff;
+    font-weight: bold;
+
+}
+
+.tabformat {
+    border:1px solid #6FA9EA;
+    border-bottom-left-radius: 4px;
+    border-bottom-right-radius: 4px;
+    padding: 1px;
+    width: fit-content;
+}
+
+.tabhead {
+    color: #000;
+    font-family : 'Open Sans', Verdana, Geneva, Arial, Helvetica, sans-serif;
+    font-size : 8pt;
+    text-align : left;
+    border: 0pt solid #000000;
+    padding-bottom : 3px;
+    padding-left : 10px;
+    padding-right : 10px;
+    padding-top : 3px;
+    background:  #C8DEF7;
+    visibility : visible;
+    white-space: nowrap;
+
+}
+
+.tabdata {
+    color: #000;
+    font-family : 'Open Sans',Verdana, Geneva, Arial, Helvetica, sans-serif;
+    font-size : 8pt;
+    font-weight : normal;
+    text-align : left;
+    border: 0pt solid #000000;
+    padding-bottom : 3px;
+    padding-left : 10px;
+    padding-right : 2px;
+    padding-top : 3px;
+    background :#F8F8F8;
+    visibility : visible;
+}
+
+.specificItem {
+    color: red;
+}
+
+#footer {
+    display: none;
+}
+
+
+#headerContainer
+{       
+    display: none;
+    height: 10px;
+}
+
+#header {
+    display: none;
+
+
+}
+
+#navTop
+{
+    display: none;
+    height: 10px;
+
+}
+
+#navCombo
+{
+    display: none;
+}
+
+
+
+#navComboEnd{
+    display: none
+}
+
+#navLeft, #bookmark
+{
+    display: none;
+
+}
+
+#content
+{
+    margin: 0px;       
+    padding: 10px;
+}
+
+.container{
+    z-index: 0;        
+    display: block;
+    margin: 0px;
+    padding: 0px;
+}
+
+#contentFullPage{   
+    clear: both;
+    display: block;
+    padding: 10px;
+    max-width: 700px;
+    margin: 0px auto;
+    padding-top: 130px;
+    position: relative;
+    top: 20px;
+}                
+
+    
+.wordwrap-unbreakable{
+	word-break: break-all;
+} 
+
