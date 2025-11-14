@@ -341,6 +341,7 @@ BEGIN
         PRC_Consultar_Escalas(c.ACM_ID, v_mes, v_anio);
     END LOOP;
 END;
+COMMIT;
 /
 
 -- PROMPT ==== Fin datos centros de salud ====
